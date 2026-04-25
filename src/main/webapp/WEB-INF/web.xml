@@ -49,6 +49,80 @@
         <url-pattern>/admin/login</url-pattern>
     </servlet-mapping>
 
+    <!-- Menu Module: Customer -->
+    <servlet>
+        <servlet-name>MenuServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.MenuServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MenuServlet</servlet-name>
+        <url-pattern>/menu</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SearchMenuServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.SearchMenuServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SearchMenuServlet</servlet-name>
+        <url-pattern>/menu/search</url-pattern>
+    </servlet-mapping>
+
+    <!-- Menu Module: Admin -->
+    <servlet>
+        <servlet-name>ManageMenuServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.ManageMenuServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ManageMenuServlet</servlet-name>
+        <url-pattern>/admin/manage-menu</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddMenuItemServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.AddMenuItemServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddMenuItemServlet</servlet-name>
+        <url-pattern>/admin/add-menu-item</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditMenuItemServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.EditMenuItemServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditMenuItemServlet</servlet-name>
+        <url-pattern>/admin/edit-menu-item</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteMenuItemServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.DeleteMenuItemServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteMenuItemServlet</servlet-name>
+        <url-pattern>/admin/delete-menu-item</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ToggleAvailabilityServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.ToggleAvailabilityServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ToggleAvailabilityServlet</servlet-name>
+        <url-pattern>/admin/toggle-availability</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CategoryServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.CategoryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CategoryServlet</servlet-name>
+        <url-pattern>/admin/categories</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>public/home.jsp</welcome-file>
     </welcome-file-list>

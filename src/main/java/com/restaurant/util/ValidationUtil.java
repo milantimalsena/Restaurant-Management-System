@@ -24,4 +24,36 @@ public final class ValidationUtil {
     public static boolean isPhoneValid(String phone) {
         return isRequiredValid(phone) && PHONE_PATTERN.matcher(phone.trim()).matches();
     }
+
+    public static boolean isPositivePrice(String value) {
+        if (!isRequiredValid(value)) {
+            return false;
+        }
+
+        try {
+            return Double.parseDouble(value.trim()) >= 0;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
+
+    public static boolean isValidIntegerRange(String value, int min, int max) {
+        if (!isRequiredValid(value)) {
+            return false;
+        }
+
+        try {
+            int parsed = Integer.parseInt(value.trim());
+            return parsed >= min && parsed <= max;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
+
+    public static String sanitize(String value) {
+        if (value == null) {
+            return null;
+        }
+        return value.trim();
+    }
 }
