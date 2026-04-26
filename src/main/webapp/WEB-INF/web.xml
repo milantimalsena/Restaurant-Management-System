@@ -123,6 +123,52 @@
         <url-pattern>/admin/categories</url-pattern>
     </servlet-mapping>
 
+    <!-- Cart Module -->
+    <servlet>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.AddToCartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <url-pattern>/cart/add</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ViewCartServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.ViewCartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewCartServlet</servlet-name>
+        <url-pattern>/cart</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdateCartServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.UpdateCartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateCartServlet</servlet-name>
+        <url-pattern>/cart/update</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RemoveCartItemServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.RemoveCartItemServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RemoveCartItemServlet</servlet-name>
+        <url-pattern>/cart/remove</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ClearCartServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.ClearCartServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ClearCartServlet</servlet-name>
+        <url-pattern>/cart/clear</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>public/home.jsp</welcome-file>
     </welcome-file-list>

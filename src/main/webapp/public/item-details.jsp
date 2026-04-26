@@ -34,7 +34,12 @@
                         <%= item.isAvailable() ? "Available" : "Out of Stock" %>
                     </span>
                     <div>
-                        <button class="btn btn-warning" <%= !item.isAvailable() ? "disabled" : "" %>>Add to Cart</button>
+                        <form method="post" action="${pageContext.request.contextPath}/cart/add" class="d-inline">
+                            <input type="hidden" name="itemId" value="<%= item.getItemId() %>">
+                            <input type="hidden" name="qty" value="1">
+                            <input type="hidden" name="redirect" value="/menu?itemId=<%= item.getItemId() %>">
+                            <button class="btn btn-warning" <%= !item.isAvailable() ? "disabled" : "" %>>Add to Cart</button>
+                        </form>
                     </div>
                 </div>
             </div>

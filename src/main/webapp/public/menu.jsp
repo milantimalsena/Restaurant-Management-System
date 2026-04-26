@@ -65,6 +65,15 @@
 </head>
 <body>
 <div class="container py-4 py-md-5">
+    <div class="d-flex justify-content-end mb-3">
+        <a href="${pageContext.request.contextPath}/cart" class="btn btn-outline-dark position-relative">
+            Cart
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-danger">
+                <%= request.getAttribute("cartCount") != null ? request.getAttribute("cartCount") : 0 %>
+            </span>
+        </a>
+    </div>
+
     <section class="hero mb-4">
         <div class="row align-items-center g-4">
             <div class="col-lg-8">
@@ -131,7 +140,12 @@
                         </div>
                         <div class="mt-auto d-flex gap-2">
                             <a class="btn btn-outline-dark btn-sm" href="${pageContext.request.contextPath}/menu?itemId=<%= item.getItemId() %>">Details</a>
-                            <button class="btn btn-warning btn-sm" <%= !item.isAvailable() ? "disabled" : "" %>>Quick Add to Cart</button>
+                            <form method="post" action="${pageContext.request.contextPath}/cart/add" class="d-inline">
+                                <input type="hidden" name="itemId" value="<%= item.getItemId() %>">
+                                <input type="hidden" name="qty" value="1">
+                                <input type="hidden" name="redirect" value="/menu">
+                                <button class="btn btn-warning btn-sm" <%= !item.isAvailable() ? "disabled" : "" %>>Quick Add to Cart</button>
+                            </form>
                         </div>
                     </div>
                 </div>

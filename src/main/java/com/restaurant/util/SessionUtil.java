@@ -3,6 +3,8 @@ package com.restaurant.util;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import java.util.Optional;
+
 public final class SessionUtil {
     private SessionUtil() {
     }
@@ -40,5 +42,29 @@ public final class SessionUtil {
         if (session != null) {
             session.invalidate();
         }
+    }
+
+    public static Long getLoggedInUserId(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return null;
+        }
+
+        Object userId = session.getAttribute("userId");
+        if (userId instanceof Long id) {
+            return id;
+        }
+        if (userId instanceof Integer id) {
+            return id.longValue();
+        }
+        if (userId instanceof String value) {
+            try {
+                return Long.parseLong(value);
+            } catch (NumberFormatException ignored) {
+                return null;
+            }
+        }
+
+        return null;
     }
 }

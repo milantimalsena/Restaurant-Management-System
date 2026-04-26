@@ -1,9 +1,11 @@
 package com.restaurant.controller;
 
 import com.restaurant.dao.CategoryDAO;
+import com.restaurant.dao.CartDAO;
 import com.restaurant.dao.MenuItemDAO;
 import com.restaurant.model.Category;
 import com.restaurant.model.MenuItem;
+import com.restaurant.util.SessionUtil;
 import com.restaurant.util.ValidationUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -17,6 +19,7 @@ import java.util.List;
 public class MenuServlet extends HttpServlet {
     private final CategoryDAO categoryDAO = new CategoryDAO();
     private final MenuItemDAO menuItemDAO = new MenuItemDAO();
+    private final CartDAO cartDAO = new CartDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,11 +50,19 @@ public class MenuServlet extends HttpServlet {
             }
 
             List<MenuItem> featuredItems = menuItemDAO.getFeaturedItems();
+
+            Long userId = SessionUtil.getLoggedInUserId(request);
+            int cartCount = 0;
+            if (userId != null) {
+                cartCount = cartDAO.getCartCount(userId);
+            }
+
             request.setAttribute("categories", categories);
             request.setAttribute("menuItems", items);
             request.setAttribute("featuredItems", featuredItems);
             request.setAttribute("selectedCategoryId", categoryIdParam);
             request.setAttribute("searchQuery", query);
+            request.setAttribute("cartCount", cartCount);
             request.getRequestDispatcher("/public/menu.jsp").forward(request, response);
         } catch (SQLException ex) {
             request.setAttribute("errorMessage", "Unable to load menu right now.");

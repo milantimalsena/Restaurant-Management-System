@@ -56,4 +56,11 @@ public final class ValidationUtil {
         }
         return value.trim();
     }
+
+    public static int clampQuantity(int quantity) {
+        if (quantity < 1) {
+            return 1;
+        }
+        return Math.min(quantity, 20);
+    }
 }
