@@ -169,6 +169,52 @@
         <url-pattern>/cart/clear</url-pattern>
     </servlet-mapping>
 
+    <!-- Checkout Module -->
+    <servlet>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.CheckoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <url-pattern>/checkout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>PlaceOrderServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.PlaceOrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PlaceOrderServlet</servlet-name>
+        <url-pattern>/place-order</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>OrderSuccessServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.OrderSuccessServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderSuccessServlet</servlet-name>
+        <url-pattern>/order-success</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MyOrdersServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.MyOrdersServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyOrdersServlet</servlet-name>
+        <url-pattern>/my-orders</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ViewInvoiceServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.ViewInvoiceServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewInvoiceServlet</servlet-name>
+        <url-pattern>/invoice</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>public/home.jsp</welcome-file>
     </welcome-file-list>
