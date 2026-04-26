@@ -1,10 +1,13 @@
 package com.restaurant.util;
 
 import java.util.regex.Pattern;
+import java.util.Set;
 
 public final class ValidationUtil {
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
     private static final Pattern PHONE_PATTERN = Pattern.compile("^(?:\\+977[- ]?)?[9][6-9]\\d{8}$|^\\d{10}$");
+    private static final Set<String> PAYMENT_METHODS = Set.of("CASH", "CARD", "ESEWA", "KHALTI");
+    private static final Set<String> ORDER_TYPES = Set.of("DINE_IN", "DELIVERY", "TAKEAWAY");
 
     private ValidationUtil() {
     }
@@ -62,5 +65,13 @@ public final class ValidationUtil {
             return 1;
         }
         return Math.min(quantity, 20);
+    }
+
+    public static boolean isPaymentMethodValid(String paymentMethod) {
+        return isRequiredValid(paymentMethod) && PAYMENT_METHODS.contains(paymentMethod.toUpperCase());
+    }
+
+    public static boolean isOrderTypeValid(String orderType) {
+        return isRequiredValid(orderType) && ORDER_TYPES.contains(orderType.toUpperCase());
     }
 }
