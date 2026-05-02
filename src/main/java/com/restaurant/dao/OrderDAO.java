@@ -19,6 +19,8 @@ public class OrderDAO {
     private static final String INSERT_ORDER_SQL = "INSERT INTO orders (order_number, user_id, order_type, order_status, payment_status, subtotal, tax, delivery_fee, discount, grand_total, delivery_address, phone_snapshot, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String INSERT_ORDER_ITEM_SQL = "INSERT INTO order_items (order_id, item_id, quantity, unit_price, line_total) VALUES (?, ?, ?, ?, ?)";
     private static final String INSERT_PAYMENT_SQL = "INSERT INTO payments (order_id, payment_method, transaction_ref, amount, payment_status, paid_at) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_ORDER_STATUS_SQL = "UPDATE orders SET order_status = ? WHERE order_id = ?";
+    private static final String UPDATE_ORDER_AND_PAYMENT_STATUS_SQL = "UPDATE orders o LEFT JOIN payments p ON p.order_id = o.order_id SET o.order_status = ?, o.payment_status = ?, p.payment_status = ? WHERE o.order_id = ?";
 
     private static final String GET_ORDER_BY_ID_SQL = "SELECT o.order_id, o.order_number, o.user_id, o.order_type, o.order_status, o.payment_status, o.subtotal, o.tax, o.delivery_fee, o.discount, o.grand_total, o.delivery_address, o.phone_snapshot, o.notes, o.ordered_at, o.updated_at, p.payment_method FROM orders o LEFT JOIN payments p ON p.order_id = o.order_id WHERE o.order_id = ?";
     private static final String GET_ORDER_ITEMS_SQL = "SELECT oi.order_item_id, oi.order_id, oi.item_id, mi.item_name, oi.quantity, oi.unit_price, oi.line_total FROM order_items oi JOIN menu_items mi ON mi.item_id = oi.item_id WHERE oi.order_id = ?";
@@ -101,7 +103,7 @@ public class OrderDAO {
                 payment.setOrderId(orderId);
                 payment.setPaymentMethod(order.getPaymentMethod());
                 payment.setAmount(order.getGrandTotal());
-                payment.setPaymentStatus("CASH".equalsIgnoreCase(order.getPaymentMethod()) ? "PENDING" : "PAID");
+                payment.setPaymentStatus("CASH".equalsIgnoreCase(order.getPaymentMethod()) ? "UNPAID" : "PAID");
                 if (!"CASH".equalsIgnoreCase(order.getPaymentMethod())) {
                     payment.setTransactionRef("TXN-" + order.getOrderNumber());
                     payment.setPaidAt(java.time.LocalDateTime.now());
@@ -176,6 +178,26 @@ public class OrderDAO {
         try (Connection connection = DBConnection.getConnection()) {
             createPaymentInternal(connection, payment);
             return true;
+        }
+    }
+
+    public boolean updateStatus(long orderId, String orderStatus) throws SQLException {
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_ORDER_STATUS_SQL)) {
+            statement.setString(1, orderStatus);
+            statement.setLong(2, orderId);
+            return statement.executeUpdate() > 0;
+        }
+    }
+
+    public boolean updateStatus(long orderId, String orderStatus, String paymentStatus) throws SQLException {
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_ORDER_AND_PAYMENT_STATUS_SQL)) {
+            statement.setString(1, orderStatus);
+            statement.setString(2, paymentStatus);
+            statement.setString(3, paymentStatus);
+            statement.setLong(4, orderId);
+            return statement.executeUpdate() > 0;
         }
     }
 

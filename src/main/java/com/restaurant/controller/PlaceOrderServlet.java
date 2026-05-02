@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlaceOrderServlet extends HttpServlet {
-    private static final BigDecimal TAX_RATE = new BigDecimal("0.13");
+    private static final BigDecimal TAX_RATE = new BigDecimal("0.10");
     private static final BigDecimal DELIVERY_FEE = new BigDecimal("100.00");
     private final OrderDAO orderDAO = new OrderDAO();
 
@@ -43,10 +43,11 @@ public class PlaceOrderServlet extends HttpServlet {
         String phone = ValidationUtil.sanitize(request.getParameter("phone"));
         String notes = ValidationUtil.sanitize(request.getParameter("notes"));
         String tableNumber = ValidationUtil.sanitize(request.getParameter("tableNumber"));
-        String pickupTime = ValidationUtil.sanitize(request.getParameter("pickupTime"));
+        String pickupNote = ValidationUtil.sanitize(request.getParameter("pickupNote"));
         String promoCode = ValidationUtil.sanitize(request.getParameter("promoCode"));
 
         if (!ValidationUtil.isOrderTypeValid(orderType) || !ValidationUtil.isPaymentMethodValid(paymentMethod)) {
+            request.getSession().setAttribute("checkoutError", "Please choose a valid order type and payment method.");
             response.sendRedirect(request.getContextPath() + "/checkout");
             return;
         }
@@ -69,13 +70,14 @@ public class PlaceOrderServlet extends HttpServlet {
         if ("DINE_IN".equalsIgnoreCase(orderType) && ValidationUtil.isRequiredValid(tableNumber)) {
             finalNotes.append(finalNotes.isEmpty() ? "" : " | ").append("Table: ").append(tableNumber);
         }
-        if ("TAKEAWAY".equalsIgnoreCase(orderType) && ValidationUtil.isRequiredValid(pickupTime)) {
-            finalNotes.append(finalNotes.isEmpty() ? "" : " | ").append("Pickup Time: ").append(pickupTime);
+        if ("TAKEAWAY".equalsIgnoreCase(orderType) && ValidationUtil.isRequiredValid(pickupNote)) {
+            finalNotes.append(finalNotes.isEmpty() ? "" : " | ").append("Pickup Note: ").append(pickupNote);
         }
 
         try {
             List<Cart> cartItems = orderDAO.getCartItems(userId);
             if (cartItems.isEmpty()) {
+                request.getSession().setAttribute("checkoutError", "Your cart is empty. Add items before checking out.");
                 response.sendRedirect(request.getContextPath() + "/cart");
                 return;
             }
@@ -85,13 +87,15 @@ public class PlaceOrderServlet extends HttpServlet {
             BigDecimal deliveryFee = "DELIVERY".equalsIgnoreCase(orderType) ? DELIVERY_FEE : BigDecimal.ZERO;
             BigDecimal discount = calculateDiscount(subtotal, promoCode);
             BigDecimal grandTotal = subtotal.add(tax).add(deliveryFee).subtract(discount).setScale(2, RoundingMode.HALF_UP);
+            String normalizedPaymentMethod = paymentMethod.toUpperCase();
+            String paymentStatus = "CASH".equals(normalizedPaymentMethod) ? "UNPAID" : "PAID";
 
             Order order = new Order();
             order.setOrderNumber(OrderNumberUtil.generateOrderNumber());
             order.setUserId(userId);
             order.setOrderType(orderType.toUpperCase());
             order.setOrderStatus("PENDING");
-            order.setPaymentStatus("CASH".equalsIgnoreCase(paymentMethod) ? "UNPAID" : "PAID");
+            order.setPaymentStatus(paymentStatus);
             order.setSubtotal(subtotal);
             order.setTax(tax);
             order.setDeliveryFee(deliveryFee);
@@ -100,7 +104,7 @@ public class PlaceOrderServlet extends HttpServlet {
             order.setDeliveryAddress("DELIVERY".equalsIgnoreCase(orderType) ? deliveryAddress : null);
             order.setPhoneSnapshot("DELIVERY".equalsIgnoreCase(orderType) ? phone : null);
             order.setNotes(finalNotes.toString());
-            order.setPaymentMethod(paymentMethod.toUpperCase());
+            order.setPaymentMethod(normalizedPaymentMethod);
 
             List<OrderItem> orderItems = new ArrayList<>();
             for (Cart cart : cartItems) {

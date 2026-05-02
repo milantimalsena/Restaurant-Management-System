@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS payments (
   payment_method ENUM('CASH', 'CARD', 'ESEWA', 'KHALTI') NOT NULL,
   transaction_ref VARCHAR(120) NULL,
   amount DECIMAL(10,2) NOT NULL,
-  payment_status ENUM('PENDING', 'PAID', 'FAILED', 'REFUNDED') NOT NULL DEFAULT 'PENDING',
+  payment_status ENUM('UNPAID', 'PAID', 'FAILED', 'REFUNDED') NOT NULL DEFAULT 'UNPAID',
   paid_at DATETIME NULL,
   PRIMARY KEY (payment_id),
   UNIQUE KEY uq_payments_order_id_checkout (order_id),
@@ -120,7 +120,7 @@ JOIN menu_items m ON m.item_id = x.menu_idx;
 INSERT INTO payments (order_id, payment_method, transaction_ref, amount, payment_status, paid_at)
 SELECT o.order_id, p.payment_method, p.transaction_ref, p.amount, p.payment_status, p.paid_at
 FROM (
-  SELECT 'ORD-202604280915-AB12CD' AS order_number, 'CASH' AS payment_method, NULL AS transaction_ref, 1157.40 AS amount, 'PENDING' AS payment_status, NULL AS paid_at
+  SELECT 'ORD-202604280915-AB12CD' AS order_number, 'CASH' AS payment_method, NULL AS transaction_ref, 1157.40 AS amount, 'UNPAID' AS payment_status, NULL AS paid_at
   UNION ALL SELECT 'ORD-202604281030-EF34GH', 'ESEWA', 'TXN-ORD-202604281030-EF34GH', 858.80, 'PAID', NOW() - INTERVAL 1 DAY
   UNION ALL SELECT 'ORD-202604281245-IJ56KL', 'KHALTI', 'TXN-ORD-202604281245-IJ56KL', 610.20, 'PAID', NOW() - INTERVAL 5 HOUR
 ) p

@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class CheckoutServlet extends HttpServlet {
-    private static final BigDecimal TAX_RATE = new BigDecimal("0.13");
+    private static final BigDecimal TAX_RATE = new BigDecimal("0.10");
     private static final BigDecimal DELIVERY_FEE = new BigDecimal("100.00");
     private final OrderDAO orderDAO = new OrderDAO();
 
@@ -46,11 +46,14 @@ public class CheckoutServlet extends HttpServlet {
 
             BigDecimal subtotal = orderDAO.getCartSubtotal(userId);
             BigDecimal tax = subtotal.multiply(TAX_RATE).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal grandTotal = subtotal.add(tax).setScale(2, RoundingMode.HALF_UP);
 
             request.setAttribute("cartItems", cartItems);
             request.setAttribute("subtotal", subtotal);
             request.setAttribute("tax", tax);
             request.setAttribute("deliveryFeeDefault", DELIVERY_FEE);
+            request.setAttribute("grandTotalPreview", grandTotal);
+            request.setAttribute("taxRate", TAX_RATE);
             request.getRequestDispatcher("/customer/checkout.jsp").forward(request, response);
         } catch (SQLException ex) {
             request.setAttribute("errorMessage", "Unable to load checkout right now.");

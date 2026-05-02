@@ -8,6 +8,8 @@ public final class ValidationUtil {
     private static final Pattern PHONE_PATTERN = Pattern.compile("^(?:\\+977[- ]?)?[9][6-9]\\d{8}$|^\\d{10}$");
     private static final Set<String> PAYMENT_METHODS = Set.of("CASH", "CARD", "ESEWA", "KHALTI");
     private static final Set<String> ORDER_TYPES = Set.of("DINE_IN", "DELIVERY", "TAKEAWAY");
+    private static final Set<String> ORDER_STATUSES = Set.of("PENDING", "PREPARING", "READY", "DELIVERED", "CANCELLED");
+    private static final Set<String> PAYMENT_STATUSES = Set.of("UNPAID", "PAID", "FAILED", "REFUNDED");
 
     private ValidationUtil() {
     }
@@ -73,5 +75,13 @@ public final class ValidationUtil {
 
     public static boolean isOrderTypeValid(String orderType) {
         return isRequiredValid(orderType) && ORDER_TYPES.contains(orderType.toUpperCase());
+    }
+
+    public static boolean isOrderStatusValid(String orderStatus) {
+        return isRequiredValid(orderStatus) && ORDER_STATUSES.contains(orderStatus.toUpperCase());
+    }
+
+    public static boolean isPaymentStatusValid(String paymentStatus) {
+        return isRequiredValid(paymentStatus) && PAYMENT_STATUSES.contains(paymentStatus.toUpperCase());
     }
 }

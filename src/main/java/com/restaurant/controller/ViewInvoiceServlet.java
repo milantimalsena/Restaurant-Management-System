@@ -31,7 +31,8 @@ public class ViewInvoiceServlet extends HttpServlet {
 
         try {
             Order order = orderDAO.getOrderById(Long.parseLong(orderIdParam));
-            if (order == null) {
+            Long userId = SessionUtil.getLoggedInUserId(request);
+            if (order == null || userId == null || !userId.equals(order.getUserId())) {
                 response.sendRedirect(request.getContextPath() + "/my-orders");
                 return;
             }

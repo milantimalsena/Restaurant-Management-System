@@ -29,8 +29,9 @@ public class OrderSuccessServlet extends HttpServlet {
         }
 
         try {
+            Long userId = SessionUtil.getLoggedInUserId(request);
             Order order = orderDAO.getOrderById(Long.parseLong(orderIdParam));
-            if (order == null) {
+            if (order == null || userId == null || !userId.equals(order.getUserId())) {
                 response.sendRedirect(request.getContextPath() + "/my-orders");
                 return;
             }
