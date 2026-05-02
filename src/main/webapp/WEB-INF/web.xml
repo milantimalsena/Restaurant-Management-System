@@ -219,3 +219,12 @@
         <welcome-file>public/home.jsp</welcome-file>
     </welcome-file-list>
 </web-app>
+<!-- Global Error Handling -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/common/error.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/common/error.jsp</location>
+    </error-page>
