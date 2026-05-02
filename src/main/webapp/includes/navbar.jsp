@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <c:set var="currentPath" value="${pageContext.request.servletPath}" />
 <c:set var="navbarVariant" value="${empty navbarVariant ? 'tailwind' : navbarVariant}" />
 <c:set var="cartCountValue" value="${empty cartCount ? 0 : cartCount}" />

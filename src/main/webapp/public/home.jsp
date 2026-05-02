@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
 <c:set var="navbarVariant" value="bootstrap" />
 <c:set var="pageTitle" value="Smart Restaurant | Delicious Food, Smart Ordering System" />
 <c:set var="pageDescription" value="Modern restaurant management system for online ordering, reservations, secure payments, and live service updates." />
@@ -470,4 +470,4 @@
 
     <jsp:include page="/includes/footer.jsp" />
 </body>
-</html><%-- Public Home Page --%>
+</html>
