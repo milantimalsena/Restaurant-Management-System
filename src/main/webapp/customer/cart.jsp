@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.math.BigDecimal" %>
 <%@ page import="com.restaurant.model.Cart" %>
@@ -18,8 +18,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Your Cart | Smart Restaurant</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Your Cart | Himalayan Yaks</title>
+    <link href="${pageContext.request.contextPath}/assets/css/app-ui.css" rel="stylesheet" />
     <style>
         body { background: linear-gradient(180deg, #f8fafc, #eef2f7); }
         .cart-card { border: none; border-radius: 16px; box-shadow: 0 10px 24px rgba(15,23,42,.08); }

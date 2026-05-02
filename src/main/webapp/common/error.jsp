@@ -1,4 +1,4 @@
-<%@ page isErrorPage="true" contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page isErrorPage="true" contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ page import="java.io.PrintWriter,java.io.StringWriter" %>
 <%
@@ -20,8 +20,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Debug Error | Smart Restaurant</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <title>Debug Error | Himalayan Yaks</title>
+    <link href="${pageContext.request.contextPath}/assets/css/app-ui.css" rel="stylesheet" />
     <style>
         body { background: #0f172a; color: #e2e8f0; min-height: 100vh; }
         .error-shell { max-width: 1100px; }

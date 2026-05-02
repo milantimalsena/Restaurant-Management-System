@@ -1,11 +1,11 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Admin Login | Smart Restaurant</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Admin Login | Himalayan Yaks</title>
+    <link href="${pageContext.request.contextPath}/assets/css/app-ui.css" rel="stylesheet" />
     <style>
         body {
             min-height: 100vh;
@@ -21,10 +21,19 @@
             border-radius: 16px;
             box-shadow: 0 18px 36px rgba(0, 0, 0, 0.3);
         }
+        .auth-logo {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
+        }
     </style>
 </head>
 <body>
 <div class="card card-admin p-4">
+    <img class="auth-logo" src="${pageContext.request.contextPath}/assets/images/logo.png" alt="Himalayan Yaks logo">
     <h4 class="fw-bold mb-1">Admin Portal</h4>
     <p class="text-muted mb-4">Sign in to manage restaurant operations.</p>
 

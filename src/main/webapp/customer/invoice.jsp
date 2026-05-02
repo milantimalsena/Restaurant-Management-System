@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
 <!DOCTYPE html>
@@ -6,8 +6,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Invoice | Smart Restaurant</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <title>Invoice | Himalayan Yaks</title>
+    <link href="${pageContext.request.contextPath}/assets/css/app-ui.css" rel="stylesheet" />
     <style>
         body { background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%); }
         .shell { max-width: 1120px; }
@@ -51,9 +51,9 @@
                 <div class="invoice-header p-4 p-lg-5">
                     <div class="d-flex flex-column flex-md-row justify-content-between gap-4">
                         <div>
-                            <h2 class="h3 fw-bold mb-2">Smart Restaurant Invoice</h2>
+                            <h2 class="h3 fw-bold mb-2">Himalayan Yaks Invoice</h2>
                             <p class="text-secondary mb-1">Order #${order.orderNumber}</p>
-                            <p class="text-secondary mb-0">${order.orderType} · ${order.paymentMethod} · ${order.orderStatus}</p>
+                            <p class="text-secondary mb-0">${order.orderType} Ã‚Â· ${order.paymentMethod} Ã‚Â· ${order.orderStatus}</p>
                         </div>
                         <div class="text-md-end">
                             <div class="summary-box px-4 py-3 d-inline-block">

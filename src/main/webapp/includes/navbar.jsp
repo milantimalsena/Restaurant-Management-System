@@ -2,226 +2,101 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <c:set var="currentPath" value="${pageContext.request.servletPath}" />
 <c:set var="cartCountValue" value="${empty cartCount ? 0 : cartCount}" />
-<c:set var="homeActive" value="${currentPath eq '/public/home.jsp' ? 'active' : ''}" />
-<c:set var="menuActive" value="${currentPath eq '/public/menu.jsp' ? 'active' : ''}" />
-<c:set var="aboutActive" value="${currentPath eq '/public/about.jsp' ? 'active' : ''}" />
-<c:set var="contactActive" value="${currentPath eq '/public/contact.jsp' ? 'active' : ''}" />
+<c:set var="homeActive" value="${currentPath eq '/public/home.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
+<c:set var="menuActive" value="${currentPath eq '/public/menu.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
+<c:set var="aboutActive" value="${currentPath eq '/public/about.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
+<c:set var="contactActive" value="${currentPath eq '/public/contact.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
 
-<style>
-    .restaurant-navbar {
-        position: sticky;
-        top: 0;
-        z-index: 1030;
-        background: rgba(20, 14, 10, 0.94);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.10);
-        box-shadow: 0 18px 45px rgba(20, 14, 10, 0.18);
-        backdrop-filter: blur(14px);
-    }
+<script src="https://cdn.tailwindcss.com"></script>
 
-    .restaurant-navbar .navbar-brand {
-        color: #fff;
-        text-decoration: none;
-    }
-
-    .brand-mark {
-        width: 46px;
-        height: 46px;
-        border-radius: 50%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #f97316, #facc15);
-        color: #1f1308;
-        font-weight: 800;
-        box-shadow: 0 12px 30px rgba(249, 115, 22, 0.28);
-    }
-
-    .brand-eyebrow {
-        display: block;
-        color: #fbbf24;
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        line-height: 1;
-    }
-
-    .brand-title {
-        display: block;
-        color: #fff8ed;
-        font-size: 1.15rem;
-        font-weight: 800;
-        line-height: 1.2;
-    }
-
-    .restaurant-navbar .nav-link {
-        color: rgba(255, 248, 237, 0.78);
-        border-radius: 999px;
-        padding: 0.65rem 1rem;
-        font-weight: 600;
-        transition: background-color .2s ease, color .2s ease;
-    }
-
-    .restaurant-navbar .nav-link:hover,
-    .restaurant-navbar .nav-link.active {
-        color: #fff;
-        background: rgba(255, 255, 255, 0.10);
-    }
-
-    .navbar-user-card {
-        color: #fff8ed;
-        border-left: 1px solid rgba(255, 255, 255, 0.12);
-        padding-left: 1rem;
-        line-height: 1.1;
-    }
-
-    .navbar-user-card small {
-        color: rgba(255, 248, 237, 0.58);
-        font-size: 0.72rem;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-    }
-
-    .nav-action-outline,
-    .nav-action-solid {
-        border-radius: 999px;
-        padding: 0.65rem 1.05rem;
-        font-weight: 700;
-        text-decoration: none;
-        white-space: nowrap;
-    }
-
-    .nav-action-outline {
-        color: #fff8ed;
-        border: 1px solid rgba(255, 248, 237, 0.26);
-        background: rgba(255, 255, 255, 0.04);
-    }
-
-    .nav-action-outline:hover {
-        color: #1f1308;
-        background: #fff8ed;
-    }
-
-    .nav-action-solid {
-        color: #1f1308;
-        border: 1px solid #fbbf24;
-        background: linear-gradient(135deg, #fbbf24, #f97316);
-        box-shadow: 0 12px 28px rgba(249, 115, 22, 0.24);
-    }
-
-    .nav-action-solid:hover {
-        color: #1f1308;
-        filter: brightness(1.04);
-    }
-
-    .cart-pill {
-        position: relative;
-    }
-
-    .cart-pill .badge {
-        position: absolute;
-        top: -0.45rem;
-        right: -0.45rem;
-        background: #ef4444;
-    }
-
-    .restaurant-navbar .navbar-toggler {
-        border-color: rgba(255, 248, 237, 0.24);
-        color: #fff8ed;
-        box-shadow: none;
-    }
-
-    .restaurant-navbar .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,248,237,0.92%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-    }
-
-    @media (max-width: 991.98px) {
-        .restaurant-navbar .navbar-collapse {
-            margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 1.25rem;
-            background: rgba(35, 24, 17, 0.98);
-            border: 1px solid rgba(255, 255, 255, 0.10);
-        }
-
-        .navbar-user-card {
-            border-left: 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-            padding-left: 0;
-            padding-top: 1rem;
-        }
-    }
-</style>
-
-<nav class="navbar navbar-expand-lg restaurant-navbar">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center gap-3" href="${pageContext.request.contextPath}/public/home.jsp">
-            <span class="brand-mark">SR</span>
-            <span>
-                <span class="brand-eyebrow">Smart Restaurant</span>
-                <span class="brand-title">Fine Dining & Ordering</span>
+<nav class="sticky top-0 z-50 border-b border-amber-100/10 bg-stone-950/95 shadow-2xl shadow-stone-950/20 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+        <a href="${pageContext.request.contextPath}/public/home.jsp" class="flex min-w-0 items-center gap-3 no-underline">
+            <span class="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-amber-50 shadow-lg shadow-amber-500/20 ring-1 ring-white/15">
+                <img src="${pageContext.request.contextPath}/assets/images/logo.png" alt="Himalayan Yaks logo" class="h-full w-full object-cover" />
+            </span>
+            <span class="min-w-0">
+                <span class="block text-xs font-bold uppercase tracking-[0.28em] text-amber-300">Himalayan Yaks</span>
+                <span class="block truncate text-lg font-black text-white">Restaurant & Ordering</span>
             </span>
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#restaurantNavbar" aria-controls="restaurantNavbar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <button id="restaurantNavbarToggle" type="button" class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-stone-100 transition hover:bg-white/10 lg:hidden" aria-controls="restaurantNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
         </button>
 
-        <div class="collapse navbar-collapse" id="restaurantNavbar">
-            <ul class="navbar-nav mx-lg-auto my-3 my-lg-0 gap-lg-1">
-                <li class="nav-item"><a class="nav-link ${homeActive}" href="${pageContext.request.contextPath}/public/home.jsp">Home</a></li>
-                <li class="nav-item"><a class="nav-link ${menuActive}" href="${pageContext.request.contextPath}/menu">Menu</a></li>
-                <li class="nav-item"><a class="nav-link ${aboutActive}" href="${pageContext.request.contextPath}/public/about.jsp">About</a></li>
-                <li class="nav-item"><a class="nav-link ${contactActive}" href="${pageContext.request.contextPath}/public/contact.jsp">Contact</a></li>
-            </ul>
+        <div id="restaurantNavbar" class="hidden absolute left-4 right-4 top-[5.25rem] rounded-3xl border border-white/10 bg-stone-950/98 p-4 shadow-2xl shadow-stone-950/35 lg:static lg:flex lg:flex-1 lg:items-center lg:justify-between lg:gap-4 lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
+            <div class="flex flex-col gap-2 lg:mx-auto lg:flex-row lg:items-center">
+                <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${homeActive}" href="${pageContext.request.contextPath}/public/home.jsp">Home</a>
+                <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${menuActive}" href="${pageContext.request.contextPath}/menu">Menu</a>
+                <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${aboutActive}" href="${pageContext.request.contextPath}/public/about.jsp">About</a>
+                <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${contactActive}" href="${pageContext.request.contextPath}/public/contact.jsp">Contact</a>
+            </div>
 
-            <div class="d-flex flex-column flex-lg-row align-items-lg-center gap-3">
+            <div class="mt-4 flex flex-col gap-3 border-t border-white/10 pt-4 lg:mt-0 lg:flex-row lg:items-center lg:border-t-0 lg:pt-0">
                 <c:choose>
                     <c:when test="${not empty sessionScope.user or not empty sessionScope.userRole}">
                         <c:choose>
                             <c:when test="${sessionScope.userRole eq 'ADMIN'}">
-                                <a class="nav-action-outline" href="${pageContext.request.contextPath}/admin/dashboard.jsp">Dashboard</a>
+                                <a class="inline-flex items-center justify-center rounded-full border border-amber-200/25 px-4 py-2 text-sm font-bold text-amber-100 no-underline transition hover:bg-amber-100 hover:text-stone-950" href="${pageContext.request.contextPath}/admin/dashboard.jsp">Dashboard</a>
                             </c:when>
                             <c:otherwise>
-                                <a class="nav-action-outline" href="${pageContext.request.contextPath}/customer/dashboard.jsp">Dashboard</a>
+                                <a class="inline-flex items-center justify-center rounded-full border border-amber-200/25 px-4 py-2 text-sm font-bold text-amber-100 no-underline transition hover:bg-amber-100 hover:text-stone-950" href="${pageContext.request.contextPath}/customer/dashboard.jsp">Dashboard</a>
                             </c:otherwise>
                         </c:choose>
-                        <a class="nav-action-outline cart-pill" href="${pageContext.request.contextPath}/cart">
-                            <i class="bi bi-bag me-1"></i> Cart
-                            <span class="badge rounded-pill">${cartCountValue}</span>
+                        <a class="relative inline-flex items-center justify-center rounded-full border border-white/15 px-4 py-2 text-sm font-bold text-stone-100 no-underline transition hover:bg-white/10" href="${pageContext.request.contextPath}/cart">
+                            Cart
+                            <span class="ml-2 inline-flex min-w-6 items-center justify-center rounded-full bg-red-500 px-2 py-0.5 text-xs font-black text-white">${cartCountValue}</span>
                         </a>
-                        <a class="nav-action-solid" href="${pageContext.request.contextPath}/logout">Logout</a>
+                        <a class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-amber-300 to-orange-500 px-5 py-2 text-sm font-black text-stone-950 no-underline shadow-lg shadow-orange-500/20 transition hover:brightness-105" href="${pageContext.request.contextPath}/logout">Logout</a>
                     </c:when>
                     <c:otherwise>
-                        <a class="nav-action-outline" href="${pageContext.request.contextPath}/login">Login</a>
-                        <a class="nav-action-solid" href="${pageContext.request.contextPath}/register">Book a Table</a>
+                        <a class="inline-flex items-center justify-center rounded-full border border-amber-200/25 px-4 py-2 text-sm font-bold text-amber-100 no-underline transition hover:bg-amber-100 hover:text-stone-950" href="${pageContext.request.contextPath}/login">Login</a>
+                        <a class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-amber-300 to-orange-500 px-5 py-2 text-sm font-black text-stone-950 no-underline shadow-lg shadow-orange-500/20 transition hover:brightness-105" href="${pageContext.request.contextPath}/register">Book a Table</a>
                     </c:otherwise>
                 </c:choose>
 
-                <div class="navbar-user-card">
+                <div class="min-w-0 border-t border-white/10 pt-3 text-stone-100 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0">
                     <c:choose>
                         <c:when test="${not empty sessionScope.user and not empty sessionScope.user.fullName}">
-                            <strong>${sessionScope.user.fullName}</strong>
+                            <p class="truncate text-sm font-bold text-white">${sessionScope.user.fullName}</p>
                         </c:when>
                         <c:when test="${not empty sessionScope.adminFullName}">
-                            <strong>${sessionScope.adminFullName}</strong>
+                            <p class="truncate text-sm font-bold text-white">${sessionScope.adminFullName}</p>
                         </c:when>
                         <c:when test="${not empty sessionScope.userFullName}">
-                            <strong>${sessionScope.userFullName}</strong>
+                            <p class="truncate text-sm font-bold text-white">${sessionScope.userFullName}</p>
                         </c:when>
                         <c:otherwise>
-                            <strong>Guest</strong>
+                            <p class="truncate text-sm font-bold text-white">Guest</p>
                         </c:otherwise>
                     </c:choose>
-                    <small class="d-block">
+                    <p class="mt-0.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-stone-400">
                         <c:choose>
                             <c:when test="${sessionScope.userRole eq 'ADMIN'}">Administrator</c:when>
                             <c:when test="${not empty sessionScope.userRole}">Customer</c:when>
                             <c:otherwise>Visitor</c:otherwise>
                         </c:choose>
-                    </small>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </nav>
+
+<script>
+(() => {
+    const toggle = document.getElementById('restaurantNavbarToggle');
+    const menu = document.getElementById('restaurantNavbar');
+    if (!toggle || !menu) {
+        return;
+    }
+
+    toggle.addEventListener('click', () => {
+        const isHidden = menu.classList.toggle('hidden');
+        toggle.setAttribute('aria-expanded', String(!isHidden));
+    });
+})();
+</script>

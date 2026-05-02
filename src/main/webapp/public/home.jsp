@@ -1,8 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
-<c:set var="navbarVariant" value="bootstrap" />
-<c:set var="pageTitle" value="Smart Restaurant | Delicious Food, Smart Ordering System" />
+<c:set var="pageTitle" value="Himalayan Yaks | Delicious Food, Smart Ordering System" />
 <c:set var="pageDescription" value="Modern restaurant management system for online ordering, reservations, secure payments, and live service updates." />
 <!DOCTYPE html>
 <html lang="en">
@@ -173,7 +172,7 @@
         <section class="hero-shell text-white p-4 p-md-5 p-lg-6 mb-5">
             <div class="row align-items-center g-4 position-relative" style="z-index:1;">
                 <div class="col-lg-7 py-2 py-lg-4">
-                    <span class="hero-badge badge rounded-pill px-3 py-2 mb-4">Smart ordering • reservations • secure payments</span>
+                    <span class="hero-badge badge rounded-pill px-3 py-2 mb-4">Smart ordering Ã¢â‚¬Â¢ reservations Ã¢â‚¬Â¢ secure payments</span>
                     <h1 class="display-4 fw-bold lh-1 mb-3 text-white">Delicious Food, Smart Ordering System</h1>
                     <p class="lead text-white-75 mb-4" style="max-width: 42rem;">A modern restaurant experience for customers and staff, built to handle online ordering, reservations, invoice generation, and live order management from one clean platform.</p>
                     <div class="d-flex flex-wrap gap-3">
@@ -193,7 +192,7 @@
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div>
                                 <p class="section-label mb-1">Live Overview</p>
-                                <h2 class="h4 fw-bold mb-0 text-dark">Today’s Restaurant Pulse</h2>
+                                <h2 class="h4 fw-bold mb-0 text-dark">TodayÃ¢â‚¬â„¢s Restaurant Pulse</h2>
                             </div>
                             <span class="badge text-bg-success-subtle text-success-emphasis rounded-pill px-3 py-2">Open Now</span>
                         </div>
@@ -344,7 +343,7 @@
         <section class="section-soft p-4 p-lg-5 mb-5">
             <div class="row align-items-end g-4 mb-4">
                 <div class="col-lg-7">
-                    <p class="section-label mb-2">Why Smart Restaurant</p>
+                    <p class="section-label mb-2">Why Himalayan Yaks</p>
                     <h2 class="display-6 fw-bold mb-2">Built for digital dining operations</h2>
                     <p class="text-secondary mb-0">Every feature is designed to streamline the customer journey while leaving room for clean servlet and JDBC integration later.</p>
                 </div>
@@ -432,7 +431,7 @@
                 <div class="col-lg-6 order-2 order-lg-1">
                     <p class="section-label mb-2">About the Platform</p>
                     <h2 class="display-6 fw-bold mb-3">Restaurant operations, digitized with clarity</h2>
-                    <p class="text-secondary">Smart Restaurant Management System is built to unify menus, customer ordering, table reservations, and invoice generation in one clean MVC-based application.</p>
+                    <p class="text-secondary">Himalayan Yaks is built to unify menus, customer ordering, table reservations, and invoice generation in one clean MVC-based application.</p>
                     <p class="text-secondary mb-4">It helps restaurants move from manual workflows to a structured digital experience that is easier to maintain, scale, and extend with new features like loyalty points, branch analytics, and delivery zones.</p>
                     <div class="row g-3">
                         <div class="col-sm-6">

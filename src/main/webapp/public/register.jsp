@@ -1,12 +1,12 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Customer Registration | Smart Restaurant</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Customer Registration | Himalayan Yaks</title>
+    <link href="${pageContext.request.contextPath}/assets/css/app-ui.css" rel="stylesheet" />
     <style>
         body {
             min-height: 100vh;
@@ -35,13 +35,22 @@
             transform: translateY(-1px);
             background: #0d9488;
         }
+        .auth-logo {
+            width: 78px;
+            height: 78px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            box-shadow: 0 14px 32px rgba(15, 23, 42, 0.18);
+        }
     </style>
 </head>
 <body>
 <div class="container py-4">
     <div class="register-card p-4 p-md-5">
+        <img class="auth-logo" src="${pageContext.request.contextPath}/assets/images/logo.png" alt="Himalayan Yaks logo">
         <h3 class="fw-bold mb-2">Create Customer Account</h3>
-        <p class="text-muted mb-4">Join Smart Restaurant for faster ordering and reservations.</p>
+        <p class="text-muted mb-4">Join Himalayan Yaks for faster ordering and reservations.</p>
 
         <c:if test="${not empty errorMessage}">
             <div class="alert alert-danger">${errorMessage}</div>

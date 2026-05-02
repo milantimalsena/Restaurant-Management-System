@@ -1,11 +1,11 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Admin Dashboard | Smart Restaurant</title>
+    <title>Admin Dashboard | Himalayan Yaks</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -21,10 +21,12 @@
         <aside id="adminSidebar" class="fixed inset-y-0 left-0 z-40 w-72 -translate-x-full border-r border-white/10 bg-slate-950/95 px-5 py-6 backdrop-blur-xl transition-transform duration-300 lg:translate-x-0">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-cyan-400 text-lg font-black text-white shadow-lg shadow-indigo-500/20">SR</span>
+                    <span class="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-lg shadow-indigo-500/20">
+                        <img src="${pageContext.request.contextPath}/assets/images/logo.png" alt="Himalayan Yaks logo" class="h-full w-full object-cover" />
+                    </span>
                     <div>
                         <p class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">Admin Console</p>
-                        <h1 class="text-lg font-bold text-white">Smart Restaurant</h1>
+                        <h1 class="text-lg font-bold text-white">Himalayan Yaks</h1>
                     </div>
                 </div>
                 <button id="sidebarClose" type="button" class="rounded-xl border border-white/10 bg-white/5 p-2 text-slate-200 lg:hidden" aria-label="Close sidebar">
@@ -91,7 +93,7 @@
                                 <p class="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">Total Orders</p>
                                 <p class="mt-3 text-3xl font-black text-white">${totalOrdersValue}</p>
                             </div>
-                            <span class="rounded-2xl bg-indigo-500/15 p-3 text-indigo-300 ring-1 ring-indigo-400/20">◆</span>
+                            <span class="rounded-2xl bg-indigo-500/15 p-3 text-indigo-300 ring-1 ring-indigo-400/20">Ã¢â€”â€ </span>
                         </div>
                         <p class="mt-4 text-sm text-slate-400">All completed, pending, and in-progress orders.</p>
                     </article>
@@ -113,7 +115,7 @@
                                 <p class="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">Customers</p>
                                 <p class="mt-3 text-3xl font-black text-white">${customerValue}</p>
                             </div>
-                            <span class="rounded-2xl bg-cyan-500/15 p-3 text-cyan-300 ring-1 ring-cyan-400/20">☺</span>
+                            <span class="rounded-2xl bg-cyan-500/15 p-3 text-cyan-300 ring-1 ring-cyan-400/20">Ã¢ËœÂº</span>
                         </div>
                         <p class="mt-4 text-sm text-slate-400">Registered and active customer accounts.</p>
                     </article>
@@ -124,7 +126,7 @@
                                 <p class="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">Reservations</p>
                                 <p class="mt-3 text-3xl font-black text-white">${reservationValue}</p>
                             </div>
-                            <span class="rounded-2xl bg-amber-500/15 p-3 text-amber-300 ring-1 ring-amber-400/20">▣</span>
+                            <span class="rounded-2xl bg-amber-500/15 p-3 text-amber-300 ring-1 ring-amber-400/20">Ã¢â€“Â£</span>
                         </div>
                         <p class="mt-4 text-sm text-slate-400">Booked and upcoming dining reservations.</p>
                     </article>

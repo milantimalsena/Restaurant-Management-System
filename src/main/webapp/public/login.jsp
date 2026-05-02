@@ -1,12 +1,12 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Customer Login | Smart Restaurant</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Customer Login | Himalayan Yaks</title>
+    <link href="${pageContext.request.contextPath}/assets/css/app-ui.css" rel="stylesheet" />
     <style>
         :root {
             --bg-start: #1f2937;
@@ -48,10 +48,19 @@
         .text-link {
             color: #fde68a;
         }
+        .auth-logo {
+            width: 74px;
+            height: 74px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24);
+        }
     </style>
 </head>
 <body>
 <div class="glass-card p-4 p-md-5">
+    <img class="auth-logo" src="${pageContext.request.contextPath}/assets/images/logo.png" alt="Himalayan Yaks logo">
     <h3 class="fw-bold mb-2">Welcome Back</h3>
     <p class="mb-4">Login to your customer account</p>
 
