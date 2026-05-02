@@ -161,7 +161,7 @@
                     <hr>
                     <div class="d-flex justify-content-between mb-4"><span class="fw-semibold">Estimated Total</span><strong class="fs-5">NPR <span class="money" data-price="<%= grandTotal %>"><%= grandTotal %></span></strong></div>
 
-                    <a href="${pageContext.request.contextPath}/customer/checkout.jsp" class="btn btn-warning w-100">Proceed to Checkout</a>
+                    <a href="${pageContext.request.contextPath}/checkout" class="btn btn-warning w-100">Proceed to Checkout</a>
                 </div>
             </div>
         </div>
