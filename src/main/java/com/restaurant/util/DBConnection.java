@@ -31,18 +31,13 @@ public final class DBConnection {
     public static Connection getConnection() throws SQLException {
         String url = getConfig("db.url", "jdbc:mysql://localhost:3306/smart_restaurant?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true");
         String username = getConfig("db.username", "root");
-        String password = getConfig("db.password", "");
+        String password = getConfig("db.password", "1234");
         Connection connection = DriverManager.getConnection(url, username, password);
         System.out.println("DB CONNECTED");
         return connection;
     }
 
     private static String getConfig(String key, String defaultValue) {
-        String property = PROPERTIES.getProperty(key);
-        if (property != null && !property.isBlank()) {
-            return property.trim();
-        }
-
         String systemValue = System.getProperty(key);
         if (systemValue != null && !systemValue.isBlank()) {
             return systemValue.trim();
@@ -52,6 +47,11 @@ public final class DBConnection {
         String envValue = System.getenv(envKey);
         if (envValue != null && !envValue.isBlank()) {
             return envValue.trim();
+        }
+
+        String property = PROPERTIES.getProperty(key);
+        if (property != null) {
+            return property.trim();
         }
 
         return defaultValue;
