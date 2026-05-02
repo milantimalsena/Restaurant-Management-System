@@ -8,10 +8,10 @@
 					</span>
 					<div>
 						<div class="text-uppercase text-secondary small fw-semibold letter-spacing">Himalayan Yaks</div>
-						<div class="h5 fw-bold mb-0 text-dark">Restaurant & Ordering</div>
+						<div class="h5 fw-bold mb-0 text-dark">Taste of Himalayas</div>
 					</div>
 				</a>
-				<p class="text-secondary mb-0">A modern restaurant platform for ordering, reservations, and smarter customer service.</p>
+				<p class="text-secondary mb-0">Taste of Himalayas through fresh food, warm service, and simple online ordering.</p>
 			</div>
 
 			<div class="col-6 col-lg-2">

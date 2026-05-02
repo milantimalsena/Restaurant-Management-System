@@ -15,19 +15,18 @@ public class ClearCartServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!SessionUtil.hasRole(request, "CUSTOMER")) {
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
-
         Long userId = SessionUtil.getLoggedInUserId(request);
-        if (userId == null) {
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
 
         try {
-            cartDAO.clearCart(userId);
+            if (userId != null) {
+                cartDAO.clearCart(userId);
+            } else {
+                jakarta.servlet.http.HttpSession session = request.getSession(false);
+                if (session != null) {
+                    session.removeAttribute("guestCart");
+                    session.setAttribute("cartCount", 0);
+                }
+            }
         } catch (SQLException ignored) {
         }
 

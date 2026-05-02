@@ -1,8 +1,8 @@
 ﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
-<c:set var="pageTitle" value="Himalayan Yaks | Delicious Food, Smart Ordering System" />
-<c:set var="pageDescription" value="Modern restaurant management system for online ordering, reservations, secure payments, and live service updates." />
+<c:set var="pageTitle" value="Himalayan Yaks | Taste of Himalayas" />
+<c:set var="pageDescription" value="Taste of Himalayas with fresh food, online ordering, reservations, secure payments, and live service updates." />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -170,29 +170,29 @@
     <main class="container py-4 py-lg-5">
         <!-- Hero Section -->
         <section class="hero-shell text-white p-4 p-md-5 p-lg-6 mb-5">
-            <div class="row align-items-center g-4 position-relative" style="z-index:1;">
-                <div class="col-lg-7 py-2 py-lg-4">
-                    <span class="hero-badge badge rounded-pill px-3 py-2 mb-4">Smart ordering Ã¢â‚¬Â¢ reservations Ã¢â‚¬Â¢ secure payments</span>
-                    <h1 class="display-4 fw-bold lh-1 mb-3 text-white">Delicious Food, Smart Ordering System</h1>
-                    <p class="lead text-white-75 mb-4" style="max-width: 42rem;">A modern restaurant experience for customers and staff, built to handle online ordering, reservations, invoice generation, and live order management from one clean platform.</p>
-                    <div class="d-flex flex-wrap gap-3">
-                        <a href="${pageContext.request.contextPath}/menu" class="btn btn-light btn-lg rounded-pill px-4 fw-semibold">Explore Menu</a>
-                        <a href="${pageContext.request.contextPath}/menu" class="btn btn-outline-light btn-lg rounded-pill px-4 fw-semibold">Order Now</a>
-                        <a href="${pageContext.request.contextPath}/register" class="btn btn-warning btn-lg rounded-pill px-4 fw-semibold">Register</a>
-                    </div>
-                    <div class="d-flex flex-wrap gap-3 mt-4 text-white-75 small">
-                        <span class="hero-badge badge rounded-pill px-3 py-2">Fresh ingredients</span>
-                        <span class="hero-badge badge rounded-pill px-3 py-2">Fast checkout</span>
-                        <span class="hero-badge badge rounded-pill px-3 py-2">Mobile first</span>
-                    </div>
-                </div>
+                <div class="row align-items-center g-4 position-relative" style="z-index:1;">
+                                <div class="col-12 col-lg-7 py-2 py-lg-4">
+                            <span class="hero-badge badge rounded-pill px-3 py-2 mb-4">Fresh dishes • smart checkout • live menu</span>
+                            <h1 class="display-4 fw-bold lh-1 mb-3 text-white">Taste of Himalayas</h1>
+                            <p class="lead text-white-75 mb-4" style="max-width: 42rem;">A modern restaurant experience for customers and staff, built to handle online ordering, reservations, invoice generation, and live order management from one clean platform.</p>
+                            <div class="d-flex flex-wrap gap-3">
+                                <a href="${pageContext.request.contextPath}/menu" class="btn btn-light btn-lg rounded-pill px-4 fw-semibold">Explore Menu</a>
+                                <a href="${pageContext.request.contextPath}/menu" class="btn btn-outline-light btn-lg rounded-pill px-4 fw-semibold">Order Now</a>
+                                <a href="${pageContext.request.contextPath}/register" class="btn btn-warning btn-lg rounded-pill px-4 fw-semibold">Register</a>
+                            </div>
+                            <div class="d-flex flex-wrap gap-3 mt-4 text-white-75 small">
+                                <span class="hero-badge badge rounded-pill px-3 py-2">Fresh ingredients</span>
+                                <span class="hero-badge badge rounded-pill px-3 py-2">Fast checkout</span>
+                                <span class="hero-badge badge rounded-pill px-3 py-2">Mobile first</span>
+                            </div>
+                        </div>
 
-                <div class="col-lg-5">
+                <div class="col-12 col-lg-5">
                     <div class="glass-card p-4 p-lg-4">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div>
                                 <p class="section-label mb-1">Live Overview</p>
-                                <h2 class="h4 fw-bold mb-0 text-dark">TodayÃ¢â‚¬â„¢s Restaurant Pulse</h2>
+
                             </div>
                             <span class="badge text-bg-success-subtle text-success-emphasis rounded-pill px-3 py-2">Open Now</span>
                         </div>

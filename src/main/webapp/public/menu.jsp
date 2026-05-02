@@ -1,6 +1,7 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
+<%@ taglib uri="jakarta.tags.functions" prefix="fn" %>
 <c:if test="${empty menuList}">
     <c:set var="menuList" value="${menuItems}" />
 </c:if>
@@ -37,7 +38,7 @@
             color: var(--sr-brand);
         }
 
-        .menu-hero {
+        .hero-shell {
             position: relative;
             overflow: hidden;
             border-radius: 2rem;
@@ -143,17 +144,17 @@
 <jsp:include page="/includes/navbar.jsp" />
 
 <main class="container py-4 py-lg-5">
-    <section class="menu-hero text-white p-4 p-md-5 mb-5">
+    <section class="hero-shell text-white p-4 p-md-5 mb-5">
         <div class="row align-items-center g-4 position-relative" style="z-index:1;">
-            <div class="col-lg-7 py-2 py-lg-4">
-                <span class="hero-badge badge rounded-pill px-3 py-2 mb-4">Fresh dishes Ã¢â‚¬Â¢ smart checkout Ã¢â‚¬Â¢ live menu</span>
-                <h1 class="display-4 fw-bold lh-1 mb-3 text-white">Explore Our Restaurant Menu</h1>
-                <p class="lead text-white-75 mb-0" style="max-width: 42rem;">
-                    Browse freshly prepared dishes, filter by category, and add your favorites to cart with the same smooth experience as the home page.
-                </p>
-            </div>
+                <div class="col-12 col-lg-7 py-2 py-lg-4">
+                    <span class="hero-badge badge rounded-pill px-3 py-2 mb-4">Fresh dishes | smart checkout | live menu</span>
+                    <h1 class="display-4 fw-bold lh-1 mb-3 text-white">Explore Our Restaurant Menu</h1>
+                    <p class="lead text-white-75 mb-0" style="max-width: 42rem;">
+                        Browse freshly prepared dishes, filter by category, and add your favorites to cart with the same smooth experience as the home page.
+                    </p>
+                </div>
 
-            <div class="col-lg-5">
+            <div class="col-12 col-lg-5">
                 <form method="get" action="${pageContext.request.contextPath}/menu" class="glass-card p-4">
                     <p class="section-label mb-2">Search Menu</p>
                     <label for="searchInput" class="form-label fw-semibold text-dark">Find dishes, ingredients, or specials</label>
@@ -169,6 +170,13 @@
     </section>
 
     <section class="filter-panel p-4 p-lg-5 mb-5">
+        <c:if test="${not empty cartMessage}">
+            <div class="alert alert-success">${cartMessage}</div>
+        </c:if>
+        <c:if test="${not empty errorMessage}">
+            <div class="alert alert-danger">${errorMessage}</div>
+        </c:if>
+
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
             <div>
                 <p class="section-label mb-2">Category Filters</p>
@@ -212,10 +220,12 @@
                                 <div class="food-media">
                                     <c:choose>
                                         <c:when test="${not empty item.imagePath}">
-                                            <img src="${pageContext.request.contextPath}/${item.imagePath}" alt="${item.itemName}" />
+                                            <img src="${pageContext.request.contextPath}/${item.imagePath}" alt="${item.itemName}"
+                                                 onerror="if(!this.dataset.attempt){this.dataset.attempt='svg';this.src='${pageContext.request.contextPath}/${fn:replace(item.imagePath,'.jpg','.svg')}';}else if(this.dataset.attempt==='svg'){this.dataset.attempt='unsplash';this.src='https://source.unsplash.com/600x400/?${fn:replace(item.itemName,' ','+')}';}else{this.onerror=null;this.src='https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=1200&q=80';}" />
                                         </c:when>
                                         <c:otherwise>
-                                            <img src="${pageContext.request.contextPath}/assets/images/banners/placeholder-food.jpg" alt="${item.itemName}" />
+                                            <img src="https://source.unsplash.com/600x400/?${fn:replace(item.itemName,' ','+')}" alt="${item.itemName}"
+                                                 onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=1200&q=80';" />
                                         </c:otherwise>
                                     </c:choose>
                                     <span class="overlay-chip">${item.categoryName}</span>
@@ -245,12 +255,15 @@
                                             </span>
                                         </div>
 
-                                        <form method="post" action="${pageContext.request.contextPath}/cart/add">
+                                        <form method="post" action="${pageContext.request.contextPath}/cart/add"
+                                              class="add-cart-form"
+                                              data-available="${item.available}"
+                                              data-item-name="${fn:escapeXml(item.itemName)}">
                                             <input type="hidden" name="itemId" value="${item.itemId}" />
                                             <input type="hidden" name="qty" value="1" />
-                                            <input type="hidden" name="redirect" value="/menu" />
-                                            <button type="submit" class="btn btn-dark rounded-pill px-4 py-2 w-100 fw-semibold" ${item.available ? '' : 'disabled'}>
-                                                <i class="bi bi-bag-plus me-2"></i>Add to Cart
+                                            <input type="hidden" name="redirect" value="/cart" />
+                                            <button type="submit" class="btn btn-dark rounded-pill px-4 py-2 w-100 fw-semibold">
+                                                Add to Cart
                                             </button>
                                         </form>
                                     </div>
@@ -262,7 +275,7 @@
             </c:when>
             <c:otherwise>
                 <div class="empty-state px-4 py-5 text-center">
-                    <div class="display-5 mb-3">Ã°Å¸ÂÂ½</div>
+                    <div class="display-5 mb-3">Menu</div>
                     <h3 class="h4 fw-bold">No menu items found</h3>
                     <p class="text-secondary mx-auto mb-4" style="max-width: 38rem;">
                         Try clearing filters or searching for another dish. Available menu items will appear here.
@@ -275,5 +288,16 @@
 </main>
 
 <jsp:include page="/includes/footer.jsp" />
+<script>
+    document.querySelectorAll('.add-cart-form').forEach(form => {
+        form.addEventListener('submit', event => {
+            if (form.dataset.available !== 'true') {
+                event.preventDefault();
+                const itemName = form.dataset.itemName || 'This item';
+                alert(`${itemName} is currently unavailable or out of stock.`);
+            }
+        });
+    });
+</script>
 </body>
 </html>

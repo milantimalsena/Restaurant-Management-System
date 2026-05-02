@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryDAO {
+public class CategoryDAO extends MenuItemDAO {
     private static final String GET_ACTIVE_CATEGORIES_SQL = "SELECT category_id, category_name, description, is_active, created_at FROM categories WHERE is_active = 1 ORDER BY category_name";
     private static final String GET_ALL_CATEGORIES_SQL = "SELECT category_id, category_name, description, is_active, created_at FROM categories ORDER BY category_name";
     private static final String INSERT_CATEGORY_SQL = "INSERT INTO categories (category_name, description, is_active) VALUES (?, ?, ?)";

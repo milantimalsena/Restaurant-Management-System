@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <rect width="100%" height="100%" fill="#fff7ed" />
+  <g fill="#92400e">
+    <rect x="260" y="140" width="120" height="140" rx="24" />
+    <circle cx="320" cy="210" r="40" fill="#fde68a" />
+  </g>
+  <text x="50%" y="90%" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#5b3415" text-anchor="middle">Masala Tea</text>
+</svg>
+

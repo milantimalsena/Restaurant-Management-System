@@ -93,7 +93,7 @@
                                 <p class="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">Total Orders</p>
                                 <p class="mt-3 text-3xl font-black text-white">${totalOrdersValue}</p>
                             </div>
-                            <span class="rounded-2xl bg-indigo-500/15 p-3 text-indigo-300 ring-1 ring-indigo-400/20">Ã¢â€”â€ </span>
+                            <span class="rounded-2xl bg-indigo-500/15 p-3 text-indigo-300 ring-1 ring-indigo-400/20">ORD</span>
                         </div>
                         <p class="mt-4 text-sm text-slate-400">All completed, pending, and in-progress orders.</p>
                     </article>
@@ -115,7 +115,7 @@
                                 <p class="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">Customers</p>
                                 <p class="mt-3 text-3xl font-black text-white">${customerValue}</p>
                             </div>
-                            <span class="rounded-2xl bg-cyan-500/15 p-3 text-cyan-300 ring-1 ring-cyan-400/20">Ã¢ËœÂº</span>
+                            <span class="rounded-2xl bg-cyan-500/15 p-3 text-cyan-300 ring-1 ring-cyan-400/20">CUS</span>
                         </div>
                         <p class="mt-4 text-sm text-slate-400">Registered and active customer accounts.</p>
                     </article>
@@ -126,7 +126,7 @@
                                 <p class="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">Reservations</p>
                                 <p class="mt-3 text-3xl font-black text-white">${reservationValue}</p>
                             </div>
-                            <span class="rounded-2xl bg-amber-500/15 p-3 text-amber-300 ring-1 ring-amber-400/20">Ã¢â€“Â£</span>
+                            <span class="rounded-2xl bg-amber-500/15 p-3 text-amber-300 ring-1 ring-amber-400/20">RES</span>
                         </div>
                         <p class="mt-4 text-sm text-slate-400">Booked and upcoming dining reservations.</p>
                     </article>

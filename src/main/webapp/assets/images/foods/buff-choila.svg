@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <rect width="100%" height="100%" fill="#fff7ed" />
+  <g fill="#7c2d12">
+    <rect x="160" y="160" width="280" height="80" rx="20" />
+  </g>
+  <text x="50%" y="90%" font-family="Arial, Helvetica, sans-serif" font-size="26" fill="#4b1d12" text-anchor="middle">Buff Choila</text>
+</svg>
+

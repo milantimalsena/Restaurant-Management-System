@@ -51,7 +51,18 @@
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Image (jpg, jpeg, png, webp; max 5MB)</label>
-                    <input type="file" class="form-control" name="image" accept=".jpg,.jpeg,.png,.webp" onchange="previewImage(this)" required>
+                    <input type="file" class="form-control" name="image" accept=".jpg,.jpeg,.png,.webp" onchange="previewImage(this)">
+                    <small class="text-muted">Or choose an existing asset image:</small>
+                    <select class="form-select mt-2" name="assetImage" id="assetImageSelect" onchange="previewAsset(this)">
+                        <option value="">-- Use uploaded image or none --</option>
+                        <% java.util.List<String> assets = (java.util.List<String>) request.getAttribute("assetImages");
+                           if (assets != null) {
+                               for (String a : assets) { %>
+                        <option value="<%= a %>"><%= a.substring(a.lastIndexOf('/')+1) %></option>
+                        <%       }
+                           }
+                        %>
+                    </select>
                 </div>
                 <div class="col-md-6 d-flex align-items-end">
                     <img id="preview" src="" class="img-thumbnail d-none" style="max-height:120px;" alt="Preview">
@@ -88,6 +99,18 @@
             preview.classList.remove('d-none');
         };
         reader.readAsDataURL(file);
+    }
+
+    function previewAsset(select) {
+        const preview = document.getElementById('preview');
+        const val = select.value;
+        if (!val) {
+            preview.classList.add('d-none');
+            preview.src = '';
+            return;
+        }
+        preview.src = '${pageContext.request.contextPath}/' + val;
+        preview.classList.remove('d-none');
     }
 </script>
 </body>

@@ -9,8 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAO {
-    private static final String INSERT_USER_SQL = "INSERT INTO users (full_name, email, phone, password_hash, address, status) VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String FIND_BY_EMAIL_SQL = "SELECT user_id, full_name, email, phone, password_hash, address, status, created_at, updated_at FROM users WHERE email = ? LIMIT 1";
+    private static final String INSERT_USER_SQL = "INSERT INTO users (full_name, email, phone, password, address, status) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String FIND_BY_EMAIL_SQL = "SELECT user_id, full_name, email, phone, password, address, status, created_at, updated_at FROM users WHERE email = ? LIMIT 1";
     private static final String CHECK_EMAIL_EXISTS_SQL = "SELECT 1 FROM users WHERE email = ? LIMIT 1";
     private static final String CHECK_PHONE_EXISTS_SQL = "SELECT 1 FROM users WHERE phone = ? LIMIT 1";
 
@@ -65,7 +65,7 @@ public class UserDAO {
                 user.setFullName(resultSet.getString("full_name"));
                 user.setEmail(resultSet.getString("email"));
                 user.setPhone(resultSet.getString("phone"));
-                user.setPasswordHash(resultSet.getString("password_hash"));
+                user.setPasswordHash(resultSet.getString("password"));
                 user.setAddress(resultSet.getString("address"));
                 user.setStatus(resultSet.getString("status"));
 

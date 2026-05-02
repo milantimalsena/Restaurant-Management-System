@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <c:set var="currentPath" value="${pageContext.request.servletPath}" />
-<c:set var="cartCountValue" value="${empty cartCount ? 0 : cartCount}" />
+<c:set var="cartCountValue" value="${not empty cartCount ? cartCount : (not empty sessionScope.cartCount ? sessionScope.cartCount : 0)}" />
 <c:set var="homeActive" value="${currentPath eq '/public/home.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
 <c:set var="menuActive" value="${currentPath eq '/public/menu.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
 <c:set var="aboutActive" value="${currentPath eq '/public/about.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
@@ -17,7 +17,7 @@
             </span>
             <span class="min-w-0">
                 <span class="block text-xs font-bold uppercase tracking-[0.28em] text-amber-300">Himalayan Yaks</span>
-                <span class="block truncate text-lg font-black text-white">Restaurant & Ordering</span>
+                <span class="block truncate text-lg font-black text-white">Taste of Himalayas</span>
             </span>
         </a>
 
@@ -37,7 +37,7 @@
 
             <div class="mt-4 flex flex-col gap-3 border-t border-white/10 pt-4 lg:mt-0 lg:flex-row lg:items-center lg:border-t-0 lg:pt-0">
                 <c:choose>
-                    <c:when test="${not empty sessionScope.user or not empty sessionScope.userRole}">
+                    <c:when test="${not empty sessionScope.user or not empty sessionScope.userRole or not empty sessionScope.guestCart}">
                         <c:choose>
                             <c:when test="${sessionScope.userRole eq 'ADMIN'}">
                                 <a class="inline-flex items-center justify-center rounded-full border border-amber-200/25 px-4 py-2 text-sm font-bold text-amber-100 no-underline transition hover:bg-amber-100 hover:text-stone-950" href="${pageContext.request.contextPath}/admin/dashboard.jsp">Dashboard</a>

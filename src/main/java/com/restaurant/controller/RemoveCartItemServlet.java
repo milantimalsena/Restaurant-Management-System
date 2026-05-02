@@ -16,16 +16,7 @@ public class RemoveCartItemServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!SessionUtil.hasRole(request, "CUSTOMER")) {
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
-
         Long userId = SessionUtil.getLoggedInUserId(request);
-        if (userId == null) {
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
 
         String cartIdParam = ValidationUtil.sanitize(request.getParameter("cartId"));
         if (!ValidationUtil.isValidIntegerRange(cartIdParam, 1, Integer.MAX_VALUE)) {
@@ -33,8 +24,25 @@ public class RemoveCartItemServlet extends HttpServlet {
             return;
         }
 
+        long idParam = Long.parseLong(cartIdParam);
         try {
-            cartDAO.removeItemForUser(userId, Long.parseLong(cartIdParam));
+            if (userId != null) {
+                // persistent cart remove by cartId
+                cartDAO.removeItemForUser(userId, idParam);
+            } else {
+                // guest remove by itemId stored in cartId param
+                jakarta.servlet.http.HttpSession session = request.getSession(false);
+                if (session != null) {
+                    @SuppressWarnings("unchecked")
+                    java.util.Map<Long, Integer> guestCart = (java.util.Map<Long, Integer>) session.getAttribute("guestCart");
+                    if (guestCart != null) {
+                        guestCart.remove(idParam);
+                        session.setAttribute("guestCart", guestCart);
+                        int cartCount = guestCart.values().stream().mapToInt(Integer::intValue).sum();
+                        session.setAttribute("cartCount", cartCount);
+                    }
+                }
+            }
         } catch (SQLException ignored) {
         }
 

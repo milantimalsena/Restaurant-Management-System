@@ -53,7 +53,7 @@
                         <div>
                             <h2 class="h3 fw-bold mb-2">Himalayan Yaks Invoice</h2>
                             <p class="text-secondary mb-1">Order #${order.orderNumber}</p>
-                            <p class="text-secondary mb-0">${order.orderType} Ã‚Â· ${order.paymentMethod} Ã‚Â· ${order.orderStatus}</p>
+                            <p class="text-secondary mb-0">${order.orderType} | ${order.paymentMethod} | ${order.orderStatus}</p>
                         </div>
                         <div class="text-md-end">
                             <div class="summary-box px-4 py-3 d-inline-block">

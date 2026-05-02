@@ -16,6 +16,10 @@ public final class PasswordUtil {
         if (plainPassword == null || passwordHash == null) {
             return false;
         }
-        return BCrypt.checkpw(plainPassword, passwordHash);
+        try {
+            return BCrypt.checkpw(plainPassword, passwordHash);
+        } catch (IllegalArgumentException ex) {
+            return false;
+        }
     }
 }

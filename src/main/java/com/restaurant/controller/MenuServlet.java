@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -63,6 +64,13 @@ public class MenuServlet extends HttpServlet {
             request.setAttribute("selectedCategoryId", categoryIdParam);
             request.setAttribute("searchQuery", query);
             request.setAttribute("cartCount", cartCount);
+
+            HttpSession session = request.getSession(false);
+            if (session != null && session.getAttribute("cartMessage") != null) {
+                request.setAttribute("cartMessage", session.getAttribute("cartMessage"));
+                session.removeAttribute("cartMessage");
+            }
+
             request.getRequestDispatcher("/public/menu.jsp").forward(request, response);
         } catch (SQLException ex) {
             request.setAttribute("errorMessage", "Unable to load menu right now.");

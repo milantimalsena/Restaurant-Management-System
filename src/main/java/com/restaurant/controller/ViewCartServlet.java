@@ -21,34 +21,77 @@ public class ViewCartServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!SessionUtil.hasRole(request, "CUSTOMER")) {
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
-
         Long userId = SessionUtil.getLoggedInUserId(request);
-        if (userId == null) {
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
 
         try {
-            List<Cart> carts = cartDAO.getCartByUser(userId);
-            BigDecimal subtotal = cartDAO.getSubtotal(userId);
-            BigDecimal tax = subtotal.multiply(TAX_RATE).setScale(2, RoundingMode.HALF_UP);
-            BigDecimal grandTotal = subtotal.add(tax);
-            int cartCount = cartDAO.getCartCount(userId);
+            if (userId != null) {
+                // logged-in customer: load persistent cart
+                List<Cart> carts = cartDAO.getCartByUser(userId);
+                BigDecimal subtotal = cartDAO.getSubtotal(userId);
+                BigDecimal tax = subtotal.multiply(TAX_RATE).setScale(2, RoundingMode.HALF_UP);
+                BigDecimal grandTotal = subtotal.add(tax);
+                int cartCount = cartDAO.getCartCount(userId);
 
-            request.setAttribute("cartItems", carts);
-            request.setAttribute("subtotal", subtotal);
-            request.setAttribute("tax", tax);
-            request.setAttribute("grandTotal", grandTotal);
-            request.setAttribute("cartCount", cartCount);
+                request.setAttribute("cartItems", carts);
+                request.setAttribute("subtotal", subtotal);
+                request.setAttribute("tax", tax);
+                request.setAttribute("grandTotal", grandTotal);
+                request.setAttribute("cartCount", cartCount);
 
-            HttpSession session = request.getSession(false);
-            if (session != null && session.getAttribute("cartMessage") != null) {
-                request.setAttribute("cartMessage", session.getAttribute("cartMessage"));
-                session.removeAttribute("cartMessage");
+                HttpSession session = request.getSession(false);
+                if (session != null && session.getAttribute("cartMessage") != null) {
+                    request.setAttribute("cartMessage", session.getAttribute("cartMessage"));
+                    session.removeAttribute("cartMessage");
+                }
+            } else {
+                // guest: read session-based cart
+                HttpSession session = request.getSession(false);
+                java.util.Map<Long, Integer> guestCart = null;
+                if (session != null) {
+                    @SuppressWarnings("unchecked")
+                    java.util.Map<Long, Integer> tmp = (java.util.Map<Long, Integer>) session.getAttribute("guestCart");
+                    guestCart = tmp;
+                }
+
+                java.util.List<Cart> carts = new java.util.ArrayList<>();
+                java.math.BigDecimal subtotal = java.math.BigDecimal.ZERO;
+                int cartCount = 0;
+                if (guestCart != null && !guestCart.isEmpty()) {
+                    com.restaurant.dao.MenuItemDAO menuItemDAO = new com.restaurant.dao.MenuItemDAO();
+                    for (var entry : guestCart.entrySet()) {
+                        Long itemId = entry.getKey();
+                        Integer qty = entry.getValue();
+                        com.restaurant.model.MenuItem mi = menuItemDAO.getById(itemId);
+                        if (mi == null) continue;
+                        Cart cart = new Cart();
+                        cart.setItemId(itemId);
+                        cart.setItemName(mi.getItemName());
+                        cart.setImagePath(mi.getImagePath());
+                        cart.setCategoryName(mi.getCategoryName());
+                        cart.setQuantity(qty);
+                        cart.setUnitPrice(mi.getPrice());
+                        java.math.BigDecimal lineTotal = mi.getPrice().multiply(new java.math.BigDecimal(qty));
+                        cart.setLineTotal(lineTotal);
+                        carts.add(cart);
+
+                        subtotal = subtotal.add(lineTotal);
+                        cartCount += qty;
+                    }
+                }
+
+                java.math.BigDecimal tax = subtotal.multiply(TAX_RATE).setScale(2, RoundingMode.HALF_UP);
+                java.math.BigDecimal grandTotal = subtotal.add(tax);
+
+                request.setAttribute("cartItems", carts);
+                request.setAttribute("subtotal", subtotal);
+                request.setAttribute("tax", tax);
+                request.setAttribute("grandTotal", grandTotal);
+                request.setAttribute("cartCount", cartCount);
+
+                if (session != null && session.getAttribute("cartMessage") != null) {
+                    request.setAttribute("cartMessage", session.getAttribute("cartMessage"));
+                    session.removeAttribute("cartMessage");
+                }
             }
 
             request.getRequestDispatcher("/customer/cart.jsp").forward(request, response);

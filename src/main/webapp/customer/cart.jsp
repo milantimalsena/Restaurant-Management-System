@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.math.BigDecimal" %>
 <%@ page import="com.restaurant.model.Cart" %>
@@ -93,7 +93,7 @@
                                 <td>NPR <span class="money" data-price="<%= cart.getUnitPrice() %>"><%= cart.getUnitPrice() %></span></td>
                                 <td>
                                     <form method="post" action="${pageContext.request.contextPath}/cart/update" class="qty-form">
-                                        <input type="hidden" name="cartId" value="<%= cart.getCartId() %>">
+                                        <input type="hidden" name="cartId" value="<%= cart.getCartId() != null ? cart.getCartId() : cart.getItemId() %>">
                                         <button class="btn btn-outline-secondary btn-sm" name="action" value="decrease">-</button>
                                         <input type="number" name="qty" value="<%= cart.getQuantity() %>" min="1" max="20" class="form-control form-control-sm qty-input">
                                         <button class="btn btn-outline-primary btn-sm" name="action" value="manual">Update</button>
@@ -129,14 +129,14 @@
                         <div class="d-flex justify-content-between mb-2"><span>Unit Price</span><strong>NPR <span class="money" data-price="<%= cart.getUnitPrice() %>"><%= cart.getUnitPrice() %></span></strong></div>
                         <div class="d-flex justify-content-between mb-2"><span>Line Total</span><strong>NPR <span class="money" data-price="<%= cart.getLineTotal() %>"><%= cart.getLineTotal() %></span></strong></div>
                         <form method="post" action="${pageContext.request.contextPath}/cart/update" class="qty-form mb-2">
-                            <input type="hidden" name="cartId" value="<%= cart.getCartId() %>">
+                            <input type="hidden" name="cartId" value="<%= cart.getCartId() != null ? cart.getCartId() : cart.getItemId() %>">
                             <button class="btn btn-outline-secondary btn-sm" name="action" value="decrease">-</button>
                             <input type="number" name="qty" value="<%= cart.getQuantity() %>" min="1" max="20" class="form-control form-control-sm qty-input">
                             <button class="btn btn-outline-primary btn-sm" name="action" value="manual">Update</button>
                             <button class="btn btn-outline-secondary btn-sm" name="action" value="increase">+</button>
                         </form>
                         <form method="post" action="${pageContext.request.contextPath}/cart/remove" onsubmit="return confirmRemove();">
-                            <input type="hidden" name="cartId" value="<%= cart.getCartId() %>">
+                                <input type="hidden" name="cartId" value="<%= cart.getCartId() != null ? cart.getCartId() : cart.getItemId() %>">
                             <button class="btn btn-sm btn-outline-danger">Remove</button>
                         </form>
                     </div>

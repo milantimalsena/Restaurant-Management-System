@@ -16,6 +16,8 @@ import jakarta.servlet.http.Part;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
@@ -39,6 +41,21 @@ public class AddMenuItemServlet extends HttpServlet {
         try {
             List<Category> categories = categoryDAO.getAllActiveCategories();
             request.setAttribute("categories", categories);
+
+            // list existing asset images to allow choosing instead of upload
+            String assetsPath = getServletContext().getRealPath("/assets/images/foods");
+            List<String> assetImages = new ArrayList<>();
+            if (assetsPath != null) {
+                File dir = new File(assetsPath);
+                if (dir.exists() && dir.isDirectory()) {
+                    for (File f : dir.listFiles()) {
+                        if (f.isFile()) {
+                            assetImages.add("assets/images/foods/" + f.getName());
+                        }
+                    }
+                }
+            }
+            request.setAttribute("assetImages", assetImages);
             request.getRequestDispatcher("/admin/add-menu-item.jsp").forward(request, response);
         } catch (SQLException ex) {
             response.sendRedirect(request.getContextPath() + "/admin/manage-menu");
@@ -71,9 +88,16 @@ public class AddMenuItemServlet extends HttpServlet {
         }
 
         try {
-            Part imagePart = request.getPart("image");
-            String uploadDir = getServletContext().getRealPath("") + File.separator + "uploads" + File.separator + "menu";
-            String imagePath = FileUploadUtil.saveMenuImage(imagePart, uploadDir);
+            // allow choosing existing asset image (assetImage) or uploading a new file (image)
+            String assetImage = ValidationUtil.sanitize(request.getParameter("assetImage"));
+            String imagePath = null;
+            if (ValidationUtil.isRequiredValid(assetImage)) {
+                imagePath = assetImage;
+            } else {
+                Part imagePart = request.getPart("image");
+                String uploadDir = getServletContext().getRealPath("") + File.separator + "uploads" + File.separator + "menu";
+                imagePath = FileUploadUtil.saveMenuImage(imagePart, uploadDir);
+            }
 
             MenuItem item = new MenuItem();
             item.setCategoryId(Long.parseLong(categoryId));

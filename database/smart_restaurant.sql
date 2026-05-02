@@ -24,7 +24,7 @@ CREATE TABLE admins (
   admin_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   full_name VARCHAR(120) NOT NULL,
   email VARCHAR(191) NOT NULL,
-  password_hash VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
   status ENUM('ACTIVE', 'BLOCKED') NOT NULL DEFAULT 'ACTIVE',
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (admin_id),
@@ -37,7 +37,7 @@ CREATE TABLE users (
   full_name VARCHAR(120) NOT NULL,
   email VARCHAR(191) NOT NULL,
   phone VARCHAR(20) NOT NULL,
-  password_hash VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
   address VARCHAR(400) NULL,
   status ENUM('ACTIVE', 'BLOCKED') NOT NULL DEFAULT 'ACTIVE',
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -231,12 +231,14 @@ CREATE TABLE feedback (
 -- 3) Sample Seed Data
 -- -----------------------------
 
--- 1 admin
-INSERT INTO admins (full_name, email, password_hash, status, created_at) VALUES
-('System Administrator', 'admin@smartrestaurant.com', '$2a$12$4x2J7fNQh2vFfQ8vR9Lz0u1bN7XkP3LwJw8zD6sV5qR1mN9tYc2Aa', 'ACTIVE', '2026-01-01 08:00:00');
+-- Admin accounts
+-- Default login: admin@smartrestaurant.com / password
+INSERT INTO admins (full_name, email, password, status, created_at) VALUES
+('System Administrator', 'admin@smartrestaurant.com', '$2a$10$7EqJtq98hPqEX7fNZaFWoO.jR1uR6A7dBDEuDfSUdifYEYTbSsfXO', 'ACTIVE', '2026-01-01 08:00:00'),
+('Himalayans Yaks', 'yaks@restro.com', '$2a$10$wzpG3.BLpZyQE69n9DckBeySQxZMdBVT9blkEFGwSSkNm40z8T8Xy', 'ACTIVE', '2026-01-01 08:05:00');
 
 -- 5 users
-INSERT INTO users (full_name, email, phone, password_hash, address, status, created_at, updated_at) VALUES
+INSERT INTO users (full_name, email, phone, password, address, status, created_at, updated_at) VALUES
 ('Aarav Shrestha', 'aarav.shrestha@gmail.com', '9801000001', '$2a$12$9tS7QmV1yF8uA3nX5dLq2eB4hR6kW0pJc7zN9vT1mY3sH8uL4rE2G', 'Baneshwor, Kathmandu', 'ACTIVE', '2026-01-05 09:10:00', '2026-01-05 09:10:00'),
 ('Sita Gurung', 'sita.gurung@gmail.com', '9801000002', '$2a$12$8kD6RmU2xE7vB4mW1pQz3nC5gT9hJ2sLq6yN1vF8rM4wP0aX7cD3H', 'Pokhara-8, Kaski', 'ACTIVE', '2026-01-06 10:00:00', '2026-01-06 10:00:00'),
 ('Ramesh Karki', 'ramesh.karki@gmail.com', '9801000003', '$2a$12$7jC5QlT3wD6uC5lV2oPy4mB6fS8gK1rMp5xM2uE7qL3vN9zW6bC4J', 'Bharatpur, Chitwan', 'ACTIVE', '2026-01-07 11:20:00', '2026-01-07 11:20:00'),
@@ -253,25 +255,25 @@ INSERT INTO categories (category_name, description, is_active, created_at) VALUE
 
 -- 15 menu items
 INSERT INTO menu_items (category_id, item_name, description, price, image_path, is_available, prep_time_minutes, created_at, updated_at) VALUES
-(1, 'Chicken Momo (8 pcs)', 'Steamed dumplings with spiced chicken filling.', 220.00, 'assets/images/foods/chicken-momo.jpg', 1, 18, '2026-01-02 09:00:00', '2026-01-02 09:00:00'),
-(1, 'Veg Spring Rolls', 'Crispy rolls served with sweet chili dip.', 180.00, 'assets/images/foods/veg-spring-rolls.jpg', 1, 12, '2026-01-02 09:00:00', '2026-01-02 09:00:00'),
-(1, 'Paneer Chilli', 'Stir-fried paneer cubes with peppers and sauce.', 260.00, 'assets/images/foods/paneer-chilli.jpg', 1, 16, '2026-01-02 09:00:00', '2026-01-02 09:00:00'),
+ (1, 'Chicken Momo (8 pcs)', 'Steamed dumplings with spiced chicken filling.', 220.00, 'assets/images/foods/chicken-momo.svg', 1, 18, '2026-01-02 09:00:00', '2026-01-02 09:00:00'),
+ (1, 'Veg Spring Rolls', 'Crispy rolls served with sweet chili dip.', 180.00, 'assets/images/foods/veg-spring-rolls.svg', 1, 12, '2026-01-02 09:00:00', '2026-01-02 09:00:00'),
+ (1, 'Paneer Chilli', 'Stir-fried paneer cubes with peppers and sauce.', 260.00, 'assets/images/foods/paneer-chilli.svg', 1, 16, '2026-01-02 09:00:00', '2026-01-02 09:00:00'),
 
-(2, 'Grilled Chicken Sizzler', 'Grilled chicken with sauteed vegetables and fries.', 640.00, 'assets/images/foods/chicken-sizzler.jpg', 1, 25, '2026-01-02 09:05:00', '2026-01-02 09:05:00'),
-(2, 'Paneer Butter Masala', 'Creamy tomato gravy with paneer cubes.', 480.00, 'assets/images/foods/paneer-butter-masala.jpg', 1, 22, '2026-01-02 09:05:00', '2026-01-02 09:05:00'),
-(2, 'Mushroom Fried Rice', 'Wok-tossed rice with mushroom and vegetables.', 350.00, 'assets/images/foods/mushroom-fried-rice.jpg', 1, 15, '2026-01-02 09:05:00', '2026-01-02 09:05:00'),
+ (2, 'Grilled Chicken Sizzler', 'Grilled chicken with sauteed vegetables and fries.', 640.00, 'assets/images/foods/chicken-sizzler.svg', 1, 25, '2026-01-02 09:05:00', '2026-01-02 09:05:00'),
+ (2, 'Paneer Butter Masala', 'Creamy tomato gravy with paneer cubes.', 480.00, 'assets/images/foods/paneer-butter-masala.svg', 1, 22, '2026-01-02 09:05:00', '2026-01-02 09:05:00'),
+ (2, 'Mushroom Fried Rice', 'Wok-tossed rice with mushroom and vegetables.', 350.00, 'assets/images/foods/mushroom-fried-rice.svg', 1, 15, '2026-01-02 09:05:00', '2026-01-02 09:05:00'),
 
-(3, 'Masala Tea', 'Traditional Nepali masala chiya.', 80.00, 'assets/images/foods/masala-tea.jpg', 1, 8, '2026-01-02 09:10:00', '2026-01-02 09:10:00'),
-(3, 'Lassi (Sweet)', 'Refreshing yogurt-based drink.', 140.00, 'assets/images/foods/lassi-sweet.jpg', 1, 7, '2026-01-02 09:10:00', '2026-01-02 09:10:00'),
-(3, 'Fresh Lime Soda', 'Sparkling lime soda with mint.', 130.00, 'assets/images/foods/fresh-lime-soda.jpg', 1, 6, '2026-01-02 09:10:00', '2026-01-02 09:10:00'),
+ (3, 'Masala Tea', 'Traditional Nepali masala chiya.', 80.00, 'assets/images/foods/masala-tea.svg', 1, 8, '2026-01-02 09:10:00', '2026-01-02 09:10:00'),
+ (3, 'Lassi (Sweet)', 'Refreshing yogurt-based drink.', 140.00, 'assets/images/foods/lassi-sweet.svg', 1, 7, '2026-01-02 09:10:00', '2026-01-02 09:10:00'),
+ (3, 'Fresh Lime Soda', 'Sparkling lime soda with mint.', 130.00, 'assets/images/foods/fresh-lime-soda.svg', 1, 6, '2026-01-02 09:10:00', '2026-01-02 09:10:00'),
 
-(4, 'Gulab Jamun (2 pcs)', 'Soft milk-solid dumplings in sugar syrup.', 150.00, 'assets/images/foods/gulab-jamun.jpg', 1, 10, '2026-01-02 09:15:00', '2026-01-02 09:15:00'),
-(4, 'Chocolate Brownie', 'Warm brownie served with vanilla scoop.', 220.00, 'assets/images/foods/chocolate-brownie.jpg', 1, 12, '2026-01-02 09:15:00', '2026-01-02 09:15:00'),
-(4, 'Yomari', 'Traditional Newari sweet steamed dumpling.', 170.00, 'assets/images/foods/yomari.jpg', 1, 14, '2026-01-02 09:15:00', '2026-01-02 09:15:00'),
+ (4, 'Gulab Jamun (2 pcs)', 'Soft milk-solid dumplings in sugar syrup.', 150.00, 'assets/images/foods/gulab-jamun.svg', 1, 10, '2026-01-02 09:15:00', '2026-01-02 09:15:00'),
+ (4, 'Chocolate Brownie', 'Warm brownie served with vanilla scoop.', 220.00, 'assets/images/foods/chocolate-brownie.svg', 1, 12, '2026-01-02 09:15:00', '2026-01-02 09:15:00'),
+ (4, 'Yomari', 'Traditional Newari sweet steamed dumpling.', 170.00, 'assets/images/foods/yomari.svg', 1, 14, '2026-01-02 09:15:00', '2026-01-02 09:15:00'),
 
-(5, 'Thakali Khana Set', 'Rice, lentils, curry, greens, pickle and meat/veg choice.', 690.00, 'assets/images/foods/thakali-set.jpg', 1, 28, '2026-01-02 09:20:00', '2026-01-02 09:20:00'),
-(5, 'Buff Choila', 'Smoky spiced buff cubes, Newari style.', 420.00, 'assets/images/foods/buff-choila.jpg', 1, 20, '2026-01-02 09:20:00', '2026-01-02 09:20:00'),
-(5, 'Sel Roti Set', 'Traditional sel roti served with aloo tarkari.', 240.00, 'assets/images/foods/sel-roti-set.jpg', 1, 18, '2026-01-02 09:20:00', '2026-01-02 09:20:00');
+ (5, 'Thakali Khana Set', 'Rice, lentils, curry, greens, pickle and meat/veg choice.', 690.00, 'assets/images/foods/thakali-set.svg', 1, 28, '2026-01-02 09:20:00', '2026-01-02 09:20:00'),
+ (5, 'Buff Choila', 'Smoky spiced buff cubes, Newari style.', 420.00, 'assets/images/foods/buff-choila.svg', 1, 20, '2026-01-02 09:20:00', '2026-01-02 09:20:00'),
+ (5, 'Sel Roti Set', 'Traditional sel roti served with aloo tarkari.', 240.00, 'assets/images/foods/sel-roti-set.svg', 1, 18, '2026-01-02 09:20:00', '2026-01-02 09:20:00');
 
 -- 5 cart rows
 INSERT INTO cart (user_id, item_id, quantity, unit_price, created_at) VALUES

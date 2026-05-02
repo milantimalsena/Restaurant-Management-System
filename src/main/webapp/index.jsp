@@ -13,7 +13,7 @@
     <main class="main-content">
         <div class="card">
             <h1>Welcome to Himalayan Yaks</h1>
-            <p>Your journey to ethically sourced, delicious food starts here.</p>
+            <p>Taste of Himalayas starts here.</p>
             <br>
             <a href="login.jsp" style="padding: 10px 20px; background: #333; color: white; text-decoration: none; border-radius: 5px;">Get Started</a>
         </div>
