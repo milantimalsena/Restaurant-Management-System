@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,22 +43,26 @@
         <h3 class="fw-bold mb-2">Create Customer Account</h3>
         <p class="text-muted mb-4">Join Smart Restaurant for faster ordering and reservations.</p>
 
-        <% if (request.getAttribute("errorMessage") != null) { %>
-        <div class="alert alert-danger"><%= request.getAttribute("errorMessage") %></div>
-        <% } %>
+        <c:if test="${not empty errorMessage}">
+            <div class="alert alert-danger">${errorMessage}</div>
+        </c:if>
+
+        <c:if test="${not empty successMessage}">
+            <div class="alert alert-success">${successMessage}</div>
+        </c:if>
 
         <form method="post" action="${pageContext.request.contextPath}/register" class="row g-3">
             <div class="col-md-6">
                 <label class="form-label">Full Name</label>
-                <input type="text" name="fullName" class="form-control" required>
+                <input type="text" name="fullName" class="form-control" value="${fullName}" required>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" required>
+                <input type="email" name="email" class="form-control" value="${email}" required>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Phone</label>
-                <input type="text" name="phone" class="form-control" placeholder="98XXXXXXXX" required>
+                <input type="text" name="phone" class="form-control" placeholder="98XXXXXXXX" value="${phone}" required>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Password</label>
@@ -68,7 +73,7 @@
             </div>
             <div class="col-12">
                 <label class="form-label">Address</label>
-                <textarea name="address" class="form-control" rows="3"></textarea>
+                <textarea name="address" class="form-control" rows="3">${address}</textarea>
             </div>
             <div class="col-12 d-grid">
                 <button type="submit" class="btn btn-register text-white py-2">Register Account</button>

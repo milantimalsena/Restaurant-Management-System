@@ -20,6 +20,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("Servlet HIT: LoginServlet#doGet");
         if (SessionUtil.hasRole(request, "CUSTOMER")) {
             response.sendRedirect(request.getContextPath() + "/customer/dashboard.jsp");
             return;
@@ -49,6 +50,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("Servlet HIT: LoginServlet#doPost");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String remember = request.getParameter("rememberMe");
@@ -87,8 +89,13 @@ public class LoginServlet extends HttpServlet {
 
             response.sendRedirect(request.getContextPath() + "/customer/dashboard.jsp");
         } catch (SQLException ex) {
-            request.setAttribute("errorMessage", "Unable to process request at the moment.");
-            request.getRequestDispatcher("/public/login.jsp").forward(request, response);
+            ex.printStackTrace();
+            request.setAttribute("jakarta.servlet.error.status_code", 500);
+            request.setAttribute("jakarta.servlet.error.request_uri", request.getRequestURI());
+            request.setAttribute("jakarta.servlet.error.message", ex.getMessage());
+            request.setAttribute("jakarta.servlet.error.exception", ex);
+            request.setAttribute("debugMessage", "Login failed: " + ex.getMessage());
+            request.getRequestDispatcher("/common/error.jsp").forward(request, response);
         }
     }
 }

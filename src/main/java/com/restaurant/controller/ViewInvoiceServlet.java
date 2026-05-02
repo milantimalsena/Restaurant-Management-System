@@ -18,6 +18,7 @@ public class ViewInvoiceServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("Servlet HIT: ViewInvoiceServlet#doGet");
         if (!SessionUtil.hasRole(request, "CUSTOMER")) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
@@ -41,7 +42,9 @@ public class ViewInvoiceServlet extends HttpServlet {
             request.setAttribute("invoiceHtml", InvoiceUtil.buildInvoiceHtml(order));
             request.getRequestDispatcher("/customer/invoice.jsp").forward(request, response);
         } catch (SQLException ex) {
-            response.sendRedirect(request.getContextPath() + "/my-orders");
+            ex.printStackTrace();
+            request.setAttribute("debugMessage", "Unable to load invoice details: " + ex.getMessage());
+            request.getRequestDispatcher("/common/error.jsp").forward(request, response);
         }
     }
 }

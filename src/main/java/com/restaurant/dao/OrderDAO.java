@@ -27,6 +27,7 @@ public class OrderDAO {
     private static final String GET_ORDERS_BY_USER_SQL = "SELECT o.order_id, o.order_number, o.user_id, o.order_type, o.order_status, o.payment_status, o.subtotal, o.tax, o.delivery_fee, o.discount, o.grand_total, o.delivery_address, o.phone_snapshot, o.notes, o.ordered_at, o.updated_at, p.payment_method FROM orders o LEFT JOIN payments p ON p.order_id = o.order_id WHERE o.user_id = ? ORDER BY o.ordered_at DESC";
 
     public List<Cart> getCartItems(long userId) throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: getCartItems");
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_CART_ITEMS_SQL)) {
             statement.setLong(1, userId);
@@ -47,6 +48,7 @@ public class OrderDAO {
     }
 
     public BigDecimal getCartSubtotal(long userId) throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: getCartSubtotal");
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_CART_SUBTOTAL_SQL)) {
             statement.setLong(1, userId);
@@ -60,6 +62,7 @@ public class OrderDAO {
     }
 
     public boolean clearCart(long userId) throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: clearCart");
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(CLEAR_CART_SQL)) {
             statement.setLong(1, userId);
@@ -69,6 +72,7 @@ public class OrderDAO {
     }
 
     public long createOrder(Order order) throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: createOrder");
         try (Connection connection = DBConnection.getConnection()) {
             connection.setAutoCommit(false);
             try {
@@ -115,6 +119,7 @@ public class OrderDAO {
                 connection.commit();
                 return orderId;
             } catch (SQLException ex) {
+                ex.printStackTrace();
                 connection.rollback();
                 throw ex;
             } finally {
@@ -124,6 +129,7 @@ public class OrderDAO {
     }
 
     public Order getOrderById(long orderId) throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: getOrderById");
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement orderStmt = connection.prepareStatement(GET_ORDER_BY_ID_SQL);
              PreparedStatement itemsStmt = connection.prepareStatement(GET_ORDER_ITEMS_SQL)) {
@@ -154,6 +160,7 @@ public class OrderDAO {
     }
 
     public List<Order> getOrdersByUser(long userId) throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: getOrdersByUser");
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_ORDERS_BY_USER_SQL)) {
             statement.setLong(1, userId);
@@ -168,6 +175,7 @@ public class OrderDAO {
     }
 
     public boolean addOrderItems(long orderId, List<OrderItem> items) throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: addOrderItems");
         try (Connection connection = DBConnection.getConnection()) {
             addOrderItemsInternal(connection, orderId, items);
             return true;
@@ -175,6 +183,7 @@ public class OrderDAO {
     }
 
     public boolean createPayment(Payment payment) throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: createPayment");
         try (Connection connection = DBConnection.getConnection()) {
             createPaymentInternal(connection, payment);
             return true;
@@ -182,6 +191,7 @@ public class OrderDAO {
     }
 
     public boolean updateStatus(long orderId, String orderStatus) throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: updateStatus(order)");
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_ORDER_STATUS_SQL)) {
             statement.setString(1, orderStatus);
@@ -191,6 +201,7 @@ public class OrderDAO {
     }
 
     public boolean updateStatus(long orderId, String orderStatus, String paymentStatus) throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: updateStatus(order,payment)");
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_ORDER_AND_PAYMENT_STATUS_SQL)) {
             statement.setString(1, orderStatus);

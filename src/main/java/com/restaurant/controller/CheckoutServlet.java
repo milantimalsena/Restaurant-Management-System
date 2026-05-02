@@ -21,6 +21,7 @@ public class CheckoutServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("Servlet HIT: CheckoutServlet#doGet");
         if (!SessionUtil.hasRole(request, "CUSTOMER")) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
@@ -56,8 +57,13 @@ public class CheckoutServlet extends HttpServlet {
             request.setAttribute("taxRate", TAX_RATE);
             request.getRequestDispatcher("/customer/checkout.jsp").forward(request, response);
         } catch (SQLException ex) {
-            request.setAttribute("errorMessage", "Unable to load checkout right now.");
-            request.getRequestDispatcher("/customer/checkout.jsp").forward(request, response);
+            ex.printStackTrace();
+            request.setAttribute("jakarta.servlet.error.status_code", 500);
+            request.setAttribute("jakarta.servlet.error.request_uri", request.getRequestURI());
+            request.setAttribute("jakarta.servlet.error.message", ex.getMessage());
+            request.setAttribute("jakarta.servlet.error.exception", ex);
+            request.setAttribute("debugMessage", "Checkout failed: " + ex.getMessage());
+            request.getRequestDispatcher("/common/error.jsp").forward(request, response);
         }
     }
 }

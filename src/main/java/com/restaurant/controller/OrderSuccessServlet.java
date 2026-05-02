@@ -17,6 +17,7 @@ public class OrderSuccessServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("Servlet HIT: OrderSuccessServlet#doGet");
         if (!SessionUtil.hasRole(request, "CUSTOMER")) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
@@ -38,7 +39,9 @@ public class OrderSuccessServlet extends HttpServlet {
             request.setAttribute("order", order);
             request.getRequestDispatcher("/customer/order-success.jsp").forward(request, response);
         } catch (SQLException ex) {
-            response.sendRedirect(request.getContextPath() + "/my-orders");
+            ex.printStackTrace();
+            request.setAttribute("debugMessage", "Unable to load order success details: " + ex.getMessage());
+            request.getRequestDispatcher("/common/error.jsp").forward(request, response);
         }
     }
 }

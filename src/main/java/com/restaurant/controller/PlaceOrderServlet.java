@@ -26,6 +26,7 @@ public class PlaceOrderServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("Servlet HIT: PlaceOrderServlet#doPost");
         if (!SessionUtil.hasRole(request, "CUSTOMER")) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
@@ -120,8 +121,13 @@ public class PlaceOrderServlet extends HttpServlet {
             long orderId = orderDAO.createOrder(order);
             response.sendRedirect(request.getContextPath() + "/order-success?orderId=" + orderId);
         } catch (SQLException ex) {
-            request.getSession().setAttribute("checkoutError", "Order placement failed. Please try again.");
-            response.sendRedirect(request.getContextPath() + "/checkout");
+            ex.printStackTrace();
+            request.setAttribute("jakarta.servlet.error.status_code", 500);
+            request.setAttribute("jakarta.servlet.error.request_uri", request.getRequestURI());
+            request.setAttribute("jakarta.servlet.error.message", ex.getMessage());
+            request.setAttribute("jakarta.servlet.error.exception", ex);
+            request.setAttribute("debugMessage", "Order placement failed: " + ex.getMessage());
+            request.getRequestDispatcher("/common/error.jsp").forward(request, response);
         }
     }
 

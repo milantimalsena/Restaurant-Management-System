@@ -11,22 +11,32 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RegisterServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(RegisterServlet.class.getName());
     private final UserDAO userDAO = new UserDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("Servlet HIT: RegisterServlet#doGet");
         request.getRequestDispatcher("/public/register.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String fullName = request.getParameter("fullName");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
+        System.out.println("Servlet HIT: RegisterServlet#doPost");
+        String fullName = ValidationUtil.sanitize(request.getParameter("fullName"));
+        String email = ValidationUtil.sanitize(request.getParameter("email"));
+        String phone = ValidationUtil.sanitize(request.getParameter("phone"));
         String password = request.getParameter("password");
-        String address = request.getParameter("address");
+        String address = ValidationUtil.sanitize(request.getParameter("address"));
+
+        request.setAttribute("fullName", fullName);
+        request.setAttribute("email", email);
+        request.setAttribute("phone", phone);
+        request.setAttribute("address", address);
 
         if (!ValidationUtil.isRequiredValid(fullName)
                 || !ValidationUtil.isEmailValid(email)
@@ -38,18 +48,26 @@ public class RegisterServlet extends HttpServlet {
         }
 
         try {
-            if (userDAO.emailExists(email.trim())) {
+            String normalizedEmail = email.toLowerCase();
+            if (userDAO.emailExists(normalizedEmail)) {
                 request.setAttribute("errorMessage", "Email is already registered. Please use another email.");
                 request.getRequestDispatcher("/public/register.jsp").forward(request, response);
                 return;
             }
 
+            if (userDAO.phoneExists(phone)) {
+                request.setAttribute("errorMessage", "Phone number is already registered. Please use another phone number.");
+                request.getRequestDispatcher("/public/register.jsp").forward(request, response);
+                return;
+            }
+
             User user = new User();
-            user.setFullName(fullName.trim());
-            user.setEmail(email.trim().toLowerCase());
-            user.setPhone(phone.trim());
+            user.setFullName(fullName);
+            user.setEmail(normalizedEmail);
+            user.setPhone(phone);
             user.setPasswordHash(PasswordUtil.hashPassword(password));
-            user.setAddress(address == null ? null : address.trim());
+            user.setAddress(address);
+            user.setStatus("ACTIVE");
 
             boolean created = userDAO.createUser(user);
             if (created) {
@@ -60,8 +78,14 @@ public class RegisterServlet extends HttpServlet {
                 request.getRequestDispatcher("/public/register.jsp").forward(request, response);
             }
         } catch (SQLException ex) {
-            request.setAttribute("errorMessage", "Unable to process request at the moment.");
-            request.getRequestDispatcher("/public/register.jsp").forward(request, response);
+            LOGGER.log(Level.SEVERE, "Registration failed in RegisterServlet", ex);
+            ex.printStackTrace();
+            request.setAttribute("jakarta.servlet.error.status_code", 500);
+            request.setAttribute("jakarta.servlet.error.request_uri", request.getRequestURI());
+            request.setAttribute("jakarta.servlet.error.message", ex.getMessage());
+            request.setAttribute("jakarta.servlet.error.exception", ex);
+            request.setAttribute("debugMessage", "Registration failed: " + ex.getMessage());
+            request.getRequestDispatcher("/common/error.jsp").forward(request, response);
         }
     }
 }

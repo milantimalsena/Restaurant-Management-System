@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,22 +55,22 @@
     <h3 class="fw-bold mb-2">Welcome Back</h3>
     <p class="mb-4">Login to your customer account</p>
 
-    <% if (request.getParameter("sessionExpired") != null) { %>
-    <div class="alert alert-warning">Session expired. Please login again.</div>
-    <% } %>
+    <c:if test="${not empty param.sessionExpired}">
+        <div class="alert alert-warning">Session expired. Please login again.</div>
+    </c:if>
 
-    <% if (request.getAttribute("errorMessage") != null) { %>
-    <div class="alert alert-danger"><%= request.getAttribute("errorMessage") %></div>
-    <% } %>
+    <c:if test="${not empty errorMessage}">
+        <div class="alert alert-danger">${errorMessage}</div>
+    </c:if>
 
-    <% if (request.getAttribute("successMessage") != null) { %>
-    <div class="alert alert-success"><%= request.getAttribute("successMessage") %></div>
-    <% } %>
+    <c:if test="${not empty successMessage}">
+        <div class="alert alert-success">${successMessage}</div>
+    </c:if>
 
     <form method="post" action="${pageContext.request.contextPath}/login">
         <div class="mb-3">
             <label class="form-label">Email</label>
-            <input type="email" name="email" class="form-control" value="<%= request.getAttribute("rememberedEmail") != null ? request.getAttribute("rememberedEmail") : "" %>" required>
+            <input type="email" name="email" class="form-control" value="${rememberedEmail}" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Password</label>

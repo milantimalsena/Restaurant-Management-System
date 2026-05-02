@@ -9,11 +9,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAO {
-    private static final String INSERT_USER_SQL = "INSERT INTO users (full_name, email, phone, password_hash, address, status) VALUES (?, ?, ?, ?, ?, 'ACTIVE')";
+    private static final String INSERT_USER_SQL = "INSERT INTO users (full_name, email, phone, password_hash, address, status) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String FIND_BY_EMAIL_SQL = "SELECT user_id, full_name, email, phone, password_hash, address, status, created_at, updated_at FROM users WHERE email = ? LIMIT 1";
     private static final String CHECK_EMAIL_EXISTS_SQL = "SELECT 1 FROM users WHERE email = ? LIMIT 1";
+    private static final String CHECK_PHONE_EXISTS_SQL = "SELECT 1 FROM users WHERE phone = ? LIMIT 1";
 
     public boolean emailExists(String email) throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: emailExists");
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(CHECK_EMAIL_EXISTS_SQL)) {
             statement.setString(1, email);
@@ -23,7 +25,19 @@ public class UserDAO {
         }
     }
 
+    public boolean phoneExists(String phone) throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: phoneExists");
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(CHECK_PHONE_EXISTS_SQL)) {
+            statement.setString(1, phone);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                return resultSet.next();
+            }
+        }
+    }
+
     public boolean createUser(User user) throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: createUser");
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(INSERT_USER_SQL)) {
             statement.setString(1, user.getFullName());
@@ -31,11 +45,13 @@ public class UserDAO {
             statement.setString(3, user.getPhone());
             statement.setString(4, user.getPasswordHash());
             statement.setString(5, user.getAddress());
+            statement.setString(6, user.getStatus() == null ? "ACTIVE" : user.getStatus());
             return statement.executeUpdate() > 0;
         }
     }
 
     public User findByEmail(String email) throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: findByEmail");
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_BY_EMAIL_SQL)) {
             statement.setString(1, email);
