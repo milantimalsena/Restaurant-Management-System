@@ -50,7 +50,8 @@ public class RegisterServlet extends HttpServlet {
         try {
             String normalizedEmail = email.toLowerCase();
             if (userDAO.emailExists(normalizedEmail)) {
-                request.setAttribute("errorMessage", "Email is already registered. Please use another email.");
+                // Provide clearer message when an account with the email already exists
+                request.setAttribute("errorMessage", "The user with this email already exists.");
                 request.getRequestDispatcher("/public/register.jsp").forward(request, response);
                 return;
             }
