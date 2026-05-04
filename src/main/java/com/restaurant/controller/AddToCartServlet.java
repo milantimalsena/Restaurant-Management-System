@@ -23,22 +23,33 @@ public class AddToCartServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("AddToCart HIT");
         Long userId = SessionUtil.getLoggedInUserId(request);
         String itemIdParam = ValidationUtil.sanitize(request.getParameter("itemId"));
         String qtyParam = ValidationUtil.sanitize(request.getParameter("qty"));
         String redirect = ValidationUtil.sanitize(request.getParameter("redirect"));
 
-        if (!ValidationUtil.isValidIntegerRange(itemIdParam, 1, Integer.MAX_VALUE)) {
+        System.out.println("AddToCart: userId=" + userId + ", itemIdParam=" + itemIdParam + ", qtyParam=" + qtyParam);
+
+        long itemId;
+        try {
+            itemId = Long.parseLong(itemIdParam);
+            if (itemId < 1L) {
+                response.sendRedirect(request.getContextPath() + "/menu");
+                return;
+            }
+        } catch (NumberFormatException e) {
             response.sendRedirect(request.getContextPath() + "/menu");
             return;
         }
 
         int qty = 1;
-        if (ValidationUtil.isValidIntegerRange(qtyParam, 1, 20)) {
-            qty = Integer.parseInt(qtyParam);
+        try {
+            int parsedQty = Integer.parseInt(qtyParam == null ? "1" : qtyParam);
+            qty = ValidationUtil.clampQuantity(parsedQty);
+        } catch (NumberFormatException ignored) {
+            qty = 1;
         }
-
-        long itemId = Long.parseLong(itemIdParam);
 
         MenuItem item;
         try {
@@ -54,31 +65,34 @@ public class AddToCartServlet extends HttpServlet {
             return;
         }
 
-        // If user is logged in as CUSTOMER use persistent cart
-        if (SessionUtil.hasRole(request, "CUSTOMER") && userId != null) {
-            try {
-                boolean success = cartDAO.addToCart(userId, itemId, qty);
-                request.getSession().setAttribute("cartMessage", success ? "Item added to cart." : "This item is currently unavailable or out of stock.");
-            } catch (SQLException ex) {
-                request.getSession().setAttribute("cartMessage", "Unable to add item right now.");
-            }
-        } else {
-            // Allow guests to add items into session-based cart
-            HttpSession session = request.getSession(true);
-            @SuppressWarnings("unchecked")
-            Map<Long, Integer> guestCart = (Map<Long, Integer>) session.getAttribute("guestCart");
-            if (guestCart == null) {
-                guestCart = new HashMap<>();
-            }
-            int existing = guestCart.getOrDefault(itemId, 0);
-            int newQty = ValidationUtil.clampQuantity(existing + qty);
-            guestCart.put(itemId, newQty);
-            session.setAttribute("guestCart", guestCart);
+        // Require login to add to persistent cart. If user is not logged in, redirect to login page.
+        if (!SessionUtil.hasRole(request, "CUSTOMER") || userId == null) {
+            System.out.println("AddToCart: user not authenticated, redirecting to login");
+            String dest = request.getRequestURI();
+            String query = request.getQueryString();
+            String returnTo = dest + (query == null ? "" : "?" + query);
+            response.sendRedirect(request.getContextPath() + "/login?redirect=" + java.net.URLEncoder.encode(returnTo, java.nio.charset.StandardCharsets.UTF_8));
+            return;
+        }
 
-            // store cart count in session for navbar convenience
-            int cartCount = guestCart.values().stream().mapToInt(Integer::intValue).sum();
-            session.setAttribute("cartCount", cartCount);
-            session.setAttribute("cartMessage", "Item added to cart.");
+        // If user is logged in as CUSTOMER use persistent cart
+        try {
+            boolean success = cartDAO.addToCart(userId, itemId, qty);
+            if (success) {
+                // update persistent cart count in session so navbar shows accurate count
+                try {
+                    int count = cartDAO.getCartCount(userId);
+                    request.getSession().setAttribute("cartCount", count);
+                } catch (SQLException e) {
+                    System.out.println("AddToCart: failed to fetch cart count: " + e.getMessage());
+                }
+                request.getSession().setAttribute("cartMessage", "Item added to cart.");
+            } else {
+                request.getSession().setAttribute("cartMessage", "This item is currently unavailable or out of stock.");
+            }
+        } catch (SQLException ex) {
+            System.out.println("AddToCart: SQLException while adding to cart: " + ex.getMessage());
+            request.getSession().setAttribute("cartMessage", "Unable to add item right now.");
         }
 
         if (ValidationUtil.isRequiredValid(redirect)) {
