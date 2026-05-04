@@ -255,17 +255,27 @@
                                             </span>
                                         </div>
 
-                                        <form method="post" action="${pageContext.request.contextPath}/cart/add"
-                                              class="add-cart-form"
-                                              data-available="${item.available}"
-                                              data-item-name="${fn:escapeXml(item.itemName)}">
-                                            <input type="hidden" name="itemId" value="${item.itemId}" />
-                                            <input type="hidden" name="qty" value="1" />
-                                            <input type="hidden" name="redirect" value="/cart" />
-                                            <button type="submit" class="btn btn-dark rounded-pill px-4 py-2 w-100 fw-semibold">
-                                                Add to Cart
-                                            </button>
-                                        </form>
+                                        <c:choose>
+                                            <c:when test="${not empty sessionScope.userId}">
+                                                <form method="post" action="${pageContext.request.contextPath}/cart/add"
+                                                      class="add-cart-form d-flex gap-2 align-items-center"
+                                                      data-available="${item.available}"
+                                                      data-item-name="${fn:escapeXml(item.itemName)}">
+                                                    <input type="hidden" name="itemId" value="${item.itemId}" />
+                                                    <input type="hidden" name="redirect" value="/cart" />
+                                                    <input type="number" name="qty" value="1" min="1" max="20" class="form-control form-control-sm" style="width:5.5rem;" />
+                                                    <button type="submit" class="btn btn-primary rounded-pill px-3 py-2 fw-semibold flex-grow-1">
+                                                        <i class="bi bi-cart-plus-fill me-1" aria-hidden="true"></i> Add to Cart
+                                                    </button>
+                                                </form>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="${pageContext.request.contextPath}/login?redirect=${pageContext.request.requestURI}"
+                                                   class="btn btn-outline-primary rounded-pill px-4 py-2 w-100 fw-semibold">
+                                                    Please login to add
+                                                </a>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                 </div>
                             </article>
