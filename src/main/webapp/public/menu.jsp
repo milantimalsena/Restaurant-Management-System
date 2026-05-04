@@ -11,6 +11,13 @@
 <head>
     <title>${pageTitle}</title>
     <jsp:include page="/includes/header.jsp" />
+    <c:if test="${param.debug == '1'}">
+        <style>
+            /* Visual debug helpers: force show add-to-cart button and highlight */
+            .add-cart-form button { display: inline-flex !important; visibility: visible !important; opacity: 1 !important; background: #ef4444 !important; color: #fff !important; border-color: #ef4444 !important; }
+            .add-cart-form { outline: 3px solid rgba(239,68,68,0.12); }
+        </style>
+    </c:if>
     <style>
         :root {
             --sr-dark: #0f172a;
