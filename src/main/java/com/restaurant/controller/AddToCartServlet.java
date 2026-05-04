@@ -71,7 +71,12 @@ public class AddToCartServlet extends HttpServlet {
             String dest = request.getRequestURI();
             String query = request.getQueryString();
             String returnTo = dest + (query == null ? "" : "?" + query);
-            response.sendRedirect(request.getContextPath() + "/login?redirect=" + java.net.URLEncoder.encode(returnTo, java.nio.charset.StandardCharsets.UTF_8));
+            try {
+                String encoded = java.net.URLEncoder.encode(returnTo, java.nio.charset.StandardCharsets.UTF_8.name());
+                response.sendRedirect(request.getContextPath() + "/login?redirect=" + encoded);
+            } catch (java.io.UnsupportedEncodingException e) {
+                response.sendRedirect(request.getContextPath() + "/login");
+            }
             return;
         }
 
