@@ -256,7 +256,8 @@
                                         </div>
 
                                         <c:choose>
-                                            <c:when test="${not empty sessionScope.userId}">
+                                            <!-- Show Add-to-cart form if we have a logged-in customer in any of the common session attributes -->
+                                            <c:when test="${not empty sessionScope.userId or sessionScope.userRole eq 'CUSTOMER' or not empty sessionScope.user}">
                                                 <form method="post" action="${pageContext.request.contextPath}/cart/add"
                                                       class="add-cart-form d-flex gap-2 align-items-center"
                                                       data-available="${item.available}"
