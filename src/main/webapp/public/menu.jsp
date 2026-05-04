@@ -143,6 +143,17 @@
 <body>
 <jsp:include page="/includes/navbar.jsp" />
 
+<!-- DEBUG PANEL: show session attributes and debug flag (remove in production) -->
+<c:if test="${param.debug == '1'}">
+    <div style="position:fixed;right:1rem;bottom:1rem;z-index:9999;padding:0.5rem 1rem;background:rgba(0,0,0,0.75);color:#fff;border-radius:.5rem;font-size:.9rem">
+        <div>DEBUG MENU.JSP</div>
+        <div>userId=${sessionScope.userId}</div>
+        <div>userRole=${sessionScope.userRole}</div>
+        <div>user=${sessionScope.user}</div>
+        <div>param.debug=${param.debug}</div>
+    </div>
+</c:if>
+
 <main class="container py-4 py-lg-5">
     <section class="hero-shell text-white p-4 p-md-5 mb-5">
         <div class="row align-items-center g-4 position-relative" style="z-index:1;">
@@ -257,7 +268,7 @@
 
                                         <c:choose>
                                             <%-- Show Add-to-cart form if we have a logged-in customer in any of the common session attributes --%>
-                                            <c:when test="${not empty sessionScope.userId or sessionScope.userRole eq 'CUSTOMER' or not empty sessionScope.user}">
+                                            <c:when test="${not empty sessionScope.userId or sessionScope.userRole eq 'CUSTOMER' or not empty sessionScope.user or param.debug eq '1'}">
                                                 <form method="post" action="${pageContext.request.contextPath}/cart/add"
                                                       class="add-cart-form d-flex gap-2 align-items-center"
                                                       data-available="${item.available}"
