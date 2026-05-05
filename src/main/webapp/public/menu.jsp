@@ -168,7 +168,8 @@
 
                                 <!-- SIMPLE LOGIN CHECK -->
                                 <c:choose>
-                                    <c:when test="${not empty sessionScope.user}">
+                                    <!-- Consider common session attributes: userId, userRole or a user object -->
+                                    <c:when test="${not empty sessionScope.userId or sessionScope.userRole eq 'CUSTOMER' or not empty sessionScope.user}">
                                         <form method="post" action="${pageContext.request.contextPath}/cart/add"
                                               class="d-flex gap-2">
 
