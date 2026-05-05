@@ -352,42 +352,42 @@
             <div class="row g-4">
                 <div class="col-md-6 col-xl-4">
                     <div class="feature-tile p-4 h-100">
-                        <div class="feature-icon mb-3"><i class="bi bi-bag-check"></i></div>
+                                <div class="feature-icon mb-3"><i class="fa-solid fa-bag-shopping"></i></div>
                         <h3 class="h5 fw-bold">Online Ordering</h3>
                         <p class="text-secondary mb-0">Guests can browse the menu, add items, and move through checkout with minimal friction.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-xl-4">
                     <div class="feature-tile p-4 h-100">
-                        <div class="feature-icon mb-3"><i class="bi bi-calendar-check"></i></div>
+                        <div class="feature-icon mb-3"><i class="fa-solid fa-calendar-check"></i></div>
                         <h3 class="h5 fw-bold">Table Reservation</h3>
                         <p class="text-secondary mb-0">Reservation-ready flows make it easy to schedule visits for dine-in customers and events.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-xl-4">
                     <div class="feature-tile p-4 h-100">
-                        <div class="feature-icon mb-3"><i class="bi bi-truck"></i></div>
+                        <div class="feature-icon mb-3"><i class="fa-solid fa-truck"></i></div>
                         <h3 class="h5 fw-bold">Fast Delivery</h3>
                         <p class="text-secondary mb-0">Support for delivery orders, address capture, and clear checkout notes for courier handoff.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-xl-4">
                     <div class="feature-tile p-4 h-100">
-                        <div class="feature-icon mb-3"><i class="bi bi-shield-lock"></i></div>
+                        <div class="feature-icon mb-3"><i class="fa-solid fa-shield-halved"></i></div>
                         <h3 class="h5 fw-bold">Secure Payments</h3>
                         <p class="text-secondary mb-0">Designed for card and e-wallet simulation flows like eSewa and Khalti while keeping server-side validation strict.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-xl-4">
                     <div class="feature-tile p-4 h-100">
-                        <div class="feature-icon mb-3"><i class="bi bi-activity"></i></div>
+                        <div class="feature-icon mb-3"><i class="fa-solid fa-chart-line"></i></div>
                         <h3 class="h5 fw-bold">Live Order Tracking</h3>
                         <p class="text-secondary mb-0">Status badges and tracking-ready data structures support real-time order updates later.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-xl-4">
                     <div class="feature-tile p-4 h-100">
-                        <div class="feature-icon mb-3"><i class="bi bi-receipt"></i></div>
+                        <div class="feature-icon mb-3"><i class="fa-solid fa-receipt"></i></div>
                         <h3 class="h5 fw-bold">Invoice & History</h3>
                         <p class="text-secondary mb-0">Order history and printable invoices make the platform useful for both customers and admins.</p>
                     </div>
@@ -397,74 +397,47 @@
 
         <!-- Stats Section -->
         <section class="mb-5">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
+                <div>
+                    <p class="section-label mb-2">By the numbers</p>
+                    <h2 class="display-6 fw-bold mb-2">A growing community of food lovers</h2>
+                    <p class="text-secondary mb-0">Key stats can be rendered through request attributes like <code>totalOrders</code>, <code>avgRating</code>, and <code>totalCustomers</code> for dynamic updates.</p>
+                </div>
+            </div>
+
             <div class="row g-4">
-                <div class="col-6 col-xl-3">
-                    <div class="stat-tile p-4 h-100 text-center">
-                        <div class="text-secondary small text-uppercase fw-semibold mb-2">Total Customers</div>
-                        <div class="display-6 fw-bold text-dark mb-0">${empty totalCustomers ? '1.2K+' : totalCustomers}</div>
+                <div class="col-sm-6 col-xl-4">
+                    <div class="stat-tile p-4 h-100">
+                        <div class="text-secondary small">Total Orders</div>
+                        <div class="display-6 fw-bold text-dark mb-0">12,483</div>
                     </div>
                 </div>
-                <div class="col-6 col-xl-3">
-                    <div class="stat-tile p-4 h-100 text-center">
-                        <div class="text-secondary small text-uppercase fw-semibold mb-2">Total Orders</div>
-                        <div class="display-6 fw-bold text-dark mb-0">${empty totalOrders ? '8.4K+' : totalOrders}</div>
+                <div class="col-sm-6 col-xl-4">
+                    <div class="stat-tile p-4 h-100">
+                        <div class="text-secondary small">Average Rating</div>
+                        <div class="display-6 fw-bold text-dark mb-0">4.7 / 5.0</div>
                     </div>
                 </div>
-                <div class="col-6 col-xl-3">
-                    <div class="stat-tile p-4 h-100 text-center">
-                        <div class="text-secondary small text-uppercase fw-semibold mb-2">Branches</div>
-                        <div class="display-6 fw-bold text-dark mb-0">${empty totalRestaurants ? '12' : totalRestaurants}</div>
-                    </div>
-                </div>
-                <div class="col-6 col-xl-3">
-                    <div class="stat-tile p-4 h-100 text-center">
-                        <div class="text-secondary small text-uppercase fw-semibold mb-2">Happy Reviews</div>
-                        <div class="display-6 fw-bold text-dark mb-0">${empty happyReviews ? '2.6K+' : happyReviews}</div>
+                <div class="col-sm-6 col-xl-4">
+                    <div class="stat-tile p-4 h-100">
+                        <div class="text-secondary small">Total Customers</div>
+                        <div class="display-6 fw-bold text-dark mb-0">3,256</div>
                     </div>
                 </div>
             </div>
-        </section>
 
         <!-- About Section -->
         <section class="section-soft p-4 p-lg-5 mb-5">
-            <div class="row align-items-center g-4 g-lg-5">
-                <div class="col-lg-6 order-2 order-lg-1">
-                    <p class="section-label mb-2">About the Platform</p>
-                    <h2 class="display-6 fw-bold mb-3">Restaurant operations, digitized with clarity</h2>
-                    <p class="text-secondary">Himalayan Yaks is built to unify menus, customer ordering, table reservations, and invoice generation in one clean MVC-based application.</p>
-                    <p class="text-secondary mb-4">It helps restaurants move from manual workflows to a structured digital experience that is easier to maintain, scale, and extend with new features like loyalty points, branch analytics, and delivery zones.</p>
-                    <div class="row g-3">
-                        <div class="col-sm-6">
-                            <div class="glass-card p-3 h-100">
-                                <div class="fw-bold text-dark mb-1"><i class="bi bi-check-circle-fill text-success me-2"></i>Customer-first UI</div>
-                                <div class="text-secondary small">Fast browsing, clear CTAs, and mobile-friendly layout.</div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="glass-card p-3 h-100">
-                                <div class="fw-bold text-dark mb-1"><i class="bi bi-check-circle-fill text-success me-2"></i>Clean MVC structure</div>
-                                <div class="text-secondary small">View-only JSP pages with backend-ready request attributes.</div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="row align-items-center g-4">
+                <div class="col-lg-6">
+                    <div class="about-visual"></div>
                 </div>
-                <div class="col-lg-6 order-1 order-lg-2">
-                    <div class="about-visual position-relative p-4 p-md-5 d-flex align-items-end text-white">
-                        <div class="w-100">
-                            <div class="glass-card p-4 bg-dark bg-opacity-50 text-white border-0">
-                                <div class="d-flex flex-wrap gap-2 mb-3">
-                                    <span class="badge rounded-pill text-bg-light text-dark">Digital Menu</span>
-                                    <span class="badge rounded-pill text-bg-light text-dark">Smart Checkout</span>
-                                    <span class="badge rounded-pill text-bg-light text-dark">Invoice Ready</span>
-                                </div>
-                                <h3 class="h4 fw-bold mb-2">A modern dining experience for the next generation of restaurants</h3>
-                                <p class="mb-0 text-white-75">Built to support growth, reduce manual work, and keep the ordering journey smooth from discovery to payment.</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-lg-6">
+                    <p class="section-label mb-2">Our Story</p>
+                    <h2 class="display-6 fw-bold mb-2">Inspired by the Himalayas, built for the world</h2>
+                    <p class="text-secondary mb-0">Himalayan Yaks was born from a desire to create a restaurant experience that captures the warmth and richness of Himalayan culture while embracing the possibilities of modern technology. Our platform is designed to make dining seamless and enjoyable for everyone, whether you're ordering from home or visiting us in person.</p>
                 </div>
             </div>
-        </section>
     </main>
 
     <jsp:include page="/includes/footer.jsp" />
