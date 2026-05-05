@@ -42,20 +42,23 @@
 
         .food-card {
             background: #fff;
-            border-radius: 1.5rem;
+            border-radius: 0.25rem; /* sharper, modern, premium look */
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: 0.25s;
+            border: 1px solid rgba(0,0,0,0.05); /* very subtle border */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03); /* soft realistic shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .food-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 45px rgba(0,0,0,0.08);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); /* slick lift effect */
         }
 
         .food-media {
-            height: 200px;
+            height: 260px; /* taller image container for vertical impact */
+            position: relative;
             overflow: hidden;
         }
 
@@ -63,13 +66,49 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .food-card:hover .food-media img {
+            transform: scale(1.05); /* subtle zoom */
+        }
+
+        .item-desc {
+            display: none; /* hidden by default, toggled later */
+            margin-bottom: 1.5rem;
+            color: #6b7280;
+            font-size: .92rem;
+            font-style: italic;
+        }
+
+        .toggle-desc {
+            font-size: 0.85rem;
+            color: #6b7280;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+
+        .toggle-desc:hover {
+            color: #1e293b;
         }
 
         .availability-chip {
-            font-size: 0.75rem;
-            padding: 0.4rem 0.7rem;
-            border-radius: 999px;
-            font-weight: 600;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.95);
+            font-size: 0.7rem;
+            padding: 0.35rem 0.6rem;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .btn-primary {
@@ -83,7 +122,7 @@
 
 <jsp:include page="/includes/navbar.jsp" />
 
-<main class="container py-5">
+<main class="container py-5" style="max-width: 1400px;">
 
     <!-- HERO -->
     <section class="hero-clean mb-5">
@@ -134,60 +173,67 @@
 
     <!-- MENU ITEMS -->
     <section>
-        <div class="row g-4">
+        <div class="row g-4 g-lg-5 justify-content-center">
 
             <c:forEach var="item" items="${menuItems}">
-                <div class="col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-4">
 
                     <div class="food-card h-100">
 
                         <div class="food-media">
-                            <img src="https://source.unsplash.com/600x400/?${fn:replace(item.itemName,' ','+')}"
-                                 alt="${item.itemName}" />
+                            <c:choose>
+                                <c:when test="${not empty item.imagePath}">
+                                    <img src="${pageContext.request.contextPath}/${item.imagePath}"
+                                         alt="${item.itemName}"
+                                         onerror="this.onerror=null;this.src='https://source.unsplash.com/600x400/?${fn:replace(item.itemName,' ','+')}';" />
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="https://source.unsplash.com/600x400/?${fn:replace(item.itemName,' ','+')}"
+                                         alt="${item.itemName}" />
+                                </c:otherwise>
+                            </c:choose>
+                            <span class="availability-chip ${item.available ? 'text-success' : 'text-danger'}">
+                                ${item.available ? 'Available' : 'Out'}
+                            </span>
                         </div>
 
-                        <div class="p-4 d-flex flex-column">
+                        <div class="p-4 d-flex flex-column flex-grow-1 text-center align-items-center">
 
-                            <h5 class="fw-bold">${item.itemName}</h5>
-                            <p class="text-secondary small">
-                                    ${empty item.description ? 'Delicious and freshly prepared.' : item.description}
+                            <h5 class="fw-bold mb-2 text-uppercase" style="letter-spacing: 1px;">${item.itemName}</h5>
+                            <button type="button" class="toggle-desc" aria-expanded="false" title="Show details">more</button>
+
+                            <p class="item-desc">
+                                ${empty item.description ? 'Delicious and freshly prepared.' : item.description}
                             </p>
 
-                            <div class="mt-auto">
+                            <div class="mt-auto w-100">
 
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <span class="fw-bold">
-                                        NPR <fmt:formatNumber value="${item.price}" minFractionDigits="2" />
-                                    </span>
-
-                                    <span class="availability-chip
-                                        ${item.available ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'}">
-                                            ${item.available ? 'Available' : 'Out'}
-                                    </span>
+                                <div class="fw-bold fs-5 mb-3" style="color: #1e293b;">
+                                    NPR <fmt:formatNumber value="${item.price}" minFractionDigits="2" />
                                 </div>
 
                                 <!-- SIMPLE LOGIN CHECK -->
                                 <c:choose>
-                                    <!-- Consider common session attributes: userId, userRole or a user object -->
+                                    <%-- Consider common session attributes: userId, userRole or a user object --%>
                                     <c:when test="${not empty sessionScope.userId or sessionScope.userRole eq 'CUSTOMER' or not empty sessionScope.user}">
                                         <form method="post" action="${pageContext.request.contextPath}/cart/add"
-                                              class="d-flex gap-2">
+                                              class="d-flex gap-2 justify-content-center">
 
                                             <input type="hidden" name="itemId" value="${item.itemId}" />
 
                                             <input type="number" name="qty" value="1" min="1"
-                                                   class="form-control" style="width:70px;" />
+                                                   class="form-control text-center" style="width:70px;" />
 
-                                            <button class="btn btn-primary w-100"
+                                            <button class="btn btn-primary flex-grow-1" style="max-width: 140px;"
                                                 ${!item.available ? "disabled" : ""}>
-                                                Add
+                                                Add to Cart
                                             </button>
                                         </form>
                                     </c:when>
 
                                     <c:otherwise>
                                         <a href="${pageContext.request.contextPath}/login"
-                                           class="btn btn-outline-primary w-100">
+                                           class="btn btn-outline-primary px-4">
                                             Login to Order
                                         </a>
                                     </c:otherwise>
@@ -266,3 +312,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.toggle-desc').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const card = btn.closest('.food-card');
+            if (!card) return;
+            const desc = card.querySelector('.item-desc');
+            if (!desc) return;
+            const isVisible = window.getComputedStyle(desc).display !== 'none';
+            desc.style.display = isVisible ? 'none' : 'block';
+            btn.textContent = isVisible ? 'more' : 'less';
+            btn.setAttribute('aria-expanded', String(!isVisible));
+        });
+    });
+});
+</script>
+
