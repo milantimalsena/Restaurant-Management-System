@@ -210,3 +210,59 @@
 
 </body>
 </html>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const forms = document.querySelectorAll('form[action$="/cart/add"]');
+    if (!forms) return;
+
+    forms.forEach(form => {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const fd = new FormData(form);
+            // send AJAX POST
+            fetch(form.action + '?ajax=1', {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: fd,
+                credentials: 'same-origin'
+            }).then(resp => {
+                if (!resp.ok) throw new Error('Network response was not ok');
+                return resp.json();
+            }).then(json => {
+                // show simple toast
+                const msg = json.message || (json.success ? 'Item added to cart.' : 'Unable to add item.');
+                showToast(msg, json.success);
+                if (json.cartCount !== undefined) {
+                    const el = document.getElementById('navCartCount');
+                    if (el) el.textContent = json.cartCount;
+                }
+            }).catch(err => {
+                console.error('Add to cart failed', err);
+                showToast('Unable to add item right now.', false);
+            });
+        });
+    });
+
+    function showToast(message, success = true) {
+        const toast = document.createElement('div');
+        toast.textContent = message;
+        toast.style.position = 'fixed';
+        toast.style.right = '1rem';
+        toast.style.top = '1rem';
+        toast.style.zIndex = 99999;
+        toast.style.padding = '0.75rem 1rem';
+        toast.style.borderRadius = '0.5rem';
+        toast.style.color = '#fff';
+        toast.style.background = success ? 'green' : '#c0392b';
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.style.transition = 'opacity 0.5s ease';
+            toast.style.opacity = '0';
+        }, 1800);
+        setTimeout(() => toast.remove(), 2400);
+    }
+});
+</script>

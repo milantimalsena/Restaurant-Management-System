@@ -81,23 +81,45 @@ public class AddToCartServlet extends HttpServlet {
         }
 
         // If user is logged in as CUSTOMER use persistent cart
+        boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With")) || "1".equals(request.getParameter("ajax"));
+        boolean added = false;
+        int newCount = -1;
+        String resultMessage = "";
         try {
             boolean success = cartDAO.addToCart(userId, itemId, qty);
             if (success) {
-                // update persistent cart count in session so navbar shows accurate count
+                added = true;
                 try {
-                    int count = cartDAO.getCartCount(userId);
-                    request.getSession().setAttribute("cartCount", count);
+                    newCount = cartDAO.getCartCount(userId);
+                    request.getSession().setAttribute("cartCount", newCount);
                 } catch (SQLException e) {
                     System.out.println("AddToCart: failed to fetch cart count: " + e.getMessage());
                 }
-                request.getSession().setAttribute("cartMessage", "Item added to cart.");
+                resultMessage = "Item added to cart.";
+                request.getSession().setAttribute("cartMessage", resultMessage);
             } else {
-                request.getSession().setAttribute("cartMessage", "This item is currently unavailable or out of stock.");
+                resultMessage = "This item is currently unavailable or out of stock.";
+                request.getSession().setAttribute("cartMessage", resultMessage);
             }
         } catch (SQLException ex) {
             System.out.println("AddToCart: SQLException while adding to cart: " + ex.getMessage());
-            request.getSession().setAttribute("cartMessage", "Unable to add item right now.");
+            resultMessage = "Unable to add item right now.";
+            request.getSession().setAttribute("cartMessage", resultMessage);
+        }
+
+        if (isAjax) {
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            StringBuilder sb = new StringBuilder();
+            sb.append('{');
+            sb.append("\"success\":").append(added).append(',');
+            sb.append("\"message\":\"").append(resultMessage.replace("\"","\\\"")).append("\"");
+            if (newCount >= 0) {
+                sb.append(',').append("\"cartCount\":").append(newCount);
+            }
+            sb.append('}');
+            response.getWriter().write(sb.toString());
+            return;
         }
 
         if (ValidationUtil.isRequiredValid(redirect)) {

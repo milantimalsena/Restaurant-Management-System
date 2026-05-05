@@ -48,7 +48,7 @@
                         </c:choose>
                         <a class="relative inline-flex items-center justify-center rounded-full border border-white/15 px-4 py-2 text-sm font-bold text-stone-100 no-underline transition hover:bg-white/10" href="${pageContext.request.contextPath}/cart">
                             Cart
-                            <span class="ml-2 inline-flex min-w-6 items-center justify-center rounded-full bg-red-500 px-2 py-0.5 text-xs font-black text-white">${cartCountValue}</span>
+                            <span id="navCartCount" class="ml-2 inline-flex min-w-6 items-center justify-center rounded-full bg-red-500 px-2 py-0.5 text-xs font-black text-white">${cartCountValue}</span>
                         </a>
                         <a class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-amber-300 to-orange-500 px-5 py-2 text-sm font-black text-stone-950 no-underline shadow-lg shadow-orange-500/20 transition hover:brightness-105" href="${pageContext.request.contextPath}/logout">Logout</a>
                     </c:when>
