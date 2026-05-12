@@ -59,7 +59,7 @@
     <form method="post" action="${pageContext.request.contextPath}/place-order" id="checkoutForm" novalidate>
         <div class="row g-4">
             <div class="col-lg-7 col-xl-8">
-                <div class="card-glass p-4 p-lg-5 mb-4">
+                <div class="mb-4 rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm lg:p-8">
                     <div class="d-flex justify-content-between align-items-start gap-3 mb-4">
                         <div>
                             <h2 class="h4 fw-bold mb-1">Order Details</h2>
@@ -101,39 +101,65 @@
                 </div>
 
                 <div class="card-glass p-4 p-lg-5 mb-4">
-                    <div class="d-flex justify-content-between align-items-start gap-3 mb-4">
+                    <script src="https://cdn.tailwindcss.com"></script>
+                    <div class="mb-6 flex items-start justify-between gap-4">
                         <div>
-                            <h2 class="h4 fw-bold mb-1">Payment Method</h2>
-                            <p class="text-secondary mb-0">Cash stays unpaid. Card and e-wallet methods are marked as paid.</p>
+                            <h2 class="text-2xl font-bold text-slate-900">Payment Method</h2>
+                            <p class="mt-1 text-sm text-slate-500">Choose how you want to pay for this order.</p>
                         </div>
-                        <span class="badge rounded-pill text-bg-success-subtle text-success-emphasis px-3 py-2">Step 2</span>
+                        <span class="rounded-full bg-emerald-50 px-3 py-1 text-sm font-semibold text-emerald-700">Step 2</span>
                     </div>
 
-                    <div class="row g-3">
-                        <div class="col-md-6 col-xl-3">
-                            <label class="payment-card active w-100 p-3 h-100" for="payCash">
-                                <input class="form-check-input me-2 payment-radio" type="radio" name="paymentMethod" id="payCash" value="CASH" checked />
-                                <div class="mt-3"><div class="fw-bold">Cash</div><small class="text-secondary">Unpaid until collected</small></div>
-                            </label>
-                        </div>
-                        <div class="col-md-6 col-xl-3">
-                            <label class="payment-card w-100 p-3 h-100" for="payCard">
-                                <input class="form-check-input me-2 payment-radio" type="radio" name="paymentMethod" id="payCard" value="CARD" />
-                                <div class="mt-3"><div class="fw-bold">Card</div><small class="text-secondary">Marked as paid</small></div>
-                            </label>
-                        </div>
-                        <div class="col-md-6 col-xl-3">
-                            <label class="payment-card w-100 p-3 h-100" for="payEsewa">
-                                <input class="form-check-input me-2 payment-radio" type="radio" name="paymentMethod" id="payEsewa" value="ESEWA" />
-                                <div class="mt-3"><div class="fw-bold">eSewa</div><small class="text-secondary">Wallet simulation</small></div>
-                            </label>
-                        </div>
-                        <div class="col-md-6 col-xl-3">
-                            <label class="payment-card w-100 p-3 h-100" for="payKhalti">
-                                <input class="form-check-input me-2 payment-radio" type="radio" name="paymentMethod" id="payKhalti" value="KHALTI" />
-                                <div class="mt-3"><div class="fw-bold">Khalti</div><small class="text-secondary">Wallet simulation</small></div>
-                            </label>
-                        </div>
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        <label class="relative block cursor-pointer">
+                            <input type="radio" name="paymentMethod" value="Cash" class="peer sr-only payment-method-radio" checked>
+                            <div class="payment-option-card rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition peer-checked:border-amber-500 peer-checked:ring-4 peer-checked:ring-amber-100">
+                                <div class="flex items-center justify-between gap-3">
+                                    <h3 class="font-bold text-slate-900">Cash</h3>
+                                    <span class="payment-dot h-5 w-5 rounded-full border border-slate-400"></span>
+                                </div>
+                                <p class="mt-2 text-sm text-slate-500">Unpaid until collected</p>
+                            </div>
+                        </label>
+
+                        <label class="relative block cursor-pointer">
+                            <input type="radio" name="paymentMethod" value="Card" class="peer sr-only payment-method-radio">
+                            <div class="payment-option-card rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition peer-checked:border-amber-500 peer-checked:ring-4 peer-checked:ring-amber-100">
+                                <div class="flex items-center justify-between gap-3">
+                                    <h3 class="font-bold text-slate-900">Card</h3>
+                                    <span class="payment-dot h-5 w-5 rounded-full border border-slate-400"></span>
+                                </div>
+                                <p class="mt-2 text-sm text-slate-500">Marked as paid</p>
+                            </div>
+                        </label>
+
+                        <label class="relative block cursor-pointer">
+                            <input type="radio" name="paymentMethod" value="eSewa" class="peer sr-only payment-method-radio">
+                            <div class="payment-option-card rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition peer-checked:border-amber-500 peer-checked:ring-4 peer-checked:ring-amber-100">
+                                <div class="flex items-center justify-between gap-3">
+                                    <h3 class="font-bold text-slate-900">eSewa</h3>
+                                    <span class="payment-dot h-5 w-5 rounded-full border border-slate-400"></span>
+                                </div>
+                                <p class="mt-2 text-sm text-slate-500">Scan and pay</p>
+                            </div>
+                        </label>
+
+                        <label class="relative block cursor-pointer">
+                            <input type="radio" name="paymentMethod" value="Khalti" class="peer sr-only payment-method-radio">
+                            <div class="payment-option-card rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition peer-checked:border-amber-500 peer-checked:ring-4 peer-checked:ring-amber-100">
+                                <div class="flex items-center justify-between gap-3">
+                                    <h3 class="font-bold text-slate-900">Khalti</h3>
+                                    <span class="payment-dot h-5 w-5 rounded-full border border-slate-400"></span>
+                                </div>
+                                <p class="mt-2 text-sm text-slate-500">Scan and pay</p>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div id="qrBox" class="mt-6 hidden rounded-2xl border border-amber-200 bg-amber-50 p-5">
+                        <h3 id="qrTitle" class="font-bold text-slate-900"></h3>
+                        <img id="qrImage" class="mt-4 h-56 w-56 rounded-xl border bg-white object-contain p-3" alt="Payment QR code" />
+                        <p class="mt-3 text-sm text-slate-600">Scan this QR and complete your payment.</p>
                     </div>
                 </div>
 
@@ -261,19 +287,43 @@
         grandEl.textContent = currency(grand);
     }
 
-    document.querySelectorAll('.payment-card').forEach(card => {
-        const radio = card.querySelector('.payment-radio');
-        if (!radio) return;
-        card.addEventListener('click', () => {
-            document.querySelectorAll('.payment-card').forEach(item => item.classList.remove('active'));
-            card.classList.add('active');
-            radio.checked = true;
+    const qrBox = document.getElementById('qrBox');
+    const qrTitle = document.getElementById('qrTitle');
+    const qrImage = document.getElementById('qrImage');
+    const paymentRadios = document.querySelectorAll('.payment-method-radio');
+    const qrPaths = {
+        eSewa: '${pageContext.request.contextPath}/uploads/payments/esewa-qr.png',
+        Khalti: '${pageContext.request.contextPath}/uploads/payments/khalti-qr.png'
+    };
+
+    function updatePaymentMethod() {
+        const selected = document.querySelector('.payment-method-radio:checked')?.value;
+
+        paymentRadios.forEach((radio) => {
+            const dot = radio.closest('label')?.querySelector('.payment-dot');
+            if (!dot) return;
+
+            dot.classList.toggle('border-amber-500', radio.checked);
+            dot.classList.toggle('bg-amber-500', radio.checked);
+            dot.classList.toggle('ring-4', radio.checked);
+            dot.classList.toggle('ring-amber-100', radio.checked);
+            dot.classList.toggle('border-slate-400', !radio.checked);
         });
-        radio.addEventListener('change', () => {
-            document.querySelectorAll('.payment-card').forEach(item => item.classList.remove('active'));
-            card.classList.add('active');
-        });
-    });
+
+        if (selected === 'eSewa' || selected === 'Khalti') {
+            qrTitle.textContent = selected + ' QR Payment';
+            qrImage.src = qrPaths[selected];
+            qrImage.alt = selected + ' payment QR code';
+            qrBox.classList.remove('hidden');
+            return;
+        }
+
+        qrBox.classList.add('hidden');
+        qrImage.removeAttribute('src');
+        qrTitle.textContent = '';
+    }
+
+    paymentRadios.forEach((radio) => radio.addEventListener('change', updatePaymentMethod));
 
     orderType.addEventListener('change', toggleFields);
     promoCodeEl.addEventListener('input', recalculate);
@@ -291,6 +341,7 @@
 
     toggleFields();
     recalculate();
+    updatePaymentMethod();
 })();
 </script>
 </body>

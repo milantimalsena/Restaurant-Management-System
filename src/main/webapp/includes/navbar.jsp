@@ -5,7 +5,7 @@
 <c:set var="cartCountValue" value="${not empty cartCount ? cartCount : (not empty sessionScope.cartCount ? sessionScope.cartCount : 0)}" />
 
 <c:set var="customerDashboardActive" value="${currentPath eq '/customer/dashboard.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
-<c:set var="menuActive" value="${currentPath eq '/public/menu.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
+<c:set var="menuActive" value="${currentPath eq '/public/menu.jsp' or currentPath eq '/public/menu-view.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
 <c:set var="cartActive" value="${currentPath eq '/customer/cart.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
 <c:set var="ordersActive" value="${currentPath eq '/customer/my-orders.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
 <c:set var="reservationActive" value="${currentPath eq '/customer/reservations.jsp' or currentPath eq '/customer/reservations-view.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />

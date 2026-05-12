@@ -30,31 +30,26 @@ public class CartDAO {
     private static final String GET_SUBTOTAL_SQL = "SELECT COALESCE(SUM(quantity * unit_price), 0) AS subtotal FROM cart WHERE user_id = ?";
 
     public boolean addToCart(long userId, long itemId, int qty) throws SQLException {
-        int finalQty = ValidationUtil.clampQuantity(qty);
-
         try (Connection connection = DBConnection.getConnection()) {
             connection.setAutoCommit(false);
             try {
-                MenuItemSnapshot snapshot = getMenuItemSnapshot(connection, itemId);
-                if (snapshot == null || !snapshot.available()) {
+                BigDecimal unitPrice = getMenuItemPrice(connection, itemId);
+                if (unitPrice == null) {
                     connection.rollback();
                     return false;
                 }
 
-                CartExistence existing = getExistingCartItem(connection, userId, itemId);
-                if (existing != null) {
-                    int newQty = ValidationUtil.clampQuantity(existing.quantity() + finalQty);
-                    try (PreparedStatement statement = connection.prepareStatement(UPDATE_QUANTITY_SQL)) {
-                        statement.setInt(1, newQty);
-                        statement.setLong(2, existing.cartId());
+                if (itemExists(userId, itemId)) {
+                    try (PreparedStatement statement = connection.prepareStatement("UPDATE cart SET quantity = quantity + 1 WHERE user_id = ? AND item_id = ?")) {
+                        statement.setLong(1, userId);
+                        statement.setLong(2, itemId);
                         statement.executeUpdate();
                     }
                 } else {
-                    try (PreparedStatement statement = connection.prepareStatement(INSERT_CART_SQL)) {
+                    try (PreparedStatement statement = connection.prepareStatement("INSERT INTO cart (user_id, item_id, quantity, unit_price) VALUES (?, ?, 1, ?)")) {
                         statement.setLong(1, userId);
                         statement.setLong(2, itemId);
-                        statement.setInt(3, finalQty);
-                        statement.setBigDecimal(4, snapshot.price());
+                        statement.setBigDecimal(3, unitPrice);
                         statement.executeUpdate();
                     }
                 }
@@ -66,6 +61,19 @@ public class CartDAO {
                 throw ex;
             } finally {
                 connection.setAutoCommit(true);
+            }
+        }
+    }
+
+    public boolean addToCart(long userId, long itemId) throws SQLException {
+        return addToCart(userId, itemId, 1);
+    }
+
+    private BigDecimal getMenuItemPrice(Connection connection, long itemId) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement("SELECT price FROM menu_items WHERE item_id = ?")) {
+            statement.setLong(1, itemId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                return resultSet.next() ? resultSet.getBigDecimal("price") : null;
             }
         }
     }

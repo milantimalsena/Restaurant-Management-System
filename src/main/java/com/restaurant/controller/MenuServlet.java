@@ -71,10 +71,11 @@ public class MenuServlet extends HttpServlet {
                 session.removeAttribute("cartMessage");
             }
 
-            request.getRequestDispatcher("/public/menu.jsp").forward(request, response);
+            request.getRequestDispatcher("/public/menu-view.jsp").forward(request, response);
         } catch (SQLException ex) {
+            ex.printStackTrace();
             request.setAttribute("errorMessage", "Unable to load menu right now.");
-            request.getRequestDispatcher("/public/menu.jsp").forward(request, response);
+            request.getRequestDispatcher("/public/menu-view.jsp").forward(request, response);
         }
     }
 }

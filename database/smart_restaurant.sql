@@ -68,6 +68,7 @@ CREATE TABLE menu_items (
   price DECIMAL(10,2) NOT NULL,
   image_path VARCHAR(255) NULL,
   is_available TINYINT(1) NOT NULL DEFAULT 1,
+  is_featured TINYINT(1) NOT NULL DEFAULT 0,
   prep_time_minutes SMALLINT UNSIGNED NOT NULL DEFAULT 15,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -81,6 +82,7 @@ CREATE TABLE menu_items (
     ON DELETE RESTRICT,
   CONSTRAINT chk_menu_items_price CHECK (price >= 0),
   CONSTRAINT chk_menu_items_available CHECK (is_available IN (0, 1)),
+  CONSTRAINT chk_menu_items_featured CHECK (is_featured IN (0, 1)),
   CONSTRAINT chk_menu_items_prep_time CHECK (prep_time_minutes BETWEEN 1 AND 240)
 ) ENGINE=InnoDB;
 
@@ -272,26 +274,26 @@ INSERT INTO categories (category_name, description, is_active, created_at) VALUE
 ('Nepali Specials', 'Authentic Nepali favorites.', 1, '2026-01-01 08:30:00');
 
 -- 15 menu items
-INSERT INTO menu_items (category_id, item_name, description, price, image_path, is_available, prep_time_minutes, created_at, updated_at) VALUES
- (1, 'Chicken Momo (8 pcs)', 'Steamed dumplings with spiced chicken filling.', 220.00, 'assets/images/foods/chicken-momo.svg', 1, 18, '2026-01-02 09:00:00', '2026-01-02 09:00:00'),
- (1, 'Veg Spring Rolls', 'Crispy rolls served with sweet chili dip.', 180.00, 'assets/images/foods/veg-spring-rolls.svg', 1, 12, '2026-01-02 09:00:00', '2026-01-02 09:00:00'),
- (1, 'Paneer Chilli', 'Stir-fried paneer cubes with peppers and sauce.', 260.00, 'assets/images/foods/paneer-chilli.svg', 1, 16, '2026-01-02 09:00:00', '2026-01-02 09:00:00'),
+INSERT INTO menu_items (category_id, item_name, description, price, image_path, is_available, is_featured, prep_time_minutes, created_at, updated_at) VALUES
+ (1, 'Chicken Momo (8 pcs)', 'Steamed dumplings with spiced chicken filling.', 220.00, 'assets/images/foods/chicken-momo.svg', 1, 1, 18, '2026-01-02 09:00:00', '2026-01-02 09:00:00'),
+ (1, 'Veg Spring Rolls', 'Crispy rolls served with sweet chili dip.', 180.00, 'assets/images/foods/veg-spring-rolls.svg', 1, 0, 12, '2026-01-02 09:00:00', '2026-01-02 09:00:00'),
+ (1, 'Paneer Chilli', 'Stir-fried paneer cubes with peppers and sauce.', 260.00, 'assets/images/foods/paneer-chilli.svg', 1, 0, 16, '2026-01-02 09:00:00', '2026-01-02 09:00:00'),
 
- (2, 'Grilled Chicken Sizzler', 'Grilled chicken with sauteed vegetables and fries.', 640.00, 'assets/images/foods/chicken-sizzler.svg', 1, 25, '2026-01-02 09:05:00', '2026-01-02 09:05:00'),
- (2, 'Paneer Butter Masala', 'Creamy tomato gravy with paneer cubes.', 480.00, 'assets/images/foods/paneer-butter-masala.svg', 1, 22, '2026-01-02 09:05:00', '2026-01-02 09:05:00'),
- (2, 'Mushroom Fried Rice', 'Wok-tossed rice with mushroom and vegetables.', 350.00, 'assets/images/foods/mushroom-fried-rice.svg', 1, 15, '2026-01-02 09:05:00', '2026-01-02 09:05:00'),
+ (2, 'Grilled Chicken Sizzler', 'Grilled chicken with sauteed vegetables and fries.', 640.00, 'assets/images/foods/chicken-sizzler.svg', 1, 1, 25, '2026-01-02 09:05:00', '2026-01-02 09:05:00'),
+ (2, 'Paneer Butter Masala', 'Creamy tomato gravy with paneer cubes.', 480.00, 'assets/images/foods/paneer-butter-masala.svg', 1, 0, 22, '2026-01-02 09:05:00', '2026-01-02 09:05:00'),
+ (2, 'Mushroom Fried Rice', 'Wok-tossed rice with mushroom and vegetables.', 350.00, 'assets/images/foods/mushroom-fried-rice.svg', 1, 0, 15, '2026-01-02 09:05:00', '2026-01-02 09:05:00'),
 
- (3, 'Masala Tea', 'Traditional Nepali masala chiya.', 80.00, 'assets/images/foods/masala-tea.svg', 1, 8, '2026-01-02 09:10:00', '2026-01-02 09:10:00'),
- (3, 'Lassi (Sweet)', 'Refreshing yogurt-based drink.', 140.00, 'assets/images/foods/lassi-sweet.svg', 1, 7, '2026-01-02 09:10:00', '2026-01-02 09:10:00'),
- (3, 'Fresh Lime Soda', 'Sparkling lime soda with mint.', 130.00, 'assets/images/foods/fresh-lime-soda.svg', 1, 6, '2026-01-02 09:10:00', '2026-01-02 09:10:00'),
+ (3, 'Masala Tea', 'Traditional Nepali masala chiya.', 80.00, 'assets/images/foods/masala-tea.svg', 1, 0, 8, '2026-01-02 09:10:00', '2026-01-02 09:10:00'),
+ (3, 'Lassi (Sweet)', 'Refreshing yogurt-based drink.', 140.00, 'assets/images/foods/lassi-sweet.svg', 1, 0, 7, '2026-01-02 09:10:00', '2026-01-02 09:10:00'),
+ (3, 'Fresh Lime Soda', 'Sparkling lime soda with mint.', 130.00, 'assets/images/foods/fresh-lime-soda.svg', 1, 0, 6, '2026-01-02 09:10:00', '2026-01-02 09:10:00'),
 
- (4, 'Gulab Jamun (2 pcs)', 'Soft milk-solid dumplings in sugar syrup.', 150.00, 'assets/images/foods/gulab-jamun.svg', 1, 10, '2026-01-02 09:15:00', '2026-01-02 09:15:00'),
- (4, 'Chocolate Brownie', 'Warm brownie served with vanilla scoop.', 220.00, 'assets/images/foods/chocolate-brownie.svg', 1, 12, '2026-01-02 09:15:00', '2026-01-02 09:15:00'),
- (4, 'Yomari', 'Traditional Newari sweet steamed dumpling.', 170.00, 'assets/images/foods/yomari.svg', 1, 14, '2026-01-02 09:15:00', '2026-01-02 09:15:00'),
+ (4, 'Gulab Jamun (2 pcs)', 'Soft milk-solid dumplings in sugar syrup.', 150.00, 'assets/images/foods/gulab-jamun.svg', 1, 0, 10, '2026-01-02 09:15:00', '2026-01-02 09:15:00'),
+ (4, 'Chocolate Brownie', 'Warm brownie served with vanilla scoop.', 220.00, 'assets/images/foods/chocolate-brownie.svg', 1, 1, 12, '2026-01-02 09:15:00', '2026-01-02 09:15:00'),
+ (4, 'Yomari', 'Traditional Newari sweet steamed dumpling.', 170.00, 'assets/images/foods/yomari.svg', 1, 0, 14, '2026-01-02 09:15:00', '2026-01-02 09:15:00'),
 
- (5, 'Thakali Khana Set', 'Rice, lentils, curry, greens, pickle and meat/veg choice.', 690.00, 'assets/images/foods/thakali-set.svg', 1, 28, '2026-01-02 09:20:00', '2026-01-02 09:20:00'),
- (5, 'Buff Choila', 'Smoky spiced buff cubes, Newari style.', 420.00, 'assets/images/foods/buff-choila.svg', 1, 20, '2026-01-02 09:20:00', '2026-01-02 09:20:00'),
- (5, 'Sel Roti Set', 'Traditional sel roti served with aloo tarkari.', 240.00, 'assets/images/foods/sel-roti-set.svg', 1, 18, '2026-01-02 09:20:00', '2026-01-02 09:20:00');
+ (5, 'Thakali Khana Set', 'Rice, lentils, curry, greens, pickle and meat/veg choice.', 690.00, 'assets/images/foods/thakali-set.svg', 1, 1, 28, '2026-01-02 09:20:00', '2026-01-02 09:20:00'),
+ (5, 'Buff Choila', 'Smoky spiced buff cubes, Newari style.', 420.00, 'assets/images/foods/buff-choila.svg', 1, 1, 20, '2026-01-02 09:20:00', '2026-01-02 09:20:00'),
+ (5, 'Sel Roti Set', 'Traditional sel roti served with aloo tarkari.', 240.00, 'assets/images/foods/sel-roti-set.svg', 1, 0, 18, '2026-01-02 09:20:00', '2026-01-02 09:20:00');
 
 -- 5 cart rows
 INSERT INTO cart (user_id, item_id, quantity, unit_price, created_at) VALUES

@@ -123,6 +123,15 @@
         <url-pattern>/admin/categories</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>PaymentQRUploadServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.admin.PaymentQRUploadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PaymentQRUploadServlet</servlet-name>
+        <url-pattern>/admin/upload-payment-qr</url-pattern>
+    </servlet-mapping>
+
     <!-- Cart Module -->
     <servlet>
         <servlet-name>AddToCartServlet</servlet-name>
@@ -131,6 +140,10 @@
     <servlet-mapping>
         <servlet-name>AddToCartServlet</servlet-name>
         <url-pattern>/cart/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <url-pattern>/add-to-cart</url-pattern>
     </servlet-mapping>
 
     <servlet>

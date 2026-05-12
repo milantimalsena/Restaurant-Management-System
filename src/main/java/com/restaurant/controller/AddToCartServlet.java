@@ -1,14 +1,7 @@
 package com.restaurant.controller;
 
 import com.restaurant.dao.CartDAO;
-import com.restaurant.dao.MenuItemDAO;
-import com.restaurant.model.MenuItem;
 import com.restaurant.util.SessionUtil;
-import com.restaurant.util.ValidationUtil;
-import jakarta.servlet.http.HttpSession;
-
-import java.util.HashMap;
-import java.util.Map;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,113 +12,51 @@ import java.sql.SQLException;
 
 public class AddToCartServlet extends HttpServlet {
     private final CartDAO cartDAO = new CartDAO();
-    private final MenuItemDAO menuItemDAO = new MenuItemDAO();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("AddToCart HIT");
+        if (!SessionUtil.hasRole(request, "CUSTOMER")) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
         Long userId = SessionUtil.getLoggedInUserId(request);
-        String itemIdParam = ValidationUtil.sanitize(request.getParameter("itemId"));
-        String qtyParam = ValidationUtil.sanitize(request.getParameter("qty"));
-        String redirect = ValidationUtil.sanitize(request.getParameter("redirect"));
+        if (userId == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
 
-        System.out.println("AddToCart: userId=" + userId + ", itemIdParam=" + itemIdParam + ", qtyParam=" + qtyParam);
+        String itemIdParam = request.getParameter("itemId");
+        if (itemIdParam == null || itemIdParam.trim().isEmpty()) {
+            response.sendRedirect(request.getContextPath() + "/public/menu.jsp?error=invalid_item");
+            return;
+        }
 
-        long itemId;
+        int itemId;
         try {
-            itemId = Long.parseLong(itemIdParam);
-            if (itemId < 1L) {
-                response.sendRedirect(request.getContextPath() + "/menu");
-                return;
-            }
+            itemId = Integer.parseInt(itemIdParam.trim());
         } catch (NumberFormatException e) {
-            response.sendRedirect(request.getContextPath() + "/menu");
+            response.sendRedirect(request.getContextPath() + "/public/menu.jsp?error=invalid_item");
             return;
         }
 
-        int qty = 1;
-        try {
-            int parsedQty = Integer.parseInt(qtyParam == null ? "1" : qtyParam);
-            qty = ValidationUtil.clampQuantity(parsedQty);
-        } catch (NumberFormatException ignored) {
-            qty = 1;
+        if (itemId < 1) {
+            response.sendRedirect(request.getContextPath() + "/public/menu.jsp?error=invalid_item");
+            return;
         }
 
-        MenuItem item;
         try {
-            item = menuItemDAO.getById(itemId);
-            if (item == null || !item.isAvailable()) {
-                request.getSession().setAttribute("cartMessage", "This item is currently unavailable or out of stock.");
-                response.sendRedirect(request.getContextPath() + "/menu");
+            boolean added = cartDAO.addToCart(userId, itemId);
+            if (!added) {
+                response.sendRedirect(request.getContextPath() + "/public/menu.jsp?error=invalid_item");
                 return;
             }
+
+            request.getSession().setAttribute("cartMessage", "Item added to cart successfully.");
+            response.sendRedirect(request.getContextPath() + "/public/menu.jsp?success=added");
         } catch (SQLException ex) {
-            request.getSession().setAttribute("cartMessage", "Unable to add item right now.");
-            response.sendRedirect(request.getContextPath() + "/menu");
-            return;
-        }
-
-        // Require login to add to persistent cart. If user is not logged in, redirect to login page.
-        if (!SessionUtil.hasRole(request, "CUSTOMER") || userId == null) {
-            System.out.println("AddToCart: user not authenticated, redirecting to login");
-            String dest = request.getRequestURI();
-            String query = request.getQueryString();
-            String returnTo = dest + (query == null ? "" : "?" + query);
-            try {
-                String encoded = java.net.URLEncoder.encode(returnTo, java.nio.charset.StandardCharsets.UTF_8.name());
-                response.sendRedirect(request.getContextPath() + "/login?redirect=" + encoded);
-            } catch (java.io.UnsupportedEncodingException e) {
-                response.sendRedirect(request.getContextPath() + "/login");
-            }
-            return;
-        }
-
-        // If user is logged in as CUSTOMER use persistent cart
-        boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With")) || "1".equals(request.getParameter("ajax"));
-        boolean added = false;
-        int newCount = -1;
-        String resultMessage = "";
-        try {
-            boolean success = cartDAO.addToCart(userId, itemId, qty);
-            if (success) {
-                added = true;
-                try {
-                    newCount = cartDAO.getCartCount(userId);
-                    request.getSession().setAttribute("cartCount", newCount);
-                } catch (SQLException e) {
-                    System.out.println("AddToCart: failed to fetch cart count: " + e.getMessage());
-                }
-                resultMessage = "Item added to cart.";
-                request.getSession().setAttribute("cartMessage", resultMessage);
-            } else {
-                resultMessage = "This item is currently unavailable or out of stock.";
-                request.getSession().setAttribute("cartMessage", resultMessage);
-            }
-        } catch (SQLException ex) {
-            System.out.println("AddToCart: SQLException while adding to cart: " + ex.getMessage());
-            resultMessage = "Unable to add item right now.";
-            request.getSession().setAttribute("cartMessage", resultMessage);
-        }
-
-        if (isAjax) {
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            StringBuilder sb = new StringBuilder();
-            sb.append('{');
-            sb.append("\"success\":").append(added).append(',');
-            sb.append("\"message\":\"").append(resultMessage.replace("\"","\\\"")).append("\"");
-            if (newCount >= 0) {
-                sb.append(',').append("\"cartCount\":").append(newCount);
-            }
-            sb.append('}');
-            response.getWriter().write(sb.toString());
-            return;
-        }
-
-        if (ValidationUtil.isRequiredValid(redirect)) {
-            response.sendRedirect(request.getContextPath() + redirect);
-        } else {
-            response.sendRedirect(request.getContextPath() + "/cart");
+            ex.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/public/menu.jsp?error=cart_failed");
         }
     }
 }

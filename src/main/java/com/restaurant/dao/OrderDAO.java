@@ -16,15 +16,15 @@ public class OrderDAO {
     private static final String GET_CART_SUBTOTAL_SQL = "SELECT COALESCE(SUM(quantity * unit_price), 0) AS subtotal FROM cart WHERE user_id = ?";
     private static final String CLEAR_CART_SQL = "DELETE FROM cart WHERE user_id = ?";
 
-    private static final String INSERT_ORDER_SQL = "INSERT INTO orders (order_number, user_id, order_type, order_status, payment_status, subtotal, tax, delivery_fee, discount, grand_total, delivery_address, phone_snapshot, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String INSERT_ORDER_SQL = "INSERT INTO orders (user_id, order_type, order_status, payment_status, subtotal, tax, delivery_fee, discount, grand_total, delivery_address, notes, ordered_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
     private static final String INSERT_ORDER_ITEM_SQL = "INSERT INTO order_items (order_id, item_id, quantity, unit_price, line_total) VALUES (?, ?, ?, ?, ?)";
-    private static final String INSERT_PAYMENT_SQL = "INSERT INTO payments (order_id, payment_method, transaction_ref, amount, payment_status, paid_at) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String INSERT_PAYMENT_SQL = "INSERT INTO payments (order_id, payment_method, amount, payment_status, paid_at) VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE_ORDER_STATUS_SQL = "UPDATE orders SET order_status = ? WHERE order_id = ?";
     private static final String UPDATE_ORDER_AND_PAYMENT_STATUS_SQL = "UPDATE orders o LEFT JOIN payments p ON p.order_id = o.order_id SET o.order_status = ?, o.payment_status = ?, p.payment_status = ? WHERE o.order_id = ?";
 
-    private static final String GET_ORDER_BY_ID_SQL = "SELECT o.order_id, o.order_number, o.user_id, o.order_type, o.order_status, o.payment_status, o.subtotal, o.tax, o.delivery_fee, o.discount, o.grand_total, o.delivery_address, o.phone_snapshot, o.notes, o.ordered_at, o.updated_at, p.payment_method FROM orders o LEFT JOIN payments p ON p.order_id = o.order_id WHERE o.order_id = ?";
+    private static final String GET_ORDER_BY_ID_SQL = "SELECT o.order_id, o.user_id, o.order_type, o.order_status, o.payment_status, o.subtotal, o.tax, o.delivery_fee, o.discount, o.grand_total, o.delivery_address, o.notes, o.ordered_at, o.updated_at, p.payment_method FROM orders o LEFT JOIN payments p ON p.order_id = o.order_id WHERE o.order_id = ?";
     private static final String GET_ORDER_ITEMS_SQL = "SELECT oi.order_item_id, oi.order_id, oi.item_id, mi.item_name, oi.quantity, oi.unit_price, oi.line_total FROM order_items oi JOIN menu_items mi ON mi.item_id = oi.item_id WHERE oi.order_id = ?";
-    private static final String GET_ORDERS_BY_USER_SQL = "SELECT o.order_id, o.order_number, o.user_id, o.order_type, o.order_status, o.payment_status, o.subtotal, o.tax, o.delivery_fee, o.discount, o.grand_total, o.delivery_address, o.phone_snapshot, o.notes, o.ordered_at, o.updated_at, p.payment_method FROM orders o LEFT JOIN payments p ON p.order_id = o.order_id WHERE o.user_id = ? ORDER BY o.ordered_at DESC";
+    private static final String GET_ORDERS_BY_USER_SQL = "SELECT o.order_id, o.user_id, o.order_type, o.order_status, o.payment_status, o.subtotal, o.tax, o.delivery_fee, o.discount, o.grand_total, o.delivery_address, o.notes, o.ordered_at, o.updated_at, p.payment_method FROM orders o LEFT JOIN payments p ON p.order_id = o.order_id WHERE o.user_id = ? ORDER BY o.ordered_at DESC";
 
     public List<Cart> getCartItems(long userId) throws SQLException {
         System.out.println("DAO EXECUTING QUERY: getCartItems");
@@ -78,19 +78,17 @@ public class OrderDAO {
             try {
                 long orderId;
                 try (PreparedStatement statement = connection.prepareStatement(INSERT_ORDER_SQL, Statement.RETURN_GENERATED_KEYS)) {
-                    statement.setString(1, order.getOrderNumber());
-                    statement.setLong(2, order.getUserId());
-                    statement.setString(3, order.getOrderType());
-                    statement.setString(4, order.getOrderStatus());
-                    statement.setString(5, order.getPaymentStatus());
-                    statement.setBigDecimal(6, order.getSubtotal());
-                    statement.setBigDecimal(7, order.getTax());
-                    statement.setBigDecimal(8, order.getDeliveryFee());
-                    statement.setBigDecimal(9, order.getDiscount());
-                    statement.setBigDecimal(10, order.getGrandTotal());
-                    statement.setString(11, order.getDeliveryAddress());
-                    statement.setString(12, order.getPhoneSnapshot());
-                    statement.setString(13, order.getNotes());
+                    statement.setLong(1, order.getUserId());
+                    statement.setString(2, order.getOrderType());
+                    statement.setString(3, order.getOrderStatus());
+                    statement.setString(4, order.getPaymentStatus());
+                    statement.setBigDecimal(5, order.getSubtotal());
+                    statement.setBigDecimal(6, order.getTax());
+                    statement.setBigDecimal(7, order.getDeliveryFee());
+                    statement.setBigDecimal(8, order.getDiscount());
+                    statement.setBigDecimal(9, order.getGrandTotal());
+                    statement.setString(10, order.getDeliveryAddress());
+                    statement.setString(11, order.getNotes());
                     statement.executeUpdate();
 
                     try (ResultSet keys = statement.getGeneratedKeys()) {
@@ -107,11 +105,7 @@ public class OrderDAO {
                 payment.setOrderId(orderId);
                 payment.setPaymentMethod(order.getPaymentMethod());
                 payment.setAmount(order.getGrandTotal());
-                payment.setPaymentStatus("CASH".equalsIgnoreCase(order.getPaymentMethod()) ? "UNPAID" : "PAID");
-                if (!"CASH".equalsIgnoreCase(order.getPaymentMethod())) {
-                    payment.setTransactionRef("TXN-" + order.getOrderNumber());
-                    payment.setPaidAt(java.time.LocalDateTime.now());
-                }
+                payment.setPaymentStatus(order.getPaymentStatus());
                 createPaymentInternal(connection, payment);
 
                 clearCart(connection, order.getUserId());
@@ -120,6 +114,51 @@ public class OrderDAO {
                 return orderId;
             } catch (SQLException ex) {
                 ex.printStackTrace();
+                connection.rollback();
+                throw ex;
+            } finally {
+                connection.setAutoCommit(true);
+            }
+        }
+    }
+
+    public long processCheckout(Order order) throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: processCheckout");
+        try (Connection connection = DBConnection.getConnection()) {
+            connection.setAutoCommit(false);
+            try {
+                long orderId;
+                try (PreparedStatement statement = connection.prepareStatement(INSERT_ORDER_SQL, Statement.RETURN_GENERATED_KEYS)) {
+                    statement.setLong(1, order.getUserId());
+                    statement.setString(2, order.getOrderType());
+                    statement.setBigDecimal(3, order.getGrandTotal());
+                    statement.setString(4, order.getOrderStatus());
+                    statement.setString(5, order.getPaymentStatus());
+                    statement.setString(6, order.getDeliveryAddress());
+                    statement.setString(7, order.getNotes());
+                    statement.executeUpdate();
+
+                    try (ResultSet keys = statement.getGeneratedKeys()) {
+                        if (!keys.next()) {
+                            throw new SQLException("Failed to create order during checkout.");
+                        }
+                        orderId = keys.getLong(1);
+                    }
+                }
+
+                addOrderItemsInternal(connection, orderId, order.getItems());
+
+                Payment payment = new Payment();
+                payment.setOrderId(orderId);
+                payment.setPaymentMethod(order.getPaymentMethod());
+                payment.setAmount(order.getGrandTotal());
+                payment.setPaymentStatus(order.getPaymentStatus());
+                createPaymentInternal(connection, payment);
+
+                clearCart(connection, order.getUserId());
+                connection.commit();
+                return orderId;
+            } catch (SQLException ex) {
                 connection.rollback();
                 throw ex;
             } finally {
@@ -228,15 +267,18 @@ public class OrderDAO {
 
     private void createPaymentInternal(Connection connection, Payment payment) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_PAYMENT_SQL)) {
+            String paymentStatus = "UNPAID".equalsIgnoreCase(payment.getPaymentStatus())
+                    ? "PENDING"
+                    : payment.getPaymentStatus();
+
             statement.setLong(1, payment.getOrderId());
             statement.setString(2, payment.getPaymentMethod());
-            statement.setString(3, payment.getTransactionRef());
-            statement.setBigDecimal(4, payment.getAmount());
-            statement.setString(5, payment.getPaymentStatus());
-            if (payment.getPaidAt() != null) {
-                statement.setTimestamp(6, Timestamp.valueOf(payment.getPaidAt()));
+            statement.setBigDecimal(3, payment.getAmount());
+            statement.setString(4, paymentStatus);
+            if ("PAID".equalsIgnoreCase(paymentStatus)) {
+                statement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
             } else {
-                statement.setNull(6, Types.TIMESTAMP);
+                statement.setNull(5, Types.TIMESTAMP);
             }
             statement.executeUpdate();
         }
@@ -252,7 +294,6 @@ public class OrderDAO {
     private Order mapOrder(ResultSet resultSet) throws SQLException {
         Order order = new Order();
         order.setOrderId(resultSet.getLong("order_id"));
-        order.setOrderNumber(resultSet.getString("order_number"));
         order.setUserId(resultSet.getLong("user_id"));
         order.setOrderType(resultSet.getString("order_type"));
         order.setOrderStatus(resultSet.getString("order_status"));
@@ -263,7 +304,6 @@ public class OrderDAO {
         order.setDiscount(resultSet.getBigDecimal("discount"));
         order.setGrandTotal(resultSet.getBigDecimal("grand_total"));
         order.setDeliveryAddress(resultSet.getString("delivery_address"));
-        order.setPhoneSnapshot(resultSet.getString("phone_snapshot"));
         order.setNotes(resultSet.getString("notes"));
         order.setPaymentMethod(resultSet.getString("payment_method"));
         if (resultSet.getTimestamp("ordered_at") != null) {

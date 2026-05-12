@@ -4,9 +4,11 @@ import com.restaurant.model.MenuItem;
 import com.restaurant.util.DBConnection;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,29 @@ public class MenuItemDAO {
     private static final String UPDATE_AVAILABILITY_SQL = "UPDATE menu_items SET is_available = ? WHERE item_id = ?";
     private static final String GET_FEATURED_SQL = BASE_SELECT + " WHERE mi.is_featured = 1 AND mi.is_available = 1 ORDER BY mi.updated_at DESC LIMIT 8";
     private static final String BULK_AVAILABILITY_SQL = "UPDATE menu_items SET is_available = ? WHERE item_id IN (%s)";
+
+    public MenuItemDAO() {
+        try {
+            ensureFeaturedColumn();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void ensureFeaturedColumn() throws SQLException {
+        try (Connection connection = DBConnection.getConnection()) {
+            DatabaseMetaData metaData = connection.getMetaData();
+            try (ResultSet resultSet = metaData.getColumns(connection.getCatalog(), null, "menu_items", "is_featured")) {
+                if (resultSet.next()) {
+                    return;
+                }
+            }
+
+            try (Statement statement = connection.createStatement()) {
+                statement.executeUpdate("ALTER TABLE menu_items ADD COLUMN is_featured TINYINT(1) NOT NULL DEFAULT 0 AFTER is_available");
+            }
+        }
+    }
 
     public boolean addItem(MenuItem item) throws SQLException {
         try (Connection connection = DBConnection.getConnection();

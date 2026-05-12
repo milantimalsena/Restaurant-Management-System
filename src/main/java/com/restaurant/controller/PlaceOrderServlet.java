@@ -4,7 +4,6 @@ import com.restaurant.dao.OrderDAO;
 import com.restaurant.model.Cart;
 import com.restaurant.model.Order;
 import com.restaurant.model.OrderItem;
-import com.restaurant.util.OrderNumberUtil;
 import com.restaurant.util.SessionUtil;
 import com.restaurant.util.ValidationUtil;
 import jakarta.servlet.ServletException;
@@ -89,13 +88,12 @@ public class PlaceOrderServlet extends HttpServlet {
             BigDecimal discount = calculateDiscount(subtotal, promoCode);
             BigDecimal grandTotal = subtotal.add(tax).add(deliveryFee).subtract(discount).setScale(2, RoundingMode.HALF_UP);
             String normalizedPaymentMethod = paymentMethod.toUpperCase();
-            String paymentStatus = "CASH".equals(normalizedPaymentMethod) ? "UNPAID" : "PAID";
+            String paymentStatus = "UNPAID";
 
             Order order = new Order();
-            order.setOrderNumber(OrderNumberUtil.generateOrderNumber());
             order.setUserId(userId);
             order.setOrderType(orderType.toUpperCase());
-            order.setOrderStatus("PENDING");
+            order.setOrderStatus("Pending");
             order.setPaymentStatus(paymentStatus);
             order.setSubtotal(subtotal);
             order.setTax(tax);
