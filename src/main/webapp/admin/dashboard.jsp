@@ -49,6 +49,7 @@
                 <a href="#selling" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">Top Selling Items</a>
                 <a href="${pageContext.request.contextPath}/admin/manage-menu" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">Manage Menu</a>
                 <a href="${pageContext.request.contextPath}/admin/categories" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">Categories</a>
+                <a href="${pageContext.request.contextPath}/admin/manage-reservations" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">Manage Reservations</a>
                 <a href="${pageContext.request.contextPath}/logout" class="flex items-center justify-between rounded-2xl px-4 py-3 text-rose-300 transition hover:bg-rose-500/10 hover:text-rose-200">Logout</a>
             </nav>
         </aside>

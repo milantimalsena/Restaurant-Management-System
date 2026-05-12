@@ -1,11 +1,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+
 <c:set var="currentPath" value="${pageContext.request.servletPath}" />
 <c:set var="cartCountValue" value="${not empty cartCount ? cartCount : (not empty sessionScope.cartCount ? sessionScope.cartCount : 0)}" />
-<c:set var="homeActive" value="${currentPath eq '/public/home.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
+
+<c:set var="customerDashboardActive" value="${currentPath eq '/customer/dashboard.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
 <c:set var="menuActive" value="${currentPath eq '/public/menu.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
+<c:set var="cartActive" value="${currentPath eq '/customer/cart.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
+<c:set var="ordersActive" value="${currentPath eq '/customer/my-orders.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
+<c:set var="reservationActive" value="${currentPath eq '/customer/reservations.jsp' or currentPath eq '/customer/reservations-view.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
+<c:set var="profileActive" value="${currentPath eq '/customer/profile.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
+<c:set var="homeActive" value="${currentPath eq '/public/home.jsp' or currentPath eq '/index.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
 <c:set var="aboutActive" value="${currentPath eq '/public/about.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
 <c:set var="contactActive" value="${currentPath eq '/public/contact.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
+<c:set var="adminDashboardActive" value="${currentPath eq '/admin/dashboard.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
+<c:set var="adminMenuActive" value="${currentPath eq '/admin/manage-menu.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
+<c:set var="adminOrdersActive" value="${currentPath eq '/admin/manage-orders.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
+<c:set var="adminReservationsActive" value="${currentPath eq '/admin/manage-reservations.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -29,32 +40,48 @@
 
         <div id="restaurantNavbar" class="hidden absolute left-4 right-4 top-[5.25rem] rounded-3xl border border-white/10 bg-stone-950/98 p-4 shadow-2xl shadow-stone-950/35 lg:static lg:flex lg:flex-1 lg:items-center lg:justify-between lg:gap-4 lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
             <div class="flex flex-col gap-2 lg:mx-auto lg:flex-row lg:items-center">
-                <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${homeActive}" href="${pageContext.request.contextPath}/public/home.jsp">Home</a>
-                <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${menuActive}" href="${pageContext.request.contextPath}/menu">Menu</a>
-                <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${aboutActive}" href="${pageContext.request.contextPath}/public/about.jsp">About</a>
-                <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${contactActive}" href="${pageContext.request.contextPath}/public/contact.jsp">Contact</a>
+                <c:choose>
+                    <c:when test="${not empty sessionScope.user or sessionScope.userRole eq 'CUSTOMER'}">
+                        <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${homeActive}" href="${pageContext.request.contextPath}/public/home.jsp">Home</a>
+                        <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${menuActive}" href="${pageContext.request.contextPath}/menu">Menu</a>
+                        <a class="relative rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${cartActive}" href="${pageContext.request.contextPath}/cart">
+                            Cart
+                            <span id="navCartCount" class="ml-2 inline-flex min-w-6 items-center justify-center rounded-full bg-red-500 px-2 py-0.5 text-xs font-black text-white">${cartCountValue}</span>
+                        </a>
+                        <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${ordersActive}" href="${pageContext.request.contextPath}/my-orders">My Orders</a>
+                        <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${reservationActive}" href="${pageContext.request.contextPath}/customer/reservations.jsp">Book Table</a>
+                        <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${profileActive}" href="${pageContext.request.contextPath}/customer/profile.jsp">Profile</a>
+                    </c:when>
+
+                    <c:when test="${not empty sessionScope.admin or sessionScope.userRole eq 'ADMIN'}">
+                        <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${homeActive}" href="${pageContext.request.contextPath}/public/home.jsp">Home</a>
+                        <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${adminMenuActive}" href="${pageContext.request.contextPath}/admin/manage-menu">Menu</a>
+                        <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${adminOrdersActive}" href="${pageContext.request.contextPath}/admin/manage-orders.jsp">Orders</a>
+                        <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${adminReservationsActive}" href="${pageContext.request.contextPath}/admin/manage-reservations">Reservations</a>
+                    </c:when>
+
+                    <c:otherwise>
+                        <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${homeActive}" href="${pageContext.request.contextPath}/public/home.jsp">Home</a>
+                        <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${menuActive}" href="${pageContext.request.contextPath}/menu">Menu</a>
+                        <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${aboutActive}" href="${pageContext.request.contextPath}/public/about.jsp">About</a>
+                        <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${contactActive}" href="${pageContext.request.contextPath}/public/contact.jsp">Contact</a>
+                    </c:otherwise>
+                </c:choose>
             </div>
 
             <div class="mt-4 flex flex-col gap-3 border-t border-white/10 pt-4 lg:mt-0 lg:flex-row lg:items-center lg:border-t-0 lg:pt-0">
                 <c:choose>
-                    <c:when test="${not empty sessionScope.user or not empty sessionScope.userRole or not empty sessionScope.guestCart}">
-                        <c:choose>
-                            <c:when test="${sessionScope.userRole eq 'ADMIN'}">
-                                <a class="inline-flex items-center justify-center rounded-full border border-amber-200/25 px-4 py-2 text-sm font-bold text-amber-100 no-underline transition hover:bg-amber-100 hover:text-stone-950" href="${pageContext.request.contextPath}/admin/dashboard.jsp">Dashboard</a>
-                            </c:when>
-                            <c:otherwise>
-                                <a class="inline-flex items-center justify-center rounded-full border border-amber-200/25 px-4 py-2 text-sm font-bold text-amber-100 no-underline transition hover:bg-amber-100 hover:text-stone-950" href="${pageContext.request.contextPath}/customer/dashboard.jsp">Dashboard</a>
-                            </c:otherwise>
-                        </c:choose>
-                        <a class="relative inline-flex items-center justify-center rounded-full border border-white/15 px-4 py-2 text-sm font-bold text-stone-100 no-underline transition hover:bg-white/10" href="${pageContext.request.contextPath}/cart">
-                            Cart
-                            <span id="navCartCount" class="ml-2 inline-flex min-w-6 items-center justify-center rounded-full bg-red-500 px-2 py-0.5 text-xs font-black text-white">${cartCountValue}</span>
-                        </a>
+                    <c:when test="${not empty sessionScope.user or sessionScope.userRole eq 'CUSTOMER'}">
                         <a class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-amber-300 to-orange-500 px-5 py-2 text-sm font-black text-stone-950 no-underline shadow-lg shadow-orange-500/20 transition hover:brightness-105" href="${pageContext.request.contextPath}/logout">Logout</a>
                     </c:when>
+
+                    <c:when test="${not empty sessionScope.admin or sessionScope.userRole eq 'ADMIN'}">
+                        <a class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-amber-300 to-orange-500 px-5 py-2 text-sm font-black text-stone-950 no-underline shadow-lg shadow-orange-500/20 transition hover:brightness-105" href="${pageContext.request.contextPath}/logout">Logout</a>
+                    </c:when>
+
                     <c:otherwise>
                         <a class="inline-flex items-center justify-center rounded-full border border-amber-200/25 px-4 py-2 text-sm font-bold text-amber-100 no-underline transition hover:bg-amber-100 hover:text-stone-950" href="${pageContext.request.contextPath}/login">Login</a>
-                        <a class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-amber-300 to-orange-500 px-5 py-2 text-sm font-black text-stone-950 no-underline shadow-lg shadow-orange-500/20 transition hover:brightness-105" href="${pageContext.request.contextPath}/register">Book a Table</a>
+                        <a class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-amber-300 to-orange-500 px-5 py-2 text-sm font-black text-stone-950 no-underline shadow-lg shadow-orange-500/20 transition hover:brightness-105" href="${pageContext.request.contextPath}/register">Register</a>
                     </c:otherwise>
                 </c:choose>
 
@@ -63,11 +90,14 @@
                         <c:when test="${not empty sessionScope.user and not empty sessionScope.user.fullName}">
                             <p class="truncate text-sm font-bold text-white">${sessionScope.user.fullName}</p>
                         </c:when>
-                        <c:when test="${not empty sessionScope.adminFullName}">
-                            <p class="truncate text-sm font-bold text-white">${sessionScope.adminFullName}</p>
-                        </c:when>
                         <c:when test="${not empty sessionScope.userFullName}">
                             <p class="truncate text-sm font-bold text-white">${sessionScope.userFullName}</p>
+                        </c:when>
+                        <c:when test="${not empty sessionScope.admin and not empty sessionScope.admin.fullName}">
+                            <p class="truncate text-sm font-bold text-white">${sessionScope.admin.fullName}</p>
+                        </c:when>
+                        <c:when test="${not empty sessionScope.adminFullName}">
+                            <p class="truncate text-sm font-bold text-white">${sessionScope.adminFullName}</p>
                         </c:when>
                         <c:otherwise>
                             <p class="truncate text-sm font-bold text-white">Guest</p>
@@ -75,8 +105,8 @@
                     </c:choose>
                     <p class="mt-0.5 text-[0.68rem] font-bold uppercase tracking-[0.22em] text-stone-400">
                         <c:choose>
-                            <c:when test="${sessionScope.userRole eq 'ADMIN'}">Administrator</c:when>
-                            <c:when test="${not empty sessionScope.userRole}">Customer</c:when>
+                            <c:when test="${not empty sessionScope.user or sessionScope.userRole eq 'CUSTOMER'}">Customer</c:when>
+                            <c:when test="${not empty sessionScope.admin or sessionScope.userRole eq 'ADMIN'}">Administrator</c:when>
                             <c:otherwise>Visitor</c:otherwise>
                         </c:choose>
                     </p>

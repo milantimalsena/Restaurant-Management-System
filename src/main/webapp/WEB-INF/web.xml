@@ -215,6 +215,25 @@
         <url-pattern>/invoice</url-pattern>
     </servlet-mapping>
 
+    <!-- Reservation Module -->
+    <servlet>
+        <servlet-name>CustomerReservationServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.CustomerReservationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CustomerReservationServlet</servlet-name>
+        <url-pattern>/customer/reservations</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminReservationServlet</servlet-name>
+        <servlet-class>com.restaurant.controller.AdminReservationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminReservationServlet</servlet-name>
+        <url-pattern>/admin/manage-reservations</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>public/home.jsp</welcome-file>
     </welcome-file-list>

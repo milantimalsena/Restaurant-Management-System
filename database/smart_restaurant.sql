@@ -183,6 +183,18 @@ CREATE TABLE payments (
   CONSTRAINT chk_payments_amount CHECK (amount >= 0)
 ) ENGINE=InnoDB;
 
+-- Restaurant dining tables
+CREATE TABLE restaurant_tables (
+  table_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  table_number VARCHAR(20) NOT NULL,
+  capacity TINYINT UNSIGNED NOT NULL,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (table_id),
+  UNIQUE KEY uq_restaurant_tables_number (table_number),
+  CONSTRAINT chk_restaurant_tables_capacity CHECK (capacity BETWEEN 1 AND 30)
+) ENGINE=InnoDB;
+
 -- Table reservations
 CREATE TABLE reservations (
   reservation_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -191,17 +203,23 @@ CREATE TABLE reservations (
   reservation_time TIME NOT NULL,
   guests_count TINYINT UNSIGNED NOT NULL,
   table_number VARCHAR(20) NULL,
-  status ENUM('PENDING', 'APPROVED', 'REJECTED', 'CANCELLED') NOT NULL DEFAULT 'PENDING',
+  table_id BIGINT UNSIGNED NULL,
+  status ENUM('PENDING', 'APPROVED', 'REJECTED', 'CANCELLED', 'COMPLETED') NOT NULL DEFAULT 'PENDING',
   special_request VARCHAR(1000) NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (reservation_id),
   KEY idx_reservations_user_id (user_id),
+  KEY idx_reservations_table_id (table_id),
   KEY idx_reservations_date (reservation_date),
   KEY idx_reservations_status (status),
   CONSTRAINT fk_reservations_user
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     ON UPDATE CASCADE
     ON DELETE RESTRICT,
+  CONSTRAINT fk_reservations_table
+    FOREIGN KEY (table_id) REFERENCES restaurant_tables(table_id)
+    ON UPDATE CASCADE
+    ON DELETE SET NULL,
   CONSTRAINT chk_reservations_guests CHECK (guests_count BETWEEN 1 AND 30)
 ) ENGINE=InnoDB;
 
@@ -337,16 +355,25 @@ INSERT INTO payments (order_id, payment_method, transaction_ref, amount, payment
 (7, 'KHALTI', 'KHALTI-20260209-0007', 395.50, 'FAILED', NULL),
 (8, 'ESEWA', 'ESEWA-20260210-0008', 1268.20, 'PAID', '2026-02-10 21:25:00');
 
+-- Restaurant tables
+INSERT INTO restaurant_tables (table_number, capacity, is_active) VALUES
+('T01', 2, 1),
+('T02', 2, 1),
+('T03', 4, 1),
+('T04', 4, 1),
+('T05', 6, 1),
+('T06', 8, 1);
+
 -- 5 reservations
 INSERT INTO reservations (
   user_id, reservation_date, reservation_time, guests_count,
-  table_number, status, special_request, created_at
+  table_number, table_id, status, special_request, created_at
 ) VALUES
-(1, '2026-02-15', '19:30:00', 4, 'T12', 'APPROVED', 'Birthday decoration required', '2026-02-11 10:00:00'),
-(2, '2026-02-16', '13:00:00', 2, 'T05', 'APPROVED', 'Non-smoking area', '2026-02-11 10:05:00'),
-(3, '2026-02-17', '20:00:00', 6, NULL, 'PENDING', 'High chair for child', '2026-02-11 10:10:00'),
-(4, '2026-02-18', '18:45:00', 3, NULL, 'REJECTED', 'Requested rooftop seating', '2026-02-11 10:15:00'),
-(5, '2026-02-19', '19:00:00', 5, 'T09', 'CANCELLED', 'Late arrival by 15 minutes', '2026-02-11 10:20:00');
+(1, '2026-02-15', '19:30:00', 4, 'T03', 3, 'APPROVED', 'Birthday decoration required', '2026-02-11 10:00:00'),
+(2, '2026-02-16', '13:00:00', 2, 'T01', 1, 'APPROVED', 'Non-smoking area', '2026-02-11 10:05:00'),
+(3, '2026-02-17', '20:00:00', 6, 'T05', 5, 'PENDING', 'High chair for child', '2026-02-11 10:10:00'),
+(4, '2026-02-18', '18:45:00', 3, 'T04', 4, 'REJECTED', 'Requested rooftop seating', '2026-02-11 10:15:00'),
+(5, '2026-02-19', '19:00:00', 5, 'T05', 5, 'CANCELLED', 'Late arrival by 15 minutes', '2026-02-11 10:20:00');
 
 -- 5 feedback rows
 INSERT INTO feedback (user_id, order_id, rating, comments, created_at) VALUES
