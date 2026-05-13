@@ -19,7 +19,6 @@
 <c:set var="adminReservationsActive" value="${currentPath eq '/admin/manage-reservations.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
 
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 <nav class="sticky top-0 z-50 border-b border-amber-100/10 bg-stone-950/95 shadow-2xl shadow-stone-950/20 backdrop-blur-xl">
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
@@ -45,18 +44,12 @@
                     <c:when test="${not empty sessionScope.user or sessionScope.userRole eq 'CUSTOMER'}">
                         <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${homeActive}" href="${pageContext.request.contextPath}/public/home.jsp">Home</a>
                         <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${menuActive}" href="${pageContext.request.contextPath}/menu">Menu</a>
+                        <a class="relative rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${cartActive}" href="${pageContext.request.contextPath}/cart">
+                            Cart
+                            <span id="navCartCount" class="ml-2 inline-flex min-w-6 items-center justify-center rounded-full bg-red-500 px-2 py-0.5 text-xs font-black text-white">${cartCountValue}</span>
+                        </a>
                         <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${ordersActive}" href="${pageContext.request.contextPath}/my-orders">My Orders</a>
                         <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${reservationActive}" href="${pageContext.request.contextPath}/customer/reservations.jsp">Book Table</a>
-                        <a href="${pageContext.request.contextPath}/cart"
-                           class="relative flex items-center justify-center text-white transition hover:text-amber-400">
-                            <i class="fa-solid fa-cart-shopping text-xl"></i>
-
-                            <c:if test="${cartCountValue > 0}">
-                                <span class="absolute -right-2 -top-2 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-500 px-1 text-xs font-bold text-white">
-                                    ${cartCountValue}
-                                </span>
-                            </c:if>
-                        </a>
                         <a class="rounded-full px-4 py-2 text-sm font-semibold no-underline transition ${profileActive}" href="${pageContext.request.contextPath}/customer/profile.jsp">Profile</a>
                     </c:when>
 

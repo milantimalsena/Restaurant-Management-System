@@ -8,7 +8,6 @@
 <head>
     <title>${pageTitle}</title>
     <jsp:include page="/includes/header.jsp" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
     <style>
         :root {
             --sr-dark: #0f172a;
@@ -353,54 +352,42 @@
             <div class="row g-4">
                 <div class="col-md-6 col-xl-4">
                     <div class="feature-tile p-4 h-100">
-                        <div class="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-2xl text-amber-500">
-                            <i class="fa-solid fa-utensils"></i>
-                        </div>
+                                <div class="feature-icon mb-3"><i class="fa-solid fa-bag-shopping"></i></div>
                         <h3 class="h5 fw-bold">Online Ordering</h3>
                         <p class="text-secondary mb-0">Guests can browse the menu, add items, and move through checkout with minimal friction.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-xl-4">
                     <div class="feature-tile p-4 h-100">
-                        <div class="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-2xl text-amber-500">
-                            <i class="fa-solid fa-chair"></i>
-                        </div>
+                        <div class="feature-icon mb-3"><i class="fa-solid fa-calendar-check"></i></div>
                         <h3 class="h5 fw-bold">Table Reservation</h3>
                         <p class="text-secondary mb-0">Reservation-ready flows make it easy to schedule visits for dine-in customers and events.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-xl-4">
                     <div class="feature-tile p-4 h-100">
-                        <div class="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-2xl text-amber-500">
-                            <i class="fa-solid fa-motorcycle"></i>
-                        </div>
+                        <div class="feature-icon mb-3"><i class="fa-solid fa-truck"></i></div>
                         <h3 class="h5 fw-bold">Fast Delivery</h3>
                         <p class="text-secondary mb-0">Support for delivery orders, address capture, and clear checkout notes for courier handoff.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-xl-4">
                     <div class="feature-tile p-4 h-100">
-                        <div class="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-2xl text-amber-500">
-                            <i class="fa-solid fa-wallet"></i>
-                        </div>
+                        <div class="feature-icon mb-3"><i class="fa-solid fa-shield-halved"></i></div>
                         <h3 class="h5 fw-bold">Secure Payments</h3>
                         <p class="text-secondary mb-0">Designed for card and e-wallet simulation flows like eSewa and Khalti while keeping server-side validation strict.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-xl-4">
                     <div class="feature-tile p-4 h-100">
-                        <div class="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-2xl text-amber-500">
-                            <i class="fa-solid fa-clock"></i>
-                        </div>
+                        <div class="feature-icon mb-3"><i class="fa-solid fa-chart-line"></i></div>
                         <h3 class="h5 fw-bold">Live Order Tracking</h3>
                         <p class="text-secondary mb-0">Status badges and tracking-ready data structures support real-time order updates later.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-xl-4">
                     <div class="feature-tile p-4 h-100">
-                        <div class="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-2xl text-amber-500">
-                            <i class="fa-solid fa-file-invoice"></i>
-                        </div>
+                        <div class="feature-icon mb-3"><i class="fa-solid fa-receipt"></i></div>
                         <h3 class="h5 fw-bold">Invoice & History</h3>
                         <p class="text-secondary mb-0">Order history and printable invoices make the platform useful for both customers and admins.</p>
                     </div>
