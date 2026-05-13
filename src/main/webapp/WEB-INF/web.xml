@@ -193,15 +193,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>PlaceOrderServlet</servlet-name>
-        <servlet-class>com.restaurant.controller.PlaceOrderServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>PlaceOrderServlet</servlet-name>
-        <url-pattern>/place-order</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>OrderSuccessServlet</servlet-name>
         <servlet-class>com.restaurant.controller.OrderSuccessServlet</servlet-class>
     </servlet>

@@ -4,6 +4,7 @@ import com.restaurant.dao.OrderDAO;
 import com.restaurant.model.Order;
 import com.restaurant.util.SessionUtil;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,7 +13,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public class MyOrdersServlet extends HttpServlet {
+@WebServlet("/customer/orders")
+public class CustomerOrdersServlet extends HttpServlet {
     private final OrderDAO orderDAO = new OrderDAO();
 
     @Override
@@ -23,7 +25,7 @@ public class MyOrdersServlet extends HttpServlet {
         }
 
         Long userId = SessionUtil.getLoggedInUserId(request);
-        if (userId == null) {
+        if (userId == null || userId > Integer.MAX_VALUE) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
@@ -31,10 +33,11 @@ public class MyOrdersServlet extends HttpServlet {
         try {
             List<Order> orders = orderDAO.getOrdersByUserId(userId.intValue());
             request.setAttribute("orders", orders);
-            request.getRequestDispatcher("/customer/orders.jsp").forward(request, response);
         } catch (SQLException ex) {
-            request.setAttribute("errorMessage", "Unable to load your orders.");
-            request.getRequestDispatcher("/customer/orders.jsp").forward(request, response);
+            ex.printStackTrace();
+            request.setAttribute("errorMessage", "Unable to load your latest orders.");
         }
+
+        request.getRequestDispatcher("/customer/orders.jsp").forward(request, response);
     }
 }

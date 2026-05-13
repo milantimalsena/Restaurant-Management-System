@@ -7,6 +7,7 @@ import com.restaurant.model.OrderItem;
 import com.restaurant.util.SessionUtil;
 import com.restaurant.util.ValidationUtil;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@WebServlet("/place-order")
 public class PlaceOrderServlet extends HttpServlet {
     private static final BigDecimal TAX_RATE = new BigDecimal("0.10");
     private static final BigDecimal DELIVERY_FEE = new BigDecimal("100.00");
@@ -88,13 +90,12 @@ public class PlaceOrderServlet extends HttpServlet {
             BigDecimal discount = calculateDiscount(subtotal, promoCode);
             BigDecimal grandTotal = subtotal.add(tax).add(deliveryFee).subtract(discount).setScale(2, RoundingMode.HALF_UP);
             String normalizedPaymentMethod = paymentMethod.toUpperCase();
-            String paymentStatus = "UNPAID";
 
             Order order = new Order();
             order.setUserId(userId);
             order.setOrderType(orderType.toUpperCase());
             order.setOrderStatus("Pending");
-            order.setPaymentStatus(paymentStatus);
+            order.setPaymentStatus("Pending Verification");
             order.setSubtotal(subtotal);
             order.setTax(tax);
             order.setDeliveryFee(deliveryFee);

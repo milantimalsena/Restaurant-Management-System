@@ -24,7 +24,9 @@
     <aside class="hidden w-72 shrink-0 border-r border-slate-200 bg-slate-900 text-white lg:flex lg:flex-col">
         <div class="border-b border-white/10 px-6 py-6">
             <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="flex items-center gap-3">
-                <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-500 text-lg font-black text-slate-950 shadow-lg shadow-amber-500/25">SR</span>
+                <span class="flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-lg">
+                    <img src="${pageContext.request.contextPath}/assets/images/logo.png" alt="Smart Restaurant logo" class="h-full w-full object-cover">
+                </span>
                 <span>
                     <span class="block text-lg font-black">Smart Restaurant</span>
                     <span class="block text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Admin Panel</span>
@@ -44,8 +46,12 @@
                 <span>Reservations</span>
                 <span class="h-2 w-2 rounded-full bg-slate-950"></span>
             </a>
-            <a href="${pageContext.request.contextPath}/admin/manage-orders.jsp" class="flex items-center justify-between rounded-2xl px-4 py-3 transition hover:bg-white/10 hover:text-white">
+            <a href="${pageContext.request.contextPath}/admin/manage-orders" class="flex items-center justify-between rounded-2xl px-4 py-3 transition hover:bg-white/10 hover:text-white">
                 <span>Orders</span>
+                <span class="h-2 w-2 rounded-full bg-slate-600"></span>
+            </a>
+            <a href="${pageContext.request.contextPath}/admin/payment-settings.jsp" class="flex items-center justify-between rounded-2xl px-4 py-3 transition hover:bg-white/10 hover:text-white">
+                <span>Payment Settings</span>
                 <span class="h-2 w-2 rounded-full bg-slate-600"></span>
             </a>
             <a href="${pageContext.request.contextPath}/admin/reports.jsp" class="flex items-center justify-between rounded-2xl px-4 py-3 transition hover:bg-white/10 hover:text-white">

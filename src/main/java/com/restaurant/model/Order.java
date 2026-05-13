@@ -9,6 +9,7 @@ public class Order {
     private Long orderId;
     private String orderNumber;
     private Long userId;
+    private String customerName;
     private String orderType;
     private String orderStatus;
     private String paymentStatus;
@@ -47,6 +48,14 @@ public class Order {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public String getOrderType() {

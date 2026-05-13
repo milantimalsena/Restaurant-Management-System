@@ -39,13 +39,14 @@
             </div>
 
             <nav class="mt-8 space-y-2 text-sm font-medium">
-                <a href="${pageContext.request.contextPath}/admin/dashboard" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">Dashboard</a>
+                <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">Dashboard</a>
                 <a href="${pageContext.request.contextPath}/admin/manage-menu" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">Manage Menu</a>
                 <a href="${pageContext.request.contextPath}/admin/categories" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">Categories</a>
-                <a href="${pageContext.request.contextPath}/admin/manage-orders" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">Orders</a>
+                <a href="${pageContext.request.contextPath}/admin/manage-orders" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">Manage Orders</a>
+                <a href="${pageContext.request.contextPath}/admin/payment-confirmation" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">Payment Confirmation</a>
                 <a href="${pageContext.request.contextPath}/admin/manage-reservations" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">Reservations</a>
                 <a href="${pageContext.request.contextPath}/admin/payment-settings.jsp" class="flex items-center justify-between rounded-2xl bg-indigo-500/15 px-4 py-3 text-indigo-200 ring-1 ring-indigo-400/25 transition hover:bg-indigo-500/20">
-                    <span>Payment QR</span>
+                    <span>Payment Settings</span>
                     <span class="text-xs uppercase tracking-[0.24em]">Active</span>
                 </a>
                 <a href="${pageContext.request.contextPath}/logout" class="flex items-center justify-between rounded-2xl px-4 py-3 text-rose-300 transition hover:bg-rose-500/10 hover:text-rose-200">Logout</a>

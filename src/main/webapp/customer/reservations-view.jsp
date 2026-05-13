@@ -27,7 +27,9 @@
 <nav class="sticky top-0 z-40 border-b border-white/10 bg-slate-950/75 backdrop-blur-xl">
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <a href="${pageContext.request.contextPath}/public/home.jsp" class="flex items-center gap-3">
-            <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-500 text-lg font-black text-slate-950 shadow-lg shadow-amber-500/25">SR</span>
+            <span class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-lg">
+                <img src="${pageContext.request.contextPath}/assets/images/logo.png" alt="Smart Restaurant logo" class="h-full w-full object-cover">
+            </span>
             <span class="text-lg font-bold tracking-wide text-white">Smart Restaurant</span>
         </a>
         <div class="hidden items-center gap-7 text-sm font-medium text-slate-300 md:flex">
