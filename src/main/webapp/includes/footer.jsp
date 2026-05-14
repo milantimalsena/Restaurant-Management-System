@@ -1,94 +1,71 @@
-﻿<footer class="site-footer mt-5">
-	<div class="container py-5">
-		<div class="row g-4 align-items-start">
-			<div class="col-lg-4">
-				<a href="${pageContext.request.contextPath}/public/home.jsp" class="d-inline-flex align-items-center gap-3 text-decoration-none mb-3">
-					<span class="footer-logo">
-						<img src="${pageContext.request.contextPath}/assets/images/logo.png" alt="Himalayan Yaks logo" />
-					</span>
-					<div>
-						<div class="text-uppercase text-secondary small fw-semibold letter-spacing">Himalayan Yaks</div>
-						<div class="h5 fw-bold mb-0 text-dark">Taste of Himalayas</div>
-					</div>
-				</a>
-				<p class="text-secondary mb-0">Taste of Himalayas through fresh food, warm service, and simple online ordering.</p>
-			</div>
+<script src="https://cdn.tailwindcss.com"></script>
 
-			<div class="col-6 col-lg-2">
-				<h3 class="h6 fw-bold text-dark mb-3">Quick Links</h3>
-				<ul class="list-unstyled d-grid gap-2 mb-0">
-					<li><a class="text-secondary text-decoration-none" href="${pageContext.request.contextPath}/public/home.jsp">Home</a></li>
-					<li><a class="text-secondary text-decoration-none" href="${pageContext.request.contextPath}/menu">Menu</a></li>
-					<li><a class="text-secondary text-decoration-none" href="${pageContext.request.contextPath}/public/about.jsp">About</a></li>
-					<li><a class="text-secondary text-decoration-none" href="${pageContext.request.contextPath}/public/contact.jsp">Contact</a></li>
-				</ul>
-			</div>
+<footer class="mt-12 border-t border-slate-200 bg-gradient-to-b from-slate-50 to-white">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_0.8fr_1fr_1fr]">
+            <div>
+                <a href="${pageContext.request.contextPath}/public/home.jsp" class="inline-flex items-center gap-3 no-underline">
+                    <span class="flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-slate-200">
+                        <img src="${pageContext.request.contextPath}/assets/images/logo.png" alt="Himalayan Yaks logo" class="h-full w-full object-cover" />
+                    </span>
+                    <span>
+                        <span class="block text-xs font-black uppercase tracking-[0.28em] text-amber-600">Himalayan Yaks</span>
+                        <span class="block text-xl font-black text-slate-950">Taste of Himalayas</span>
+                    </span>
+                </a>
+                <p class="mt-5 max-w-sm text-sm leading-7 text-slate-600">
+                    Taste of Himalayas through fresh food, warm service, simple online ordering, and reliable reservations.
+                </p>
+            </div>
 
-			<div class="col-6 col-lg-3">
-				<h3 class="h6 fw-bold text-dark mb-3">Contact</h3>
-				<div class="d-grid gap-2 text-secondary">
-					<div><i class="bi bi-geo-alt me-2 text-primary"></i> Itahari, Nepal</div>
-					<div><i class="bi bi-envelope me-2 text-primary"></i> info@himalayanyaks.com</div>
-					<div><i class="bi bi-telephone me-2 text-primary"></i> +977 9800000000</div>
-				</div>
-			</div>
+            <div>
+                <h3 class="text-sm font-black uppercase tracking-[0.2em] text-slate-950">Quick Links</h3>
+                <ul class="mt-5 grid gap-3 text-sm font-semibold">
+                    <li><a class="text-slate-600 no-underline transition hover:text-amber-600" href="${pageContext.request.contextPath}/public/home.jsp">Home</a></li>
+                    <li><a class="text-slate-600 no-underline transition hover:text-amber-600" href="${pageContext.request.contextPath}/menu">Menu</a></li>
+                    <li><a class="text-slate-600 no-underline transition hover:text-amber-600" href="${pageContext.request.contextPath}/public/about.jsp">About</a></li>
+                    <li><a class="text-slate-600 no-underline transition hover:text-amber-600" href="${pageContext.request.contextPath}/public/contact.jsp">Contact</a></li>
+                </ul>
+            </div>
 
-			<div class="col-lg-3">
-				<h3 class="h6 fw-bold text-dark mb-3">Follow Us</h3>
-				<div class="d-flex gap-2 mb-3">
-					<a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
-					<a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
-					<a href="#" class="social-link"><i class="bi bi-twitter-x"></i></a>
-					<a href="#" class="social-link"><i class="bi bi-youtube"></i></a>
-				</div>
-				<p class="text-secondary small mb-0">Secure payments, fast pickup, and customer-first ordering.</p>
-			</div>
-		</div>
+            <div>
+                <h3 class="text-sm font-black uppercase tracking-[0.2em] text-slate-950">Contact</h3>
+                <div class="mt-5 grid gap-3 text-sm text-slate-600">
+                    <div class="flex gap-3">
+                        <span class="mt-0.5 text-amber-600">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 21s7-4.6 7-11a7 7 0 1 0-14 0c0 6.4 7 11 7 11Z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 10.5h.01"/></svg>
+                        </span>
+                        <span>Itahari, Nepal</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="mt-0.5 text-amber-600">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6h16v12H4z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m4 7 8 6 8-6"/></svg>
+                        </span>
+                        <span>info@himalayanyaks.com</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="mt-0.5 text-amber-600">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6.6 3.8 9 3l2 4-1.5 1.2a11 11 0 0 0 5.3 5.3L16 12l4 2-.8 2.4c-.4 1.1-1.5 1.8-2.7 1.6C10.8 17.2 6.8 13.2 6 7.5c-.2-1.2.5-2.3 1.6-2.7Z"/></svg>
+                        </span>
+                        <span>+977 9800000000</span>
+                    </div>
+                </div>
+            </div>
 
-		<div class="border-top mt-4 pt-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2 text-secondary small">
-			<span>&copy; ${pageContext.request.contextPath != null ? 'Himalayan Yaks' : 'Himalayan Yaks'} 2026. All rights reserved.</span>
-			<span>Built with JSP, Servlets, JDBC, MySQL, and custom CSS.</span>
-		</div>
-	</div>
+            <div>
+                <h3 class="text-sm font-black uppercase tracking-[0.2em] text-slate-950">Follow Us</h3>
+                <div class="mt-5 flex gap-3">
+                    <a href="#" aria-label="Facebook" class="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-sm font-black text-slate-700 no-underline shadow-sm transition hover:-translate-y-1 hover:bg-slate-950 hover:text-white">f</a>
+                    <a href="#" aria-label="Instagram" class="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-sm font-black text-slate-700 no-underline shadow-sm transition hover:-translate-y-1 hover:bg-slate-950 hover:text-white">ig</a>
+                    <a href="#" aria-label="Twitter" class="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-sm font-black text-slate-700 no-underline shadow-sm transition hover:-translate-y-1 hover:bg-slate-950 hover:text-white">x</a>
+                    <a href="#" aria-label="YouTube" class="flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-sm font-black text-slate-700 no-underline shadow-sm transition hover:-translate-y-1 hover:bg-slate-950 hover:text-white">yt</a>
+                </div>
+                <p class="mt-5 text-sm leading-7 text-slate-600">Secure payments, fast pickup, and customer-first ordering.</p>
+            </div>
+        </div>
+
+        <div class="mt-10 border-t border-slate-200 pt-6 text-sm font-semibold text-slate-500">
+            &copy; 2026 Himalayan Yaks. All rights reserved.
+        </div>
+    </div>
 </footer>
-
-<style>
-	.site-footer {
-		background: linear-gradient(180deg, rgba(248, 250, 252, 0.85), #ffffff);
-		border-top: 1px solid rgba(148, 163, 184, 0.16);
-	}
-	.social-link {
-		width: 42px;
-		height: 42px;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 999px;
-		background: #f8fafc;
-		color: #0f172a;
-		border: 1px solid #e2e8f0;
-		transition: transform .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease;
-	}
-	.social-link:hover {
-		background: #0f172a;
-		color: #fff;
-		transform: translateY(-1px);
-		box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
-	}
-	.footer-logo {
-		width: 48px;
-		height: 48px;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 1rem;
-		overflow: hidden;
-		background: #fff;
-		box-shadow: 0 10px 24px rgba(15, 23, 42, 0.10);
-	}
-	.footer-logo img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-</style>

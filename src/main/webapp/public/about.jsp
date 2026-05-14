@@ -84,11 +84,22 @@
                 </p>
                 <div class="grid gap-4 sm:grid-cols-2">
                     <div class="rounded-2xl border border-amber-100 bg-amber-50/70 p-6 shadow-xl shadow-amber-900/5">
-                        <h3 class="text-lg font-black text-slate-950">Mission</h3>
+                        <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-500 text-white shadow-lg shadow-amber-500/25">
+                            <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12.75 11.25 15 15 9.75M12 3l7 4v5c0 4.4-2.9 8.4-7 9.8-4.1-1.4-7-5.4-7-9.8V7l7-4Z" />
+                            </svg>
+                        </div>
+                        <h3 class="mt-5 text-lg font-black text-slate-950">Mission</h3>
                         <p class="mt-3 text-sm leading-7 text-slate-600">Deliver fresh, hygienic, flavorful meals through fast service and reliable digital restaurant operations.</p>
                     </div>
                     <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-900/5">
-                        <h3 class="text-lg font-black text-slate-950">Vision</h3>
+                        <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-950 text-amber-300 shadow-lg shadow-slate-900/20">
+                            <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 18.5v-13Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7h8M8 11h8M8 15h4" />
+                            </svg>
+                        </div>
+                        <h3 class="mt-5 text-lg font-black text-slate-950">Vision</h3>
                         <p class="mt-3 text-sm leading-7 text-slate-600">Become a trusted modern dining destination where technology improves every guest experience.</p>
                     </div>
                 </div>
