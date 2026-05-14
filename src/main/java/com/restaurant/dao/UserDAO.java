@@ -50,6 +50,15 @@ public class UserDAO {
         }
     }
 
+    public int countUsers() throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: countUsers");
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) FROM users");
+             ResultSet resultSet = statement.executeQuery()) {
+            return resultSet.next() ? resultSet.getInt(1) : 0;
+        }
+    }
+
     public User findByEmail(String email) throws SQLException {
         System.out.println("DAO EXECUTING QUERY: findByEmail");
         try (Connection connection = DBConnection.getConnection();

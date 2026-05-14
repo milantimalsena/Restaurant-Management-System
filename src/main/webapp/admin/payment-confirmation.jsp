@@ -11,33 +11,12 @@
 </head>
 <body class="min-h-screen bg-slate-100 text-slate-900">
 <div class="flex min-h-screen">
-    <aside class="hidden w-72 shrink-0 border-r border-slate-200 bg-slate-900 text-white lg:flex lg:flex-col">
-        <div class="border-b border-white/10 px-6 py-6">
-            <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="flex items-center gap-3">
-                <span class="flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-lg">
-                    <img src="${pageContext.request.contextPath}/assets/images/logo.png" alt="Smart Restaurant logo" class="h-full w-full object-cover">
-                </span>
-                <span>
-                    <span class="block text-lg font-black">Smart Restaurant</span>
-                    <span class="block text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Admin Panel</span>
-                </span>
-            </a>
-        </div>
-        <nav class="flex-1 space-y-2 px-4 py-6 text-sm font-semibold text-slate-300">
-            <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="flex items-center justify-between rounded-2xl px-4 py-3 transition hover:bg-white/10 hover:text-white">Dashboard</a>
-            <a href="${pageContext.request.contextPath}/admin/manage-orders" class="flex items-center justify-between rounded-2xl px-4 py-3 transition hover:bg-white/10 hover:text-white">Manage Orders</a>
-            <a href="${pageContext.request.contextPath}/admin/payment-confirmation" class="flex items-center justify-between rounded-2xl bg-amber-500 px-4 py-3 text-slate-950">Payment Confirmation</a>
-            <a href="${pageContext.request.contextPath}/admin/manage-reservations" class="flex items-center justify-between rounded-2xl px-4 py-3 transition hover:bg-white/10 hover:text-white">Reservations</a>
-            <a href="${pageContext.request.contextPath}/admin/manage-reservations#tables" class="flex items-center justify-between rounded-2xl px-4 py-3 transition hover:bg-white/10 hover:text-white">Manage Tables</a>
-            <a href="${pageContext.request.contextPath}/admin/payment-settings.jsp" class="flex items-center justify-between rounded-2xl px-4 py-3 transition hover:bg-white/10 hover:text-white">Payment Settings</a>
-            <a href="${pageContext.request.contextPath}/admin/reports.jsp" class="flex items-center justify-between rounded-2xl px-4 py-3 transition hover:bg-white/10 hover:text-white">Reports</a>
-        </nav>
-        <div class="border-t border-white/10 p-4">
-            <a href="${pageContext.request.contextPath}/logout" class="block rounded-2xl border border-white/10 px-4 py-3 text-center text-sm font-bold text-slate-200 transition hover:border-rose-400 hover:text-rose-300">Logout</a>
-        </div>
-    </aside>
+    <%@ include file="../includes/adminSidebar.jsp" %>
 
-    <main class="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">
+    <main class="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:ml-72 lg:px-8">
+        <button id="sidebarOpen" type="button" class="mb-4 inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700 shadow-sm transition hover:border-amber-300 hover:text-amber-700 lg:hidden">
+            Admin Menu
+        </button>
         <header class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
                 <p class="text-xs font-bold uppercase tracking-[0.2em] text-amber-600">Payment Verification</p>
@@ -119,5 +98,15 @@
         </section>
     </main>
 </div>
+<script>
+(() => {
+    const sidebar = document.getElementById('adminSidebar');
+    const openBtn = document.getElementById('sidebarOpen');
+    const closeBtn = document.getElementById('sidebarClose');
+
+    openBtn?.addEventListener('click', () => sidebar?.classList.remove('-translate-x-full'));
+    closeBtn?.addEventListener('click', () => sidebar?.classList.add('-translate-x-full'));
+})();
+</script>
 </body>
 </html>

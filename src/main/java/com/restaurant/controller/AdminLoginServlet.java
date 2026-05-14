@@ -19,7 +19,7 @@ public class AdminLoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (SessionUtil.hasRole(request, "ADMIN")) {
-            response.sendRedirect(request.getContextPath() + "/admin/dashboard.jsp");
+            response.sendRedirect(request.getContextPath() + "/admin/dashboard");
             return;
         }
         request.getRequestDispatcher("/admin/admin-login.jsp").forward(request, response);
@@ -51,7 +51,7 @@ public class AdminLoginServlet extends HttpServlet {
             }
 
             SessionUtil.createAdminSession(request, admin.getAdminId(), admin.getFullName(), admin.getEmail());
-            response.sendRedirect(request.getContextPath() + "/admin/dashboard.jsp");
+            response.sendRedirect(request.getContextPath() + "/admin/dashboard");
         } catch (SQLException ex) {
             request.setAttribute("errorMessage", "Unable to process request at the moment.");
             request.getRequestDispatcher("/admin/admin-login.jsp").forward(request, response);

@@ -21,50 +21,9 @@
 </head>
 <body class="min-h-screen bg-slate-100 text-slate-900">
 <div class="flex min-h-screen">
-    <aside class="hidden w-72 shrink-0 border-r border-slate-200 bg-slate-900 text-white lg:flex lg:flex-col">
-        <div class="border-b border-white/10 px-6 py-6">
-            <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="flex items-center gap-3">
-                <span class="flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-lg">
-                    <img src="${pageContext.request.contextPath}/assets/images/logo.png" alt="Smart Restaurant logo" class="h-full w-full object-cover">
-                </span>
-                <span>
-                    <span class="block text-lg font-black">Smart Restaurant</span>
-                    <span class="block text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Admin Panel</span>
-                </span>
-            </a>
-        </div>
-        <nav class="flex-1 space-y-2 px-4 py-6 text-sm font-semibold text-slate-300">
-            <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="flex items-center justify-between rounded-2xl px-4 py-3 transition hover:bg-white/10 hover:text-white">
-                <span>Dashboard</span>
-                <span class="h-2 w-2 rounded-full bg-slate-600"></span>
-            </a>
-            <a href="${pageContext.request.contextPath}/admin/manage-menu.jsp" class="flex items-center justify-between rounded-2xl px-4 py-3 transition hover:bg-white/10 hover:text-white">
-                <span>Menu Items</span>
-                <span class="h-2 w-2 rounded-full bg-slate-600"></span>
-            </a>
-            <a href="${pageContext.request.contextPath}/admin/manage-reservations" class="flex items-center justify-between rounded-2xl bg-amber-500 px-4 py-3 text-slate-950 shadow-xl shadow-amber-500/25">
-                <span>Reservations</span>
-                <span class="h-2 w-2 rounded-full bg-slate-950"></span>
-            </a>
-            <a href="${pageContext.request.contextPath}/admin/manage-orders" class="flex items-center justify-between rounded-2xl px-4 py-3 transition hover:bg-white/10 hover:text-white">
-                <span>Orders</span>
-                <span class="h-2 w-2 rounded-full bg-slate-600"></span>
-            </a>
-            <a href="${pageContext.request.contextPath}/admin/payment-settings.jsp" class="flex items-center justify-between rounded-2xl px-4 py-3 transition hover:bg-white/10 hover:text-white">
-                <span>Payment Settings</span>
-                <span class="h-2 w-2 rounded-full bg-slate-600"></span>
-            </a>
-            <a href="${pageContext.request.contextPath}/admin/reports.jsp" class="flex items-center justify-between rounded-2xl px-4 py-3 transition hover:bg-white/10 hover:text-white">
-                <span>Reports</span>
-                <span class="h-2 w-2 rounded-full bg-slate-600"></span>
-            </a>
-        </nav>
-        <div class="border-t border-white/10 p-4">
-            <a href="${pageContext.request.contextPath}/logout" class="block rounded-2xl border border-white/10 px-4 py-3 text-center text-sm font-bold text-slate-200 transition hover:border-rose-400 hover:text-rose-300">Logout</a>
-        </div>
-    </aside>
+    <%@ include file="../includes/adminSidebar.jsp" %>
 
-    <div class="min-w-0 flex-1">
+    <div class="min-w-0 flex-1 lg:ml-72">
         <header class="sticky top-0 z-30 border-b border-slate-200 bg-white/85 backdrop-blur-xl">
             <div class="flex items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
                 <div>
@@ -72,7 +31,7 @@
                     <h1 class="mt-1 text-2xl font-black text-slate-950 sm:text-3xl">Manage Reservations</h1>
                 </div>
                 <div class="flex items-center gap-3">
-                    <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm transition hover:scale-105 hover:border-amber-300 hover:text-amber-700 lg:hidden">Admin</a>
+                    <button id="sidebarOpen" type="button" class="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm transition hover:scale-105 hover:border-amber-300 hover:text-amber-700 lg:hidden">Admin Menu</button>
                     <a href="${pageContext.request.contextPath}/logout" class="rounded-2xl bg-slate-900 px-4 py-2 text-sm font-bold text-white shadow-lg transition hover:scale-105 hover:bg-rose-500">Logout</a>
                 </div>
             </div>
@@ -262,5 +221,15 @@
         </main>
     </div>
 </div>
+<script>
+(() => {
+    const sidebar = document.getElementById('adminSidebar');
+    const openBtn = document.getElementById('sidebarOpen');
+    const closeBtn = document.getElementById('sidebarClose');
+
+    openBtn?.addEventListener('click', () => sidebar?.classList.remove('-translate-x-full'));
+    closeBtn?.addEventListener('click', () => sidebar?.classList.add('-translate-x-full'));
+})();
+</script>
 </body>
 </html>

@@ -240,6 +240,36 @@ public class OrderDAO {
         }
     }
 
+    public int countOrders() throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: countOrders");
+        return count("SELECT COUNT(*) FROM orders");
+    }
+
+    public BigDecimal getTotalRevenue() throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: getTotalRevenue");
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement("SELECT COALESCE(SUM(grand_total), 0) FROM orders WHERE payment_status = 'PAID'");
+             ResultSet resultSet = statement.executeQuery()) {
+            return resultSet.next() ? resultSet.getBigDecimal(1) : BigDecimal.ZERO;
+        }
+    }
+
+    public List<Order> getRecentOrders(int limit) throws SQLException {
+        System.out.println("DAO EXECUTING QUERY: getRecentOrders");
+        String sql = GET_ALL_ORDERS_SQL + " LIMIT ?";
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, limit);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                List<Order> orders = new ArrayList<>();
+                while (resultSet.next()) {
+                    orders.add(mapOrder(resultSet));
+                }
+                return orders;
+            }
+        }
+    }
+
     public List<Order> getPendingPaymentOrders() throws SQLException {
         System.out.println("DAO EXECUTING QUERY: getPendingPaymentOrders");
         try (Connection connection = DBConnection.getConnection();
@@ -250,6 +280,14 @@ public class OrderDAO {
                 orders.add(mapOrder(resultSet));
             }
             return orders;
+        }
+    }
+
+    private int count(String sql) throws SQLException {
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            return resultSet.next() ? resultSet.getInt(1) : 0;
         }
     }
 

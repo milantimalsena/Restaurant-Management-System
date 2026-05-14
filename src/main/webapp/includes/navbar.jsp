@@ -13,7 +13,7 @@
 <c:set var="homeActive" value="${currentPath eq '/public/home.jsp' or currentPath eq '/index.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
 <c:set var="aboutActive" value="${currentPath eq '/public/about.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
 <c:set var="contactActive" value="${currentPath eq '/public/contact.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
-<c:set var="adminDashboardActive" value="${currentPath eq '/admin/dashboard.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
+<c:set var="adminDashboardActive" value="${currentPath eq '/admin/dashboard' or currentPath eq '/admin/dashboard.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
 <c:set var="adminMenuActive" value="${currentPath eq '/admin/manage-menu.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
 <c:set var="adminOrdersActive" value="${currentPath eq '/admin/manage-orders.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />
 <c:set var="adminReservationsActive" value="${currentPath eq '/admin/manage-reservations.jsp' ? 'bg-white/15 text-white ring-1 ring-white/15' : 'text-stone-200 hover:bg-white/10 hover:text-white'}" />

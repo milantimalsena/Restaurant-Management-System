@@ -1,5 +1,8 @@
 ﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<c:if test="${empty dashboardLoaded}">
+    <c:redirect url="/admin/dashboard" />
+</c:if>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,48 +21,7 @@
 
 <div class="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(79,70,229,0.18),_transparent_30%),linear-gradient(180deg,#020617_0%,#0f172a_40%,#020617_100%)]">
     <div class="flex min-h-screen">
-        <aside id="adminSidebar" class="fixed inset-y-0 left-0 z-40 w-72 -translate-x-full border-r border-white/10 bg-slate-950/95 px-5 py-6 backdrop-blur-xl transition-transform duration-300 lg:translate-x-0">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <span class="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-lg shadow-indigo-500/20">
-                        <img src="${pageContext.request.contextPath}/assets/images/logo.png" alt="Himalayan Yaks logo" class="h-full w-full object-cover" />
-                    </span>
-                    <div>
-                        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">Admin Console</p>
-                        <h1 class="text-lg font-bold text-white">Himalayan Yaks</h1>
-                    </div>
-                </div>
-                <button id="sidebarClose" type="button" class="rounded-xl border border-white/10 bg-white/5 p-2 text-slate-200 lg:hidden" aria-label="Close sidebar">
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-            </div>
-
-            <div class="mt-8 rounded-3xl border border-white/10 bg-white/5 p-4">
-                <p class="text-xs uppercase tracking-[0.28em] text-slate-500">Signed in as</p>
-                <p class="mt-2 text-lg font-bold text-white">${adminName}</p>
-                <p class="mt-1 truncate text-sm text-slate-400">${sessionScope.adminEmail}</p>
-            </div>
-
-            <nav class="mt-8 space-y-2 text-sm font-medium">
-                <a href="${pageContext.request.contextPath}/admin/dashboard.jsp" class="flex items-center justify-between rounded-2xl bg-indigo-500/15 px-4 py-3 text-indigo-200 ring-1 ring-indigo-400/25 transition hover:bg-indigo-500/20">
-                    <span>Dashboard</span>
-                    <span class="text-xs uppercase tracking-[0.24em]">Live</span>
-                </a>
-                <a href="${pageContext.request.contextPath}/admin/manage-orders" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">
-                    <span>Manage Orders</span>
-                    <span class="rounded-full bg-cyan-400/10 px-2 py-0.5 text-xs text-cyan-300">Status</span>
-                </a>
-                <a href="${pageContext.request.contextPath}/admin/payment-confirmation" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">
-                    <span>Payment Confirmation</span>
-                    <span class="rounded-full bg-amber-400/10 px-2 py-0.5 text-xs text-amber-300">Verify</span>
-                </a>
-                <a href="${pageContext.request.contextPath}/admin/manage-reservations" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">Reservations</a>
-                <a href="${pageContext.request.contextPath}/admin/manage-reservations#tables" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">Manage Tables</a>
-                <a href="${pageContext.request.contextPath}/admin/payment-settings.jsp" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">Payment Settings</a>
-                <a href="${pageContext.request.contextPath}/admin/reports.jsp" class="flex items-center justify-between rounded-2xl px-4 py-3 text-slate-300 transition hover:bg-white/5 hover:text-white">Reports</a>
-                <a href="${pageContext.request.contextPath}/logout" class="flex items-center justify-between rounded-2xl px-4 py-3 text-rose-300 transition hover:bg-rose-500/10 hover:text-rose-200">Logout</a>
-            </nav>
-        </aside>
+        <%@ include file="../includes/adminSidebar.jsp" %>
 
         <div class="flex min-h-screen flex-1 flex-col lg:pl-72">
             <header class="sticky top-0 z-30 border-b border-white/10 bg-slate-950/85 backdrop-blur-xl">

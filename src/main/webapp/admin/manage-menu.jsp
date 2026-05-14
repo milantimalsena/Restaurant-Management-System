@@ -35,9 +35,17 @@
         <aside class="col-lg-2 p-3 sidebar">
             <h5 class="fw-bold">Admin Panel</h5>
             <hr class="border-light">
-            <a class="d-block text-decoration-none text-light mb-2" href="${pageContext.request.contextPath}/admin/dashboard.jsp">Dashboard</a>
+            <a class="d-block text-decoration-none text-light mb-2" href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a>
             <a class="d-block text-decoration-none text-warning mb-2" href="${pageContext.request.contextPath}/admin/manage-menu">Manage Menu</a>
             <a class="d-block text-decoration-none text-light mb-2" href="${pageContext.request.contextPath}/admin/categories">Categories</a>
+            <a class="d-block text-decoration-none text-light mb-2" href="${pageContext.request.contextPath}/admin/manage-customers.jsp">Customers</a>
+            <a class="d-block text-decoration-none text-light mb-2" href="${pageContext.request.contextPath}/admin/manage-orders">Manage Orders</a>
+            <a class="d-block text-decoration-none text-light mb-2" href="${pageContext.request.contextPath}/admin/payment-confirmation">Payment Confirmation</a>
+            <a class="d-block text-decoration-none text-light mb-2" href="${pageContext.request.contextPath}/admin/manage-reservations">Reservations</a>
+            <a class="d-block text-decoration-none text-light mb-2" href="${pageContext.request.contextPath}/admin/manage-reservations#tables">Manage Tables</a>
+            <a class="d-block text-decoration-none text-light mb-2" href="${pageContext.request.contextPath}/admin/payment-settings.jsp">Payment Settings</a>
+            <a class="d-block text-decoration-none text-light mb-2" href="${pageContext.request.contextPath}/admin/reports.jsp">Reports</a>
+            <a class="d-block text-decoration-none text-light mb-2" href="${pageContext.request.contextPath}/admin/feedbacks.jsp">Feedbacks</a>
             <a class="btn btn-outline-light btn-sm mt-3" href="${pageContext.request.contextPath}/logout">Logout</a>
         </aside>
 
